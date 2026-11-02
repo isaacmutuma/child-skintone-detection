@@ -25,6 +25,17 @@ from ._weights import sha256  # noqa: E402
 MIVOLO = ("iitolstykh/mivolo_v2", "e8bdd8aec21ae468cbfe73b41f52550105ad8fbf")
 YOLO = ("iitolstykh/YOLO-Face-Person-Detector", "b3d071aedccd46a3b2d4b40609da6880a815f395",
         "yolov8x_person_face.pt")
+# Expected sha256 (HF LFS oids). The YOLO .pt is a pickle (loading can execute code),
+# so it is verified BEFORE ultralytics/torch.load touches it.
+SHA_MIVOLO = "96efb47051c038ebeec74b73b4253c5fd000433e5afcab7deee0bd8f3fa7bf18"
+SHA_YOLO = "2620f45609a65f909eb876bd7401308b5a8f3843ad5a03cb7416066a3e492989"
+
+
+def _check(path, want, what):
+    got = sha256(path)
+    if got != want:
+        raise RuntimeError(f"{what} sha256 mismatch ({got}); refusing to load {path}")
+    return got
 YOLO_CONF, YOLO_IOU = 0.4, 0.7
 
 
@@ -39,8 +50,10 @@ class MivoloFace(Detector):
         self.device = pick_device(device)
         cache = str(cache_dir or C.HF_CACHE_DIR)
         ypath = hf_hub_download(YOLO[0], YOLO[2], revision=YOLO[1], cache_dir=cache)
+        sha_y = _check(ypath, SHA_YOLO, "YOLO face detector")
         self.yolo = UYOLO(ypath)
         mdir = snapshot_download(MIVOLO[0], revision=MIVOLO[1], cache_dir=cache)
+        sha_m = _check(f"{mdir}/model.safetensors", SHA_MIVOLO, "MiVOLO v2")
         dtype = torch.float16 if self.device.type == "cuda" else torch.float32
         self.cfg = AutoConfig.from_pretrained(mdir, trust_remote_code=True)
         self.model = AutoModelForImageClassification.from_pretrained(
@@ -50,10 +63,10 @@ class MivoloFace(Detector):
         self._info = {
             "mivolo_face": {
                 "mivolo": {"hf_repo": MIVOLO[0], "revision": MIVOLO[1],
-                           "sha256_model_safetensors": sha256(f"{mdir}/model.safetensors"),
+                           "sha256_model_safetensors": sha_m,
                            "dtype": str(dtype)},
                 "yolo": {"hf_repo": YOLO[0], "revision": YOLO[1], "file": YOLO[2],
-                         "sha256": sha256(ypath), "conf": YOLO_CONF, "iou": YOLO_IOU},
+                         "sha256": sha_y, "conf": YOLO_CONF, "iou": YOLO_IOU},
             }
         }
 
