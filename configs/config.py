@@ -3,7 +3,8 @@ configs/config.py
 -----------------
 Single source of truth for environment, paths, seeds, analysis constants and
 detector prompts. Values marked FROZEN come from EXPERIMENT_PLAN.md and must not
-change without Isaac's OK (log any change in CLAUDE.md Decision Log).
+change after the preregistration freeze (log any change in PREREGISTRATION.md
+Deviations).
 
 Environment: set CHILD_AUDIT_ENV=colab|local (default local), or edit ENV below.
 """

@@ -24,6 +24,8 @@ DLIB_FILES = {"cnn": "mmod_human_face_detector.dat", "sp5": "shape_predictor_5_f
 
 
 class FairFaceClassifier(Detector):
+    """D3: dlib face detection + FairFace age-bin ViT; expected age < 18 means child."""
+
     name = "fairface_clf"
 
     def __init__(self, device=None, weights_dir=None, cache_dir=None):

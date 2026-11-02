@@ -24,6 +24,7 @@ N_UTK_FILES, N_FF_ROWS = 23708, 10954   # results/data_provenance.json
 
 
 def sha256(p, bs=1 << 20):
+    """Hex SHA-256 of a file."""
     h = hashlib.sha256()
     with open(p, "rb") as f:
         for b in iter(lambda: f.read(bs), b""):
@@ -32,6 +33,7 @@ def sha256(p, bs=1 << 20):
 
 
 def verified(name):
+    """Path of the raw archive for `name`, after checking its pinned SHA-256."""
     s = C.SOURCES[name]
     p = Path(C.RAW_DIR) / Path(s["file"]).name
     got = sha256(p)
@@ -41,6 +43,7 @@ def verified(name):
 
 
 def unpack_utk():
+    """Extract UTKFace.tar.gz (path-traversal-safe) to DATA_DIR/UTKFace."""
     out = Path(C.DATA_DIR) / "UTKFace"
     if out.is_dir() and sum(1 for _ in out.iterdir()) == N_UTK_FILES:
         print("UTKFace already unpacked"); return
@@ -60,6 +63,7 @@ def unpack_utk():
 
 
 def unpack_ff():
+    """Write FairFace val images and the official-format label CSV from the parquet."""
     import pyarrow.parquet as pq
     ff = Path(C.DATA_DIR) / "fairface"
     if (ff / "fairface_label_val.csv").exists() and sum(1 for _ in (ff / "val").iterdir()) == N_FF_ROWS:

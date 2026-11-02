@@ -33,6 +33,7 @@ EXPECTED_N = {"utkface": 23705, "fairface_val": 10954}
 
 
 def load(per_dir, det, ds, tag):
+    """Per-image CSV for one run (D5 full runs use the 'full_sub' tag)."""
     t = f"{tag}_sub" if det == "vlm" and tag == "full" else tag
     f = Path(per_dir) / f"per_image__{det}__{ds}__{t}.csv"
     return (pd.read_csv(f), t) if f.exists() else (None, t)
@@ -54,6 +55,7 @@ def check_consistency(df, det, ds, tag):
 
 
 def run_json(det, ds, tag):
+    """Provenance of the detector run (commit, weights, runtime) to copy into the metrics."""
     p = C.RESULTS_DIR / "phase1" / "runs" / f"{det}__{ds}__{tag}.json"
     if not p.exists():
         return None

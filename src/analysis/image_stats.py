@@ -7,6 +7,7 @@ from scipy.ndimage import laplace
 
 
 def image_stats(path):
+    """Size, mean brightness, RMS contrast and Laplacian-variance blur of a greyscale image."""
     im = Image.open(path).convert("L")
     w, h = im.size
     a = np.asarray(im, dtype=np.float32) / 255.0

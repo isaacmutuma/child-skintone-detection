@@ -7,6 +7,10 @@ from pathlib import Path
 
 
 def git_state(repo_dir):
+    """Commit hash and dirty flag of `repo_dir`, stored in every results JSON.
+
+    `dirty` ignores results/ and figures/, which runs write to themselves.
+    """
     def run(*args):
         try:
             return subprocess.run(["git", *args], cwd=repo_dir, capture_output=True,
@@ -19,13 +23,17 @@ def git_state(repo_dir):
         # don't count, otherwise every run would flag itself as dirty.
         status = run("status", "--porcelain", "--", ".", ":!results", ":!figures")
         return {"commit": commit, "dirty": bool(status), "source": "git"}
-    stamp = Path(repo_dir) / "GIT_COMMIT"   # written by scripts/pack_repo_for_colab.sh
+    stamp = Path(repo_dir) / "GIT_COMMIT"   # legacy: zip uploads without .git (Phase 0 only)
     if stamp.exists():
         return {"commit": stamp.read_text().strip(), "dirty": None, "source": "GIT_COMMIT file"}
     return {"commit": "NO_COMMIT_YET", "dirty": None, "source": "none"}
 
 
 def write_result(path, payload, config_dict, repo_dir):
+    """Write `payload` as JSON together with a UTC timestamp, git state and config.
+
+    This is how every number in results/ stays traceable to the code that made it.
+    """
     path = Path(path)
     path.parent.mkdir(parents=True, exist_ok=True)
     out = {

@@ -1,4 +1,4 @@
-# Phase 1 Report: Controlled pilot on face crops (DRAFT for Isaac's review)
+# Phase 1 Report: Controlled pilot on face crops
 
 **Status:** draft, 2026-11-03. Pilot on cropped, aligned faces, which are easier than real filtering conditions. This is a pilot, not the claim.
 **Provenance:** analysis at commit `56c3fb5` (clean); detector runs at `74ae7b6` (D1, D3, D4) and `095dac0` (D5), all clean; preregistration frozen at `2e92b8b` before any full run. Sources: `results/phase1/primary_endpoint.json`, `results/phase1/metrics_<detector>_<dataset>.json`, `results/phase1/runs/*.json`. Groups are dataset-provided perceived-race labels.

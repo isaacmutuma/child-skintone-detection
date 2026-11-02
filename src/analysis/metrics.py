@@ -46,6 +46,7 @@ def analysis_stratum(df, dataset):
 
 
 def strata_for(dataset):
+    """Stratum labels used for `dataset` (UTKFace 0-9/10-17, FairFace 0-2/3-9)."""
     return UTK_STRATA if dataset == "utkface" else FF_STRATA
 
 
@@ -87,6 +88,7 @@ def boot_stratified(values, strata, weights, B, rng):
 
 
 def boot_mean(values, B, rng):
+    """B bootstrap replicates of a plain (unstratified) mean."""
     values = np.asarray(values, float)
     if len(values) == 0:
         return np.full(B, np.nan)
@@ -95,6 +97,7 @@ def boot_mean(values, B, rng):
 
 
 def ci(reps, alpha=None):
+    """Percentile (1 - alpha) interval of bootstrap replicates, ignoring NaNs."""
     a = (alpha or C.ALPHA) / 2
     reps = np.asarray(reps)[~np.isnan(reps)]
     if len(reps) == 0:
@@ -144,6 +147,7 @@ def newcombe_gap(p1, ci1, p2, ci2):
 
 
 def stratified_wilson(values, strata, weights):
+    """Stratified rate of 0/1 `values` and its Wilson CI at the effective n."""
     p = stratified_rate(values, strata, weights)
     return p, wilson(p, effective_n(strata, weights))
 
@@ -239,6 +243,7 @@ def contrast(df, dataset, weights, a, b, B, P, rng):
     res = {"a": a, "b": b}
 
     def gap_block(va, sa, vb, sb):
+        """Stratified gap a - b with permutation p and bootstrap CI."""
         obs, p = perm_test_gap(va, sa, vb, sb, weights, P, rng)
         reps = (boot_stratified(va, sa, weights, B, rng) - boot_stratified(vb, sb, weights, B, rng))
         return {"gap": obs, "ci": ci(reps), "p_perm": p}

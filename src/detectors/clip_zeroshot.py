@@ -24,6 +24,8 @@ WEIGHT_FILE = "open_clip_model.safetensors"
 
 
 class ClipZeroShot(Detector):
+    """CLIP zero-shot detector; `arch` is "ViT-B-32" or "ViT-L-14" (OpenAI weights)."""
+
     def __init__(self, arch="ViT-B-32", device=None, cache_dir=None):
         import open_clip
         from huggingface_hub import hf_hub_download

@@ -19,3 +19,9 @@ __pycache__/
 .DS_Store
 .env
 /dev_subset/
+
+# AI-agent working files: kept locally, not published
+CLAUDE.md
+AGENT_KICKOFF.md
+docs/OVERNIGHT_*.md
+.claude/

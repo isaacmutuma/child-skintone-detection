@@ -45,6 +45,7 @@ FIGS = {
 
 
 def load(metrics_dir):
+    """All metrics JSONs found in `metrics_dir`, keyed by (detector, dataset)."""
     out = {}
     for det, *_ in DETECTORS:
         for ds, *_ in DATASETS:
@@ -55,6 +56,7 @@ def load(metrics_dir):
 
 
 def plot(metrics, key, out_dir):
+    """Draw one figure (key in FIGS): estimate + CI per group, one series per detector."""
     est_k, ci_k, title, fname, ref = FIGS[key]
     fig, axes = plt.subplots(1, 2, figsize=(11, 5.2), facecolor=SURFACE,
                              gridspec_kw={"width_ratios": [4, 7]})

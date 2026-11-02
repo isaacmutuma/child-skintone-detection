@@ -14,6 +14,8 @@ OTHER = "other"            # 18-19 or 60+: not used in primary metrics
 
 @dataclass(frozen=True)
 class Record:
+    """One image with its dataset labels, in the format every loader returns."""
+
     id: str                     # dataset-unique id (file name stem); never committed
     dataset: str                # 'utkface' | 'fairface_val'
     age: Optional[float]        # exact age (UTKFace) or bin midpoint (FairFace)
@@ -27,10 +29,12 @@ class Record:
     stratum: Optional[str]      # age stratum for minors, else None
 
     def to_dict(self):
+        """Plain dict of all fields."""
         return asdict(self)
 
 
 def stratum_for_age(age, strata=None):
+    """Label (e.g. "0-4") of the age stratum containing `age`, or None if outside all."""
     strata = strata or C.AGE_STRATA
     for lo, hi in strata:
         if lo <= age <= hi:
@@ -39,6 +43,7 @@ def stratum_for_age(age, strata=None):
 
 
 def role_for_exact_age(age):
+    """Analysis role from an exact age: minor (< 18), adult_fpr (20-59) or other."""
     if age <= C.MINOR_MAX_AGE:
         return MINOR
     lo, hi = C.ADULT_FPR_RANGE

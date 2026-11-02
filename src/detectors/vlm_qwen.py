@@ -1,4 +1,4 @@
-"""D5: open VLM yes/no detector, Qwen2-VL-2B-Instruct (Isaac's choice, 2026-11-02).
+"""D5: open VLM yes/no detector, Qwen2-VL-2B-Instruct (fits a Colab T4; PREREGISTRATION.md Deviations).
 
 Prompt (frozen, configs/config.py VLM_PROMPT) is sent as one user turn with the image.
 We do NOT sample text: one forward pass, and read the next-token distribution.
@@ -26,6 +26,8 @@ SHARDS = {"model-00001-of-00002.safetensors":
 
 
 class QwenVLM(Detector):
+    """D5: asks Qwen2-VL whether the image shows a child and compares P(yes) with P(no)."""
+
     name = "vlm"
 
     def __init__(self, device=None, cache_dir=None):

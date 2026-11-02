@@ -2,6 +2,7 @@
 
 
 def build(name, **kw):
+    """Construct detector `name` (a key of ALLOWED); `kw` goes to its constructor."""
     if name == "clip_vitb32":
         from .clip_zeroshot import ClipZeroShot
         return ClipZeroShot("ViT-B-32", **kw)

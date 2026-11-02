@@ -28,6 +28,7 @@ from src.provenance import write_result  # noqa: E402
 
 
 def prereg_hash():
+    """Frozen preregistration commit from PREREGISTRATION.md (None = not frozen yet)."""
     txt = (C.REPO_DIR / "PREREGISTRATION.md").read_text()
     m = re.search(r"Commit hash after freezing: `([0-9a-f]{7,40})`", txt)
     return m.group(1) if m else None

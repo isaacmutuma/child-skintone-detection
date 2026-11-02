@@ -14,6 +14,7 @@ import torch
 
 
 def pick_device(prefer=None):
+    """Return `prefer` if given, else the best available device: CUDA, then MPS, then CPU."""
     if prefer:
         return torch.device(prefer)
     if torch.cuda.is_available():
@@ -24,6 +25,11 @@ def pick_device(prefer=None):
 
 
 def empty_output(**kw):
+    """Default per-image output (not child, nothing measured), updated with `kw`.
+
+    Detectors start from this so every output dict has the same keys, and any image a
+    detector cannot process ends up counted as "not child", like a real filter would.
+    """
     out = {"is_child": False, "score": None, "age_est": None,
            "face_found": None, "fail_reason": None}
     out.update(kw)
@@ -31,6 +37,12 @@ def empty_output(**kw):
 
 
 class Detector(ABC):
+    """Base class: subclasses set `name` and implement `predict`.
+
+    Convention used by the analysis: `score > 0` must hold exactly when `is_child` is
+    True, so per-group thresholds can be moved along the same score (thresholds.py).
+    """
+
     name: str = "base"
 
     @abstractmethod

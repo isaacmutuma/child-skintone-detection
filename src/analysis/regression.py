@@ -10,6 +10,12 @@ import pandas as pd
 
 
 def confounder_logit(df, reference="White"):
+    """Fit the confounder logit on the minors in `df` (one detector x dataset).
+
+    Returns odds ratios with 95% CIs for every term. An odds ratio below 1 for a group
+    means its minors are flagged less often than `reference` minors with the same age,
+    brightness, blur (and face size). Returns {"error": ...} if the fit fails.
+    """
     import statsmodels.formula.api as smf
     m = df[df.role == "minor"].copy()
     m["flagged"] = m.is_child.astype(bool).astype(int)

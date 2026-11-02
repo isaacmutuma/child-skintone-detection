@@ -34,6 +34,7 @@ MAX_PER_DATASET = 2000
 
 
 def stratum(r, ds):
+    """Primary-analysis stratum of a minor record."""
     return stratum_for_age(r.age, C.AGE_STRATA_FALLBACK) if ds == "utkface" else r.stratum
 
 

@@ -19,6 +19,7 @@ PKGS = ["torch", "torchvision", "open_clip_torch", "timm", "pandas", "numpy",
 
 
 def pkg_versions():
+    """Installed versions of the key packages (None if missing)."""
     out = {}
     for p in PKGS:
         try:

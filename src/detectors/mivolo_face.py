@@ -36,10 +36,14 @@ def _check(path, want, what):
     if got != want:
         raise RuntimeError(f"{what} sha256 mismatch ({got}); refusing to load {path}")
     return got
+
+
 YOLO_CONF, YOLO_IOU = 0.4, 0.7
 
 
 class MivoloFace(Detector):
+    """D1: YOLOv8 finds faces, MiVOLO v2 estimates each face's age; youngest face decides."""
+
     name = "mivolo_face"
 
     def __init__(self, device=None, cache_dir=None):

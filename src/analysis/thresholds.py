@@ -11,6 +11,11 @@ import numpy as np
 
 
 def equalised_thresholds(df):
+    """Per-group threshold that brings each group's minor TPR to the pooled TPR.
+
+    Returns, per group, the default TPR/FPR, the new threshold, and the TPR/FPR at that
+    threshold. The FPR increase is the cost of equalising detection that way.
+    """
     minors, adults = df[df.role == "minor"], df[df.role == "adult_fpr"]
     target = float(minors.is_child.astype(bool).mean())
     out = {"target_tpr": target, "groups": {}}

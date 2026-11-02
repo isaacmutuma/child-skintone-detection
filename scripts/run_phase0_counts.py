@@ -27,16 +27,19 @@ POWER = 0.80
 
 
 def tested_groups(dataset):
+    """Groups that enter tests (UTKFace drops "Others")."""
     return C.UTKFACE_TESTED_GROUPS if dataset == "utkface" else C.FAIRFACE_RACES
 
 
 def strata_labels(dataset, strata):
+    """Stratum labels for the counts table."""
     if dataset == "fairface_val":
         return list(C.FAIRFACE_MINOR_BINS)
     return [f"{lo}-{hi}" for lo, hi in strata]
 
 
 def count_cells(records, dataset, strata):
+    """Minors per group x stratum, plus the tested cells below MIN_CELL."""
     groups = sorted({r.group for r in records})
     labels = strata_labels(dataset, strata)
     minors = [r for r in records if r.role == MINOR]
@@ -92,6 +95,7 @@ def power_check(table, dataset):
 
 
 def summarise(dataset, records, skipped):
+    """All Phase 0 counts for one dataset, switching to fallback strata if cells are small."""
     by_role = Counter((r.group, r.role) for r in records)
     groups = sorted({r.group for r in records})
     table, small = count_cells(records, dataset, C.AGE_STRATA)
