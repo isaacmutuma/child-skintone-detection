@@ -8,13 +8,19 @@ Needs (Colab): pip install git+https://github.com/WildChlamydia/MiVOLO.git@<pinn
                transformers==4.51.0 ultralytics==8.1.0 accelerate
 """
 
-import cv2
-import numpy as np
-import torch
+import os
 
-from configs import config as C
-from .base import Detector, empty_output, pick_device
-from ._weights import sha256
+# Headless: Colab exports MPLBACKEND=module://matplotlib_inline..., which the isolated
+# MiVOLO venv doesn't have; ultralytics imports matplotlib at import time and crashes.
+os.environ["MPLBACKEND"] = "Agg"
+
+import cv2  # noqa: E402
+import numpy as np  # noqa: E402
+import torch  # noqa: E402
+
+from configs import config as C  # noqa: E402
+from .base import Detector, empty_output, pick_device  # noqa: E402
+from ._weights import sha256  # noqa: E402
 
 MIVOLO = ("iitolstykh/mivolo_v2", "e8bdd8aec21ae468cbfe73b41f52550105ad8fbf")
 YOLO = ("iitolstykh/YOLO-Face-Person-Detector", "b3d071aedccd46a3b2d4b40609da6880a815f395",
