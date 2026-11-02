@@ -13,6 +13,7 @@ dependencies = [
     "scikit-learn",
     "matplotlib",
     "pillow",
+    "statsmodels>=0.15.0",
 ]
 
 [tool.uv]
