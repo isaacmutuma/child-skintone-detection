@@ -1,0 +1,19 @@
+[project]
+name = "child-detection-skin-tone-audit"
+version = "0.1.0"
+description = "Skin-tone disparities in automated child detectors (audit)"
+requires-python = "==3.11.*"
+dependencies = [
+    "torch",
+    "torchvision",
+    "open_clip_torch",
+    "pandas",
+    "numpy",
+    "scipy",
+    "scikit-learn",
+    "matplotlib",
+    "pillow",
+]
+
+[tool.uv]
+package = false

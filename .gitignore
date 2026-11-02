@@ -1,0 +1,20 @@
+# Never commit images, datasets, model weights or per-image skin-tone labels
+/data/
+*.jpg
+*.jpeg
+*.png
+!figures/*.png
+*.webp
+*.pt
+*.pth
+*.safetensors
+*.onnx
+annotation/labels/*.csv
+annotation/labels/*.json
+results/**/per_image*
+venv/
+.venv/
+__pycache__/
+.ipynb_checkpoints/
+.DS_Store
+.env
