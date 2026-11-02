@@ -22,11 +22,15 @@ if ENV == "colab":
     WEIGHTS_DIR = DRIVE_ROOT / "weights"
     # Per-image outputs never go in the repo; on Colab they live on Drive.
     PER_IMAGE_DIR = DRIVE_ROOT / "per_image"
+    # HF model cache on Colab's local disk: Drive's FUSE mount corrupts large cached
+    # safetensors / breaks HF cache symlinks ("header too large", 2026-11-02 smoke run).
+    HF_CACHE_DIR = Path("/content/hf_cache")
 elif ENV == "local":
     REPO_DIR = Path(__file__).resolve().parents[1]
     DATA_DIR = REPO_DIR / "data" / "dev"          # gitignored; <= DEV_SUBSET_MAX images
     WEIGHTS_DIR = REPO_DIR / "data" / "weights"   # gitignored
     PER_IMAGE_DIR = REPO_DIR / "data" / "per_image"
+    HF_CACHE_DIR = WEIGHTS_DIR / "hf"
 else:
     raise ValueError(f"Unknown ENV: {ENV!r}. Must be 'local' or 'colab'.")
 

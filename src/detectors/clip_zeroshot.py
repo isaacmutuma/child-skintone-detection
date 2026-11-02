@@ -13,9 +13,12 @@ from .base import Detector, empty_output, pick_device
 from ._weights import sha256 as _sha256
 
 # OpenAI CLIP weights as packaged by timm/open_clip on the HF hub, pinned revisions
+# (repo, revision, expected sha256 of open_clip_model.safetensors = HF LFS oid)
 WEIGHTS = {
-    "ViT-B-32": ("timm/vit_base_patch32_clip_224.openai", "a6f597a30f7b82c51704746581f9a4e41421e878"),
-    "ViT-L-14": ("timm/vit_large_patch14_clip_224.openai", "18d0535469bb561bf468d76c1d73aa35156c922b"),
+    "ViT-B-32": ("timm/vit_base_patch32_clip_224.openai", "a6f597a30f7b82c51704746581f9a4e41421e878",
+                 "e6d1bd7789aa45192b3bf90570a789b478bae1b74ebcce7eddd908e83a2b7c31"),
+    "ViT-L-14": ("timm/vit_large_patch14_clip_224.openai", "18d0535469bb561bf468d76c1d73aa35156c922b",
+                 "9ce2e8a8ebfff3793d7d375ad6d3c35cb9aebf3de7ace0fc7308accab7cd207e"),
 }
 WEIGHT_FILE = "open_clip_model.safetensors"
 
@@ -28,11 +31,15 @@ class ClipZeroShot(Detector):
         self.arch = arch
         self.name = f"clip_{arch.lower().replace('-', '')}"
         self.device = pick_device(device)
-        repo, rev = WEIGHTS[arch]
+        repo, rev, want = WEIGHTS[arch]
         self.weight_path = hf_hub_download(repo, WEIGHT_FILE, revision=rev,
-                                           cache_dir=cache_dir or C.WEIGHTS_DIR / "hf")
+                                           cache_dir=str(cache_dir or C.HF_CACHE_DIR))
+        got = _sha256(self.weight_path)
+        if got != want:
+            raise RuntimeError(f"{arch} weights sha256 mismatch ({got}); delete the cached "
+                               f"file {self.weight_path} and rerun")
         self._info = {"hf_repo": repo, "revision": rev, "file": WEIGHT_FILE,
-                      "sha256": _sha256(self.weight_path), "open_clip_arch": arch}
+                      "sha256": got, "open_clip_arch": arch}
         model, _, self.preprocess = open_clip.create_model_and_transforms(
             arch, pretrained=self.weight_path)
         self.model = model.eval().to(self.device)

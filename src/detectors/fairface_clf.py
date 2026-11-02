@@ -39,7 +39,7 @@ class FairFaceClassifier(Detector):
         self.sp = dlib.shape_predictor(dpaths["sp5"])
 
         mdir = snapshot_download(MODEL[0], revision=MODEL[1],
-                                 cache_dir=str(cache_dir or C.WEIGHTS_DIR / "hf"),
+                                 cache_dir=str(cache_dir or C.HF_CACHE_DIR),
                                  allow_patterns=["config.json", "preprocessor_config.json",
                                                  "model.safetensors"])
         got = sha256(f"{mdir}/model.safetensors")

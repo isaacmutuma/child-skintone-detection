@@ -31,7 +31,7 @@ class MivoloFace(Detector):
         from ultralytics import YOLO as UYOLO
 
         self.device = pick_device(device)
-        cache = str(cache_dir or C.WEIGHTS_DIR / "hf")
+        cache = str(cache_dir or C.HF_CACHE_DIR)
         ypath = hf_hub_download(YOLO[0], YOLO[2], revision=YOLO[1], cache_dir=cache)
         self.yolo = UYOLO(ypath)
         mdir = snapshot_download(MIVOLO[0], revision=MIVOLO[1], cache_dir=cache)
