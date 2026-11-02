@@ -22,7 +22,6 @@ ROOT = Path(__file__).resolve().parents[1]
 
 def make(out, scen):
     rng = np.random.default_rng(1)
-    rng = np.random.default_rng(1)
     d = json.load(open(ROOT / "results/phase0_counts.json"))["datasets"]
     def tpr(group, stratum):
         base = {"0-9": 0.95, "10-17": 0.70, "0-2": 0.97, "3-9": 0.92}[stratum]
