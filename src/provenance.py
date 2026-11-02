@@ -15,8 +15,10 @@ def git_state(repo_dir):
             return None
     commit = run("rev-parse", "HEAD")
     if commit is not None:
-        return {"commit": commit, "dirty": bool(run("status", "--porcelain")),
-                "source": "git"}
+        # dirty = uncommitted CODE changes; outputs written by runs (results/, figures/)
+        # don't count, otherwise every run would flag itself as dirty.
+        status = run("status", "--porcelain", "--", ".", ":!results", ":!figures")
+        return {"commit": commit, "dirty": bool(status), "source": "git"}
     stamp = Path(repo_dir) / "GIT_COMMIT"   # written by scripts/pack_repo_for_colab.sh
     if stamp.exists():
         return {"commit": stamp.read_text().strip(), "dirty": None, "source": "GIT_COMMIT file"}
