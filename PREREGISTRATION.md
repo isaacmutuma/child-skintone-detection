@@ -1,5 +1,5 @@
 # Preregistration (fill in, then commit BEFORE any full-dataset detector run)
-Commit hash after freezing: `________`  ·  Date frozen: `________`  ·  Frozen by: Isaac Mutuma
+Commit hash after freezing: `2e92b8bef6bfe1d146f46d56a052dbc70893c758`  ·  Date frozen: `2026-11-02`  ·  Frozen by: Isaac Mutuma
 
 ## Hypotheses (from EXPERIMENT_PLAN.md §1, edit only if you disagree)
 - H1: For at least half of detectors D1–D5, TPR for the darkest group < TPR for the lightest group (age-stratified), with the 95% bootstrap CI of the gap excluding 0.

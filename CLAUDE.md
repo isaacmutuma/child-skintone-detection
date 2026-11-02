@@ -62,3 +62,4 @@ Child-safety filtering of text-to-image training data relies on automated child 
 | 2026-11-02 | Claude (Phase 0) | Findings: UTKFace cells < 50 (Black 10–14 = 43, Asian 10–14 = 43, Asian 15–17 = 23, Indian 15–17 = 48) → fallback 0–9/10–17, all ≥ 50. Black minors n = 280 is the limiting group; White−Black MDE 0.0677 (UTK), 0.0888 (FF), no Holm. FairFace all 0–2 cells 10–49. Wrote `docs/DATA_CARD.md` |
 | 2026-11-02 | Claude (Phase 0) | Isaac chose FairFace native strata 0–2/3–9; logged in Decision Log and DATA_CARD |
 | 2026-11-02 | Claude (Phase 0) | Filled PREREGISTRATION.md at Isaac's request: hypotheses unchanged; added strata (UTK fallback, FF native), Holm families per dataset, CLIP prompts, detector/dataset matrix, MDEs. Hash/date left blank until Isaac commits |
+| 2026-11-02 | Claude (Phase 0) | Preregistration frozen at 2e92b8bef6bfe1d146f46d56a052dbc70893c758 and pushed; hash recorded in a follow-up commit |
