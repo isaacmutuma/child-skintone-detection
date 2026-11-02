@@ -8,7 +8,7 @@
 5. **Phase gates:** finish one phase, write its report in `docs/`, then STOP and wait for Isaac.
 6. **No fabricated numbers.** Every number in a report must come from a JSON in `results/` that stores its config and git commit. Mark anything unverified `(unverified)`.
 7. **Log as you work:** append dated rows to the Session Log below after each meaningful action (file created, run finished, bug, decision). Record results with numbers, failed approaches and why. Don't restate what the code shows.
-8. Put scratch files in the session scratchpad, not in this repo. Commit only when Isaac asks (no remote is set up; the repo should stay private if one is added).
+8. Put scratch files in the session scratchpad, not in this repo. Commit only when Isaac asks. Remote: github.com/isaacmutuma/child-skintone-detection (public for now; Isaac will make it private once results exist).
 9. Isaac is an undergrad ML researcher (PyTorch, CLIP probing, Re-ID audits, bootstrap stats). Explain decisions briefly and plainly.
 
 ## Project in one paragraph
@@ -19,12 +19,13 @@ Child-safety filtering of text-to-image training data relies on automated child 
 - Colab (GPU) for the VLM detector (D5) and full-dataset runs; Drive holds data and results, as in `~/federated-subset-scanning-pads` (`scripts/config.py` ENV pattern).
 
 ## Current status
-- 2026-11-02: Phase 0 steps 1–3 done (env, config, loaders, counts script; tested on a synthetic fixture only). Sources pinned in `configs/config.py` SOURCES; Colab notebook `notebooks/phase0_data_prep.ipynb` ready. Sources approved. **Waiting on Isaac:** initial commit decision, then run the notebook on Colab.
+- 2026-11-02: **Phase 0 done.** Data on Drive (sha256 verified), `results/phase0_counts.json`, `results/data_provenance.json`, `docs/DATA_CARD.md`. UTKFace uses fallback strata 0–9/10–17; FairFace 0–2 cells all < 50. **STOP: Isaac decides the FairFace strata, then fills and commits PREREGISTRATION.md.** Next after that: Phase 1.
 
 ## Open questions for Isaac
 - No git commit exists yet → results record `NO_COMMIT_YET`; rule 6 needs a commit before real runs. Ask Isaac to allow an initial commit.
 - Access to ICCWD (ask Crețu / authors) for Phase 2.
 - Second annotator for MST labels (Phase 2).
+- FairFace strata: all 0–2 cells < 50. Keep native bins 0–2/3–9 (MDE 0.0888) or merge into one 0–9 stratum = unstratified (MDE 0.0879)?
 - Approve Colab GPU time for D5; approve any paid API (Rekognition), default NO.
 
 ## Decision Log
@@ -37,6 +38,7 @@ Child-safety filtering of text-to-image training data relies on automated child 
 | 2026-11-02 | Cell < 50 check covers all tested groups (UTKFace 4, FairFace 7), not just White/Black | Isaac approved |
 | 2026-11-02 | UTKFace source = `py97/UTKFace-Cropped` @e80f21fb (sha256 2c065539…); FairFace = `mutuma00/FairFace` @e8e670de | Official UTKFace link dead; Isaac approved both |
 | 2026-11-02 | `.gitignore` allows `figures/*.png` | Charts only must be committable; Isaac approved |
+| 2026-11-02 | GitHub repo stays public until there are results, then made private | Isaac's call; repo holds no images/data/per-image labels |
 
 ## Session Log
 | Date | Who | Action / result |
@@ -52,3 +54,8 @@ Child-safety filtering of text-to-image training data relies on automated child 
 | 2026-11-02 | Claude (Phase 0) | Isaac approved sources, FairFace native strata, all-groups cell check, figures in git. Logged in Decision Log; `.gitignore` updated |
 | 2026-11-02 | Claude (Phase 0) | Bug: `.gitignore` `data/` also ignored `src/data/` loaders → anchored to `/data/`. Initial commit approved by Isaac |
 | 2026-11-02 | Claude (Phase 0) | Initial commit 40491cb. Uploaded slim code zip (configs/src/scripts + GIT_COMMIT=40491cb, 14,824 B, md5 d1e6b1c7…) to Drive `MyDrive/child-detection-audit/` (account isaacmutuma@pusan.ac.kr). Size matches; Drive exposes no checksum, so integrity relies on zip CRC at unzip |
+| 2026-11-02 | Claude (Phase 0) | Isaac pushed to github.com/isaacmutuma/child-skintone-detection (main = 8d10c86). Repo is PUBLIC (GitHub API returns 200 without auth), but CLAUDE.md rule 8 says it should be private; flagged to Isaac |
+| 2026-11-02 | Claude (Phase 0) | Notebook now `git clone`s the GitHub repo instead of unzipping the Drive zip (Drive zip now unused) |
+| 2026-11-02 | Isaac (Colab) | Ran phase0_data_prep (zip version, commit 40491cb). Both SHA256 verified. UTKFace 23,708 files, 3 unparseable → 23,705 records; cross-check with nu-delta: 23,704 common. FairFace val 10,954 rows. dev_subset.zip (2.9 MB) on Drive |
+| 2026-11-02 | Claude (Phase 0) | Transcribed both JSONs from Drive into `results/` (no local Drive sync). Verified: role totals = n_records, strata sum = minors, fallback = merged strata, and all CI half-widths/MDEs recomputed from counts match to 1e-4 |
+| 2026-11-02 | Claude (Phase 0) | Findings: UTKFace cells < 50 (Black 10–14 = 43, Asian 10–14 = 43, Asian 15–17 = 23, Indian 15–17 = 48) → fallback 0–9/10–17, all ≥ 50. Black minors n = 280 is the limiting group; White−Black MDE 0.0677 (UTK), 0.0888 (FF), no Holm. FairFace all 0–2 cells 10–49. Wrote `docs/DATA_CARD.md` |

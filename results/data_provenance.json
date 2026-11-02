@@ -1,0 +1,46 @@
+{
+  "created_utc": "2026-11-02T06:53:39+00:00",
+  "git": {
+    "commit": "40491cbaf930eb389279e6e7aa78e55ec3b9dba6",
+    "dirty": null,
+    "source": "GIT_COMMIT file"
+  },
+  "config": {
+    "ENV": "colab"
+  },
+  "sources": {
+    "utkface": {
+      "hf_repo": "py97/UTKFace-Cropped",
+      "revision": "e80f21fb21fa3631380c3cb634b79be3ac2f4cba",
+      "file": "UTKFace.tar.gz",
+      "sha256": "2c0655397b498e81b82d685ee74bee8c2e4364a5897caf3afec6ea48929024a7",
+      "licence": "non-commercial research only (original UTKFace terms; mirror's MIT tag is wrong)",
+      "crosscheck_repo": "nu-delta/utkface",
+      "local_file": "/content/drive/MyDrive/child-detection-audit/raw/UTKFace.tar.gz",
+      "bytes": 106634631,
+      "sha256_verified": true,
+      "n_files_extracted": 23708,
+      "crosscheck": {
+        "mirror": "nu-delta/utkface",
+        "n_ours": 23708,
+        "n_mirror": 23705,
+        "n_common": 23704,
+        "only_ours": 4,
+        "only_mirror": 1
+      },
+      "n_unparseable_names": 3
+    },
+    "fairface_val": {
+      "hf_repo": "mutuma00/FairFace",
+      "revision": "e8e670de53803408a4eaebf503d0a35749907f54",
+      "file": "0.25/validation-00000-of-00001-951dbd63c8724ee1.parquet",
+      "sha256": "d0cfac2888356b3d3fa3d837bc30961d8c860934e4c5df862e8cb87812bfa137",
+      "licence": "CC BY 4.0",
+      "upstream": "HuggingFaceM4/FairFace (identical LFS sha256)",
+      "local_file": "/content/drive/MyDrive/child-detection-audit/raw/validation-00000-of-00001-951dbd63c8724ee1.parquet",
+      "bytes": 63189799,
+      "sha256_verified": true,
+      "n_rows": 10954
+    }
+  }
+}

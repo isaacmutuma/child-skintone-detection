@@ -1,0 +1,515 @@
+{
+  "created_utc": "2026-11-02T06:53:30+00:00",
+  "git": {
+    "commit": "40491cbaf930eb389279e6e7aa78e55ec3b9dba6",
+    "dirty": null,
+    "source": "GIT_COMMIT file"
+  },
+  "config": {
+    "ENV": "colab",
+    "REPO_DIR": "/content/child-detection-skin-tone-audit",
+    "DRIVE_ROOT": "/content/drive/MyDrive/child-detection-audit",
+    "RAW_DIR": "/content/drive/MyDrive/child-detection-audit/raw",
+    "DATA_DIR": "/content/data",
+    "WEIGHTS_DIR": "/content/drive/MyDrive/child-detection-audit/weights",
+    "PER_IMAGE_DIR": "/content/drive/MyDrive/child-detection-audit/per_image",
+    "SOURCES": {
+      "utkface": {
+        "hf_repo": "py97/UTKFace-Cropped",
+        "revision": "e80f21fb21fa3631380c3cb634b79be3ac2f4cba",
+        "file": "UTKFace.tar.gz",
+        "sha256": "2c0655397b498e81b82d685ee74bee8c2e4364a5897caf3afec6ea48929024a7",
+        "licence": "non-commercial research only (original UTKFace terms; mirror's MIT tag is wrong)",
+        "crosscheck_repo": "nu-delta/utkface"
+      },
+      "fairface_val": {
+        "hf_repo": "mutuma00/FairFace",
+        "revision": "e8e670de53803408a4eaebf503d0a35749907f54",
+        "file": "0.25/validation-00000-of-00001-951dbd63c8724ee1.parquet",
+        "sha256": "d0cfac2888356b3d3fa3d837bc30961d8c860934e4c5df862e8cb87812bfa137",
+        "licence": "CC BY 4.0",
+        "upstream": "HuggingFaceM4/FairFace (identical LFS sha256)"
+      }
+    },
+    "UTKFACE_DIR": "/content/data/UTKFace",
+    "FAIRFACE_DIR": "/content/data/fairface",
+    "FAIRFACE_LABELS": "/content/data/fairface/fairface_label_val.csv",
+    "FAIRFACE_PADDING": "0.25",
+    "RESULTS_DIR": "/content/child-detection-skin-tone-audit/results",
+    "FIGURES_DIR": "/content/child-detection-skin-tone-audit/figures",
+    "DOCS_DIR": "/content/child-detection-skin-tone-audit/docs",
+    "DEV_SUBSET_MAX": 500,
+    "SEED": 0,
+    "N_BOOTSTRAP": 2000,
+    "ALPHA": 0.05,
+    "MIN_CELL": 50,
+    "MINOR_MAX_AGE": 17,
+    "CHILD_AGE_THRESHOLD": 18,
+    "ADULT_FPR_RANGE": [
+      20,
+      59
+    ],
+    "AGE_STRATA": [
+      [
+        0,
+        4
+      ],
+      [
+        5,
+        9
+      ],
+      [
+        10,
+        14
+      ],
+      [
+        15,
+        17
+      ]
+    ],
+    "AGE_STRATA_FALLBACK": [
+      [
+        0,
+        9
+      ],
+      [
+        10,
+        17
+      ]
+    ],
+    "FAIRFACE_MINOR_BINS": [
+      "0-2",
+      "3-9"
+    ],
+    "FAIRFACE_AMBIGUOUS_BINS": [
+      "10-19"
+    ],
+    "FAIRFACE_ADULT_FPR_BINS": [
+      "20-29",
+      "30-39",
+      "40-49",
+      "50-59"
+    ],
+    "FAIRFACE_BIN_MIDPOINTS": {
+      "0-2": 1.0,
+      "3-9": 6.0,
+      "10-19": 14.5,
+      "20-29": 24.5,
+      "30-39": 34.5,
+      "40-49": 44.5,
+      "50-59": 54.5,
+      "60-69": 64.5,
+      "more than 70": 75.0
+    },
+    "UTKFACE_RACES": {
+      "0": "White",
+      "1": "Black",
+      "2": "Asian",
+      "3": "Indian",
+      "4": "Others"
+    },
+    "UTKFACE_TESTED_GROUPS": [
+      "White",
+      "Black",
+      "Asian",
+      "Indian"
+    ],
+    "FAIRFACE_RACES": [
+      "White",
+      "Black",
+      "Latino_Hispanic",
+      "East Asian",
+      "Southeast Asian",
+      "Indian",
+      "Middle Eastern"
+    ],
+    "PRIMARY_CONTRAST": [
+      "White",
+      "Black"
+    ],
+    "MST_BINS": {
+      "light": [
+        1,
+        3
+      ],
+      "medium": [
+        4,
+        7
+      ],
+      "dark": [
+        8,
+        10
+      ]
+    },
+    "CLIP_CHILD_PROMPTS": [
+      "a photo of a child",
+      "a photo of a kid",
+      "a photo of a baby",
+      "a photo of a teenager"
+    ],
+    "CLIP_ADULT_PROMPTS": [
+      "a photo of an adult",
+      "a photo of a man",
+      "a photo of a woman"
+    ],
+    "CLIP_MODELS": [
+      [
+        "ViT-B-32",
+        "openai"
+      ],
+      [
+        "ViT-L-14",
+        "openai"
+      ]
+    ],
+    "VLM_PROMPT": "Is there a child (a person under 18 years old) in this image? Answer yes or no."
+  },
+  "datasets": {
+    "utkface": {
+      "n_records": 23705,
+      "n_skipped_unparseable_or_missing": 3,
+      "groups": [
+        "Asian",
+        "Black",
+        "Indian",
+        "Others",
+        "White"
+      ],
+      "by_group_role": {
+        "Asian": {
+          "minor": 995,
+          "adult_fpr": 2128,
+          "ambiguous": 0,
+          "other": 311
+        },
+        "Black": {
+          "minor": 280,
+          "adult_fpr": 3845,
+          "ambiguous": 0,
+          "other": 401
+        },
+        "Indian": {
+          "minor": 591,
+          "adult_fpr": 3104,
+          "ambiguous": 0,
+          "other": 280
+        },
+        "Others": {
+          "minor": 511,
+          "adult_fpr": 1129,
+          "ambiguous": 0,
+          "other": 52
+        },
+        "White": {
+          "minor": 1856,
+          "adult_fpr": 6218,
+          "ambiguous": 0,
+          "other": 2004
+        }
+      },
+      "minors_by_group_stratum": {
+        "Asian": {
+          "0-4": 798,
+          "5-9": 131,
+          "10-14": 43,
+          "15-17": 23
+        },
+        "Black": {
+          "0-4": 86,
+          "5-9": 68,
+          "10-14": 43,
+          "15-17": 83
+        },
+        "Indian": {
+          "0-4": 382,
+          "5-9": 107,
+          "10-14": 54,
+          "15-17": 48
+        },
+        "Others": {
+          "0-4": 298,
+          "5-9": 86,
+          "10-14": 59,
+          "15-17": 68
+        },
+        "White": {
+          "0-4": 603,
+          "5-9": 503,
+          "10-14": 390,
+          "15-17": 360
+        }
+      },
+      "cells_below_min": [
+        {
+          "group": "Black",
+          "stratum": "10-14",
+          "n": 43
+        },
+        {
+          "group": "Asian",
+          "stratum": "10-14",
+          "n": 43
+        },
+        {
+          "group": "Asian",
+          "stratum": "15-17",
+          "n": 23
+        },
+        {
+          "group": "Indian",
+          "stratum": "15-17",
+          "n": 48
+        }
+      ],
+      "fallback_strata_needed": true,
+      "minors_by_group_stratum_fallback": {
+        "Asian": {
+          "0-9": 929,
+          "10-17": 66
+        },
+        "Black": {
+          "0-9": 154,
+          "10-17": 126
+        },
+        "Indian": {
+          "0-9": 489,
+          "10-17": 102
+        },
+        "Others": {
+          "0-9": 384,
+          "10-17": 127
+        },
+        "White": {
+          "0-9": 1106,
+          "10-17": 750
+        }
+      },
+      "cells_below_min_fallback": [],
+      "power": {
+        "assumptions": {
+          "tpr": 0.85,
+          "alpha_two_sided": 0.05,
+          "power": 0.8,
+          "note": "normal approximation, equal TPR in both groups; no Holm correction; stratified uses pooled-minor weights"
+        },
+        "reference_weights": {
+          "0-9": 0.7234,
+          "10-17": 0.2766
+        },
+        "per_group": {
+          "White": {
+            "n_minors": 1856,
+            "ci_halfwidth_unstratified": 0.0162,
+            "ci_halfwidth_stratified": 0.0168
+          },
+          "Black": {
+            "n_minors": 280,
+            "ci_halfwidth_unstratified": 0.0418,
+            "ci_halfwidth_stratified": 0.0443
+          },
+          "Asian": {
+            "n_minors": 995,
+            "ci_halfwidth_unstratified": 0.0222,
+            "ci_halfwidth_stratified": 0.029
+          },
+          "Indian": {
+            "n_minors": 591,
+            "ci_halfwidth_unstratified": 0.0288,
+            "ci_halfwidth_stratified": 0.0299
+          }
+        },
+        "primary_contrast": [
+          "White",
+          "Black"
+        ],
+        "min_detectable_gap_80pct_power": {
+          "unstratified": 0.0641,
+          "stratified": 0.0677
+        }
+      }
+    },
+    "fairface_val": {
+      "n_records": 10954,
+      "n_skipped_unparseable_or_missing": 0,
+      "groups": [
+        "Black",
+        "East Asian",
+        "Indian",
+        "Latino_Hispanic",
+        "Middle Eastern",
+        "Southeast Asian",
+        "White"
+      ],
+      "by_group_role": {
+        "Black": {
+          "minor": 281,
+          "adult_fpr": 1020,
+          "ambiguous": 203,
+          "other": 52
+        },
+        "East Asian": {
+          "minor": 269,
+          "adult_fpr": 1092,
+          "ambiguous": 145,
+          "other": 44
+        },
+        "Indian": {
+          "minor": 201,
+          "adult_fpr": 1060,
+          "ambiguous": 186,
+          "other": 69
+        },
+        "Latino_Hispanic": {
+          "minor": 197,
+          "adult_fpr": 1162,
+          "ambiguous": 215,
+          "other": 49
+        },
+        "Middle Eastern": {
+          "minor": 126,
+          "adult_fpr": 924,
+          "ambiguous": 85,
+          "other": 74
+        },
+        "Southeast Asian": {
+          "minor": 241,
+          "adult_fpr": 940,
+          "ambiguous": 180,
+          "other": 54
+        },
+        "White": {
+          "minor": 240,
+          "adult_fpr": 1581,
+          "ambiguous": 167,
+          "other": 97
+        }
+      },
+      "minors_by_group_stratum": {
+        "Black": {
+          "0-2": 25,
+          "3-9": 256
+        },
+        "East Asian": {
+          "0-2": 49,
+          "3-9": 220
+        },
+        "Indian": {
+          "0-2": 18,
+          "3-9": 183
+        },
+        "Latino_Hispanic": {
+          "0-2": 19,
+          "3-9": 178
+        },
+        "Middle Eastern": {
+          "0-2": 10,
+          "3-9": 116
+        },
+        "Southeast Asian": {
+          "0-2": 34,
+          "3-9": 207
+        },
+        "White": {
+          "0-2": 44,
+          "3-9": 196
+        }
+      },
+      "cells_below_min": [
+        {
+          "group": "White",
+          "stratum": "0-2",
+          "n": 44
+        },
+        {
+          "group": "Black",
+          "stratum": "0-2",
+          "n": 25
+        },
+        {
+          "group": "Latino_Hispanic",
+          "stratum": "0-2",
+          "n": 19
+        },
+        {
+          "group": "East Asian",
+          "stratum": "0-2",
+          "n": 49
+        },
+        {
+          "group": "Southeast Asian",
+          "stratum": "0-2",
+          "n": 34
+        },
+        {
+          "group": "Indian",
+          "stratum": "0-2",
+          "n": 18
+        },
+        {
+          "group": "Middle Eastern",
+          "stratum": "0-2",
+          "n": 10
+        }
+      ],
+      "fallback_strata_needed": false,
+      "power": {
+        "assumptions": {
+          "tpr": 0.85,
+          "alpha_two_sided": 0.05,
+          "power": 0.8,
+          "note": "normal approximation, equal TPR in both groups; no Holm correction; stratified uses pooled-minor weights"
+        },
+        "reference_weights": {
+          "0-2": 0.128,
+          "3-9": 0.872
+        },
+        "per_group": {
+          "White": {
+            "n_minors": 240,
+            "ci_halfwidth_unstratified": 0.0452,
+            "ci_halfwidth_stratified": 0.0456
+          },
+          "Black": {
+            "n_minors": 281,
+            "ci_halfwidth_unstratified": 0.0417,
+            "ci_halfwidth_stratified": 0.0421
+          },
+          "Latino_Hispanic": {
+            "n_minors": 197,
+            "ci_halfwidth_unstratified": 0.0499,
+            "ci_halfwidth_stratified": 0.0501
+          },
+          "East Asian": {
+            "n_minors": 269,
+            "ci_halfwidth_unstratified": 0.0427,
+            "ci_halfwidth_stratified": 0.0431
+          },
+          "Southeast Asian": {
+            "n_minors": 241,
+            "ci_halfwidth_unstratified": 0.0451,
+            "ci_halfwidth_stratified": 0.0451
+          },
+          "Indian": {
+            "n_minors": 201,
+            "ci_halfwidth_unstratified": 0.0494,
+            "ci_halfwidth_stratified": 0.0498
+          },
+          "Middle Eastern": {
+            "n_minors": 126,
+            "ci_halfwidth_unstratified": 0.0623,
+            "ci_halfwidth_stratified": 0.0633
+          }
+        },
+        "primary_contrast": [
+          "White",
+          "Black"
+        ],
+        "min_detectable_gap_80pct_power": {
+          "unstratified": 0.0879,
+          "stratified": 0.0888
+        }
+      },
+      "note": "FairFace minor strata are native bins 0-2 / 3-9; 10-19 is AMBIGUOUS (excluded from TPR). Cells < MIN_CELL are reported but the 0-9/10-17 fallback cannot be formed from FairFace bins."
+    }
+  }
+}
