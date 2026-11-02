@@ -59,6 +59,8 @@ Reference weights (pooled minors): 0–9 = 0.7234, 10–17 = 0.2766.
 
 **Every 0–2 cell is below 50 (10–49).** The UTKFace-style fallback can't be built from FairFace's bins. Merging the two minor bins (0–2 + 3–9) gives a single 0–9 stratum, which is just the unstratified estimate. Reference weights (pooled minors): 0–2 = 0.128, 3–9 = 0.872.
 
+**Decision (2026-11-02, Isaac):** FairFace keeps the native strata 0–2 / 3–9, and the under-50 merge rule is waived for FairFace only. Stratifying costs almost nothing in power (detectable gap 0.0888 vs 0.0879 unstratified) and adjusts for groups having different shares of infants (e.g. White 44/240 = 18%, Black 25/281 = 9%). The unstratified estimate is reported as a secondary result.
+
 ## Power check
 Assumes TPR = 0.85 in both groups, two-sided α = 0.05, 80% power, and a normal approximation. **No Holm correction**, so the true minimum detectable effect is larger once we correct across detectors. Stratified results use the reference weights above.
 

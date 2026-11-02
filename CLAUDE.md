@@ -19,13 +19,12 @@ Child-safety filtering of text-to-image training data relies on automated child 
 - Colab (GPU) for the VLM detector (D5) and full-dataset runs; Drive holds data and results, as in `~/federated-subset-scanning-pads` (`scripts/config.py` ENV pattern).
 
 ## Current status
-- 2026-11-02: **Phase 0 done.** Data on Drive (sha256 verified), `results/phase0_counts.json`, `results/data_provenance.json`, `docs/DATA_CARD.md`. UTKFace uses fallback strata 0–9/10–17; FairFace 0–2 cells all < 50. **STOP: Isaac decides the FairFace strata, then fills and commits PREREGISTRATION.md.** Next after that: Phase 1.
+- 2026-11-02: **Phase 0 done.** Data on Drive (sha256 verified), `results/phase0_counts.json`, `results/data_provenance.json`, `docs/DATA_CARD.md`. UTKFace uses fallback strata 0–9/10–17; FairFace 0–2 cells all < 50. Preregistration frozen (see PREREGISTRATION.md header). **Next: Phase 1** (Isaac starts it with the kickoff prompt). Next after that: Phase 1.
 
 ## Open questions for Isaac
 - No git commit exists yet → results record `NO_COMMIT_YET`; rule 6 needs a commit before real runs. Ask Isaac to allow an initial commit.
 - Access to ICCWD (ask Crețu / authors) for Phase 2.
 - Second annotator for MST labels (Phase 2).
-- FairFace strata: all 0–2 cells < 50. Keep native bins 0–2/3–9 (MDE 0.0888) or merge into one 0–9 stratum = unstratified (MDE 0.0879)?
 - Approve Colab GPU time for D5; approve any paid API (Rekognition), default NO.
 
 ## Decision Log
@@ -39,6 +38,8 @@ Child-safety filtering of text-to-image training data relies on automated child 
 | 2026-11-02 | UTKFace source = `py97/UTKFace-Cropped` @e80f21fb (sha256 2c065539…); FairFace = `mutuma00/FairFace` @e8e670de | Official UTKFace link dead; Isaac approved both |
 | 2026-11-02 | `.gitignore` allows `figures/*.png` | Charts only must be committable; Isaac approved |
 | 2026-11-02 | GitHub repo stays public until there are results, then made private | Isaac's call; repo holds no images/data/per-image labels |
+| 2026-11-02 | FairFace keeps native strata 0–2 / 3–9 despite all 0–2 cells < 50 (10–49); <50 merge rule waived for FairFace only. UTKFace uses fallback 0–9 / 10–17 | Merging = unstratified; stratifying costs ~0.001 MDE (0.0888 vs 0.0879) and adjusts for different infant shares (White 18%, Black 9%). Isaac chose option (a) |
+| 2026-11-02 | Holm correction within each dataset (UTKFace 5 tests: D1, D3, D4-B/32, D4-L/14, D5; FairFace 4 tests); each CLIP model is its own test | Datasets act as replications; each CLIP size is a separate claim. Isaac approved |
 
 ## Session Log
 | Date | Who | Action / result |
@@ -59,3 +60,5 @@ Child-safety filtering of text-to-image training data relies on automated child 
 | 2026-11-02 | Isaac (Colab) | Ran phase0_data_prep (zip version, commit 40491cb). Both SHA256 verified. UTKFace 23,708 files, 3 unparseable → 23,705 records; cross-check with nu-delta: 23,704 common. FairFace val 10,954 rows. dev_subset.zip (2.9 MB) on Drive |
 | 2026-11-02 | Claude (Phase 0) | Transcribed both JSONs from Drive into `results/` (no local Drive sync). Verified: role totals = n_records, strata sum = minors, fallback = merged strata, and all CI half-widths/MDEs recomputed from counts match to 1e-4 |
 | 2026-11-02 | Claude (Phase 0) | Findings: UTKFace cells < 50 (Black 10–14 = 43, Asian 10–14 = 43, Asian 15–17 = 23, Indian 15–17 = 48) → fallback 0–9/10–17, all ≥ 50. Black minors n = 280 is the limiting group; White−Black MDE 0.0677 (UTK), 0.0888 (FF), no Holm. FairFace all 0–2 cells 10–49. Wrote `docs/DATA_CARD.md` |
+| 2026-11-02 | Claude (Phase 0) | Isaac chose FairFace native strata 0–2/3–9; logged in Decision Log and DATA_CARD |
+| 2026-11-02 | Claude (Phase 0) | Filled PREREGISTRATION.md at Isaac's request: hypotheses unchanged; added strata (UTK fallback, FF native), Holm families per dataset, CLIP prompts, detector/dataset matrix, MDEs. Hash/date left blank until Isaac commits |
