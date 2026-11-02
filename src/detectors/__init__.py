@@ -14,7 +14,10 @@ def build(name, **kw):
     if name == "fairface_clf":
         from .fairface_clf import FairFaceClassifier
         return FairFaceClassifier(**kw)
-    raise ValueError(f"unknown detector {name!r} (D5 not implemented yet)")
+    if name == "vlm":
+        from .vlm_qwen import QwenVLM
+        return QwenVLM(**kw)
+    raise ValueError(f"unknown detector {name!r}")
 
 
 # which detector may run on which dataset (PREREGISTRATION.md)

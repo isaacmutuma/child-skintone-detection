@@ -41,6 +41,8 @@ def main():
     ap.add_argument("--limit", type=int, default=None, help="first N records (debugging)")
     ap.add_argument("--device", default=None)
     ap.add_argument("--dev", action="store_true", help="dev-subset smoke run (tag 'dev')")
+    ap.add_argument("--ids-file", default=None,
+                    help="text file of record ids to keep (D5 subsample); tag gets '_sub'")
     a = ap.parse_args()
 
     if a.dataset not in ALLOWED.get(a.detector, set()):
@@ -54,6 +56,13 @@ def main():
     if tag == "dev" and len(records) > C.DEV_SUBSET_MAX:
         raise SystemExit(f"dev run on {len(records)} images > DEV_SUBSET_MAX; point "
                          "UTKFACE_DIR/FAIRFACE_DIR at the dev subset or drop --dev")
+    if a.ids_file:
+        keep = set(Path(a.ids_file).read_text().split())
+        records = [r for r in records if r.id in keep]
+        missing = len(keep) - len(records)
+        if missing:
+            raise SystemExit(f"{missing} ids from {a.ids_file} not found in {a.dataset}")
+        tag += "_sub"
     if a.limit:
         records = records[: a.limit]
 
