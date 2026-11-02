@@ -43,6 +43,7 @@ Child-safety filtering of text-to-image training data relies on automated child 
 | 2026-11-02 | Phase 1 smoke tests run on Colab, not the Mac | Weights (CLIP 0.6 + 1.7 GB, MiVOLO + YOLO 0.25 GB) vs ~6 GB free; dlib preinstalled on Colab. Isaac approved |
 | 2026-11-02 | D1 = mivolo_v2 @e8bdd8ae (face-only) + YOLOv8x person_face @b3d071ae | Current SoTA; UTKFace-trained v1 checkpoints excluded. Caveat: v2 training data partly proprietary. Isaac approved |
 | 2026-11-02 | D3 child rule = expected age (Σ P(bin) × midpoint) < 18 | Matches prereg wording; gives a continuous score + age estimate. Isaac approved; logged as prereg clarification |
+| 2026-11-02 | D3 = dima806/fairface_age_image_detection @4e02ab80 (ViT-B/16 on FairFace) instead of the FairFace ResNet-34; dlib chips + expected-age rule kept | Original weights 404, no mirror. Isaac chose option B; logged in prereg Deviations |
 
 ## Session Log
 | Date | Who | Action / result |
@@ -72,3 +73,4 @@ Child-safety filtering of text-to-image training data relies on automated child 
 | 2026-11-02 | Claude (Phase 1) | Wrote D1 `mivolo_face.py` (YOLO faces → MiVOLO v2 face-only, min age, score = 18 − age), D3 `fairface_clf.py` (dlib CNN + 5-pt chips → ResNet-34, expected age over bins), `_weights.py`, `--dev` flag, `scripts/smoke_summary.py` (aggregate only), `notebooks/phase1_smoke.ipynb` (T4; D1 in isolated uv venv with MiVOLO pins @37475e3) |
 | 2026-11-02 | Claude (Phase 1) | Local pipeline test with a dummy detector on the dev subset (scratchpad outputs): per-image CSV + run JSON + summary OK, prereg hash read, fairface_clf on FairFace blocked. No real detector run yet |
 | 2026-11-02 | Claude (Phase 1) | Colab smoke: gdown failed on D3 weights. Official FairFace models Drive folder (1F_pX…) returns 404; no mirror of fairface_alldata_20191111.pt found on HF/GitHub. Closest substitute: dima806/fairface_age_image_detection @4e02ab80 (ViT-B/16 on FairFace, same 9 bins, Apache-2.0). Notebook now skips D3 if weights absent; decision pending with Isaac |
+| 2026-11-02 | Claude (Phase 1) | Rewrote `fairface_clf.py` for the dima806 ViT (pinned rev, sha256-checked on load, labels read from model config); smoke notebook always runs D3 again (only dlib .dat files fetched) |

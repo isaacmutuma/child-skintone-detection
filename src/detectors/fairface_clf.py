@@ -1,53 +1,59 @@
-"""D3: FairFace ResNet-34 classifier (github.com/dchen236/FairFace), UTKFace only.
+"""D3: FairFace-trained age-bin classifier, UTKFace only (never FairFace: trained on it).
 
-Pipeline as in the FairFace repo's predict.py: dlib CNN face detector (image resized to
-max side 800) + 5-point landmarks -> get_face_chips(size=300, padding=0.25) -> resize 224,
-ImageNet normalisation -> fairface_alldata_20191111.pt (18 outputs; [9:18] = 9 age bins).
-Decision rule (PREREGISTRATION.md, clarification 2026-11-02):
-  age_est = sum_b softmax(age)_b * midpoint_b (70+ -> 75); min over faces
-  child if age_est < 18; score = 18 - age_est; no face -> not child ('no_face')
-Weights/dlib models are placed in WEIGHTS_DIR/fairface by the Colab notebook.
+Replacement (PREREGISTRATION.md Deviations, 2026-11-02): the original dchen236/FairFace
+ResNet-34 weights are no longer downloadable (Drive folder 404), so D3 uses
+dima806/fairface_age_image_detection (ViT-B/16 fine-tuned on FairFace, same 9 age bins).
+
+Pipeline: dlib CNN face detector (image shrunk to max side 800) + 5-point landmarks ->
+get_face_chips(size=300, padding=0.25), the crop style FairFace images were made with ->
+ViT image processor (224, mean/std 0.5) -> softmax over 9 age bins.
+Decision rule (unchanged): age_est = sum_b P(b) * midpoint_b (70+ -> 75); min over faces;
+child if age_est < 18; score = 18 - age_est; no face -> not child ('no_face').
 """
 
 import numpy as np
 import torch
-import torch.nn as nn
-import torchvision
-from torchvision import transforms
 
 from configs import config as C
 from .base import Detector, empty_output, pick_device
 from ._weights import sha256
 
-AGE_BINS = ["0-2", "3-9", "10-19", "20-29", "30-39", "40-49", "50-59", "60-69", "more than 70"]
-MIDPOINTS = np.array([C.FAIRFACE_BIN_MIDPOINTS[b] for b in AGE_BINS], dtype=np.float64)
-FILES = {"model": "fairface_alldata_20191111.pt",
-         "cnn": "mmod_human_face_detector.dat",
-         "sp5": "shape_predictor_5_face_landmarks.dat"}
+MODEL = ("dima806/fairface_age_image_detection", "4e02ab8057ea7fd74b1670940995c5dfda3e6ec0")
+MODEL_SHA256 = "1265d8e5a8a363a615898be873c224aebc6f310654bf23b1745da0975a7b7555"
+DLIB_FILES = {"cnn": "mmod_human_face_detector.dat", "sp5": "shape_predictor_5_face_landmarks.dat"}
 
 
 class FairFaceClassifier(Detector):
     name = "fairface_clf"
 
-    def __init__(self, device=None, weights_dir=None):
+    def __init__(self, device=None, weights_dir=None, cache_dir=None):
         import dlib
+        from huggingface_hub import snapshot_download
+        from transformers import AutoImageProcessor, AutoModelForImageClassification
+
         self.dlib = dlib
-        wd = weights_dir or (C.WEIGHTS_DIR / "fairface")
-        paths = {k: str(wd / v) for k, v in FILES.items()}
         self.device = pick_device(device)
-        self.cnn = dlib.cnn_face_detection_model_v1(paths["cnn"])
-        self.sp = dlib.shape_predictor(paths["sp5"])
-        m = torchvision.models.resnet34(weights=None)
-        m.fc = nn.Linear(m.fc.in_features, 18)
-        m.load_state_dict(torch.load(paths["model"], map_location="cpu"))
-        self.model = m.to(self.device).eval()
-        self.tf = transforms.Compose([
-            transforms.ToPILImage(), transforms.Resize((224, 224)), transforms.ToTensor(),
-            transforms.Normalize([0.485, 0.456, 0.406], [0.229, 0.224, 0.225])])
+        wd = weights_dir or (C.WEIGHTS_DIR / "fairface")
+        dpaths = {k: str(wd / v) for k, v in DLIB_FILES.items()}
+        self.cnn = dlib.cnn_face_detection_model_v1(dpaths["cnn"])
+        self.sp = dlib.shape_predictor(dpaths["sp5"])
+
+        mdir = snapshot_download(MODEL[0], revision=MODEL[1],
+                                 cache_dir=str(cache_dir or C.WEIGHTS_DIR / "hf"),
+                                 allow_patterns=["config.json", "preprocessor_config.json",
+                                                 "model.safetensors"])
+        got = sha256(f"{mdir}/model.safetensors")
+        if got != MODEL_SHA256:
+            raise RuntimeError(f"D3 weights sha256 mismatch: {got}")
+        self.proc = AutoImageProcessor.from_pretrained(mdir)
+        self.model = AutoModelForImageClassification.from_pretrained(mdir).to(self.device).eval()
+        labels = [self.model.config.id2label[i] for i in range(self.model.config.num_labels)]
+        self.midpoints = np.array([C.FAIRFACE_BIN_MIDPOINTS[b] for b in labels], dtype=np.float64)
         self._info = {"fairface_clf": {
-            "source": "github.com/dchen236/FairFace (Google Drive models folder "
-                      "1F_pXfbzWvG-bhCpNsRj6F_xsdjpesiFu); dlib.net models",
-            **{f"sha256_{k}": sha256(p) for k, p in paths.items()}}}
+            "hf_repo": MODEL[0], "revision": MODEL[1], "sha256_model_safetensors": got,
+            "age_bins": labels,
+            **{f"sha256_dlib_{k}": sha256(p) for k, p in dpaths.items()},
+            "dlib_source": "http://dlib.net/files/"}}
 
     def weights_info(self):
         return self._info
@@ -56,7 +62,7 @@ class FairFaceClassifier(Detector):
         img = self.dlib.load_rgb_image(path)
         h, w = img.shape[:2]
         s = 800 / max(h, w)
-        if s < 1:  # predict.py only shrinks large images
+        if s < 1:
             img = self.dlib.resize_image(img, rows=int(h * s), cols=int(w * s))
         dets = self.cnn(img, 1)
         if len(dets) == 0:
@@ -80,9 +86,10 @@ class FairFaceClassifier(Detector):
             if not chips:
                 outs.append(empty_output(face_found=False, fail_reason="no_face", n_faces=0))
                 continue
-            x = torch.stack([self.tf(c) for c in chips]).to(self.device)
-            p = torch.softmax(self.model(x)[:, 9:18].float(), dim=1).cpu().numpy()
-            ages = p @ MIDPOINTS
+            x = self.proc(images=[np.asarray(c) for c in chips], return_tensors="pt")["pixel_values"]
+            logits = self.model(pixel_values=x.to(self.device)).logits.float()
+            p = torch.softmax(logits, dim=1).cpu().numpy()
+            ages = p @ self.midpoints
             k = int(np.argmin(ages))
             age = float(ages[k])
             outs.append(empty_output(is_child=age < C.CHILD_AGE_THRESHOLD,
