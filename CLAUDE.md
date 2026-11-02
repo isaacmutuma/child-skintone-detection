@@ -19,7 +19,7 @@ Child-safety filtering of text-to-image training data relies on automated child 
 - Colab (GPU) for the VLM detector (D5) and full-dataset runs; Drive holds data and results, as in `~/federated-subset-scanning-pads` (`scripts/config.py` ENV pattern).
 
 ## Current status
-- 2026-11-03: Phase 1 complete pending review. All runs + phase14 analysis done; `docs/PHASE1_REPORT.md` drafted. Results/figures/report committed and pushed at Isaac's request. STOP: waiting for Isaac's review (Wilson/Jeffreys CI decision; make repo private).
+- 2026-11-03: Phase 1 complete pending review. All runs + phase14 analysis done; `docs/PHASE1_REPORT.md` drafted. Results/figures/report committed and pushed at Isaac's request. Wilson face-fail CIs coded (uncommitted); needs commit+push, then Isaac reruns phase14 on Colab → Claude updates report. Repo still public.
 
 ## Open questions for Isaac
 - Access to ICCWD (ask Crețu / authors) for Phase 2.
@@ -45,6 +45,7 @@ Child-safety filtering of text-to-image training data relies on automated child 
 | 2026-11-02 | D3 = dima806/fairface_age_image_detection @4e02ab80 (ViT-B/16 on FairFace) instead of the FairFace ResNet-34; dlib chips + expected-age rule kept | Original weights 404, no mirror. Isaac chose option B; logged in prereg Deviations |
 | 2026-11-02 | D5 = Qwen2-VL-2B @895c3a49, P(yes) vs P(no) next-token rule; subsample caps UTK 150/cell + 200 adults/group, FF 110/cell + 140 adults/group, seed 0 | Fits T4; keeps every age band; Isaac approved; logged in prereg Deviations |
 | 2026-11-02 | D5 subsample may run unattended overnight iff automatic gate passes (mean yes/no mass ≥ 0.9, minors flagged > adults on both datasets, no errors) | Isaac pre-authorised; overnight agent per docs/OVERNIGHT_RUNBOOK.md |
+| 2026-11-03 | Face-fail CIs: stratified Wilson (Kish n_eff = 1/Σw²/n) per group; Newcombe hybrid score CI for the Black−White gap. Bootstrap CIs kept as `*_boot`; permutation p unchanged | Bootstrap collapses to [0,0] when a group has 0 failures (UTK Black 0/280). Post hoc (after seeing results); Isaac approved; logged in prereg Deviations |
 
 ## Session Log
 | Date | Who | Action / result |
@@ -97,3 +98,4 @@ Child-safety filtering of text-to-image training data relies on automated child 
 | 2026-11-03 | Claude (Phase 1) | Primary endpoint: UTKFace H1 5/5 (White−Black stratified TPR gap 0.040–0.104, Holm p ≤ 0.016), FairFace 0/4 (gaps −0.027 to 0.004, all CIs cover 0). UTK gap concentrated in 10–17. H2b yes (MiVOLO Black−White age err +1.52 UTK, +1.23 FF; D3 +0.72); H2a no. H3 FPR differs in 6/9 (uncorrected χ²). H5: equalising Black TPR costs Black adult FPR up to 0.56 (CLIP B/32) |
 | 2026-11-03 | Claude (Phase 1) | Issues found: bootstrap CI collapses to [0,0] for zero-count face-fail groups (UTK face-fail gap CI excludes 0 while p_perm 0.29) → needs Wilson/Jeffreys fix, Isaac's call; D1/FairFace confounder logit not converged (separation). Drafted `docs/PHASE1_REPORT.md`. STOP for review |
 | 2026-11-03 | Claude (Phase 1) | Isaac approved: committed + pushed Phase 1 results, figures, PHASE1_REPORT, OVERNIGHT_LOG |
+| 2026-11-03 | Claude (Phase 1) | Wilson/Newcombe face-fail CIs in `src/analysis/metrics.py`, figure caption updated, `tests/test_wilson.py` (textbook Wilson + Newcombe 1998 example) PASS, synthetic test PASS. Old vs new on synthetic S2: 1,064 values compared, only face-fail CIs changed (RNG stream preserved). Preview from committed JSONs: UTK face-fail B−W gap CI MiVOLO [−0.011, 0.009], D3 [−0.007, 0.012] (were [−0.010, −0.003], [−0.007, −0.001]); FF MiVOLO [−0.031, 0.039]. Final numbers need phase14 rerun |

@@ -97,7 +97,9 @@ def plot(metrics, key, out_dir):
                 handles.append(h); labels.append(lab)
     fig.legend(handles, labels, loc="lower center", ncol=len(labels), frameon=False,
                fontsize=9, labelcolor=INK)
-    fig.text(0.01, 0.005, "Dots: point estimate; lines: bootstrap 95% CI (2,000 resamples). "
+    ci_note = ("stratified Wilson score 95% CI" if key == "fdr"
+               else "bootstrap 95% CI (2,000 resamples)")
+    fig.text(0.01, 0.005, f"Dots: point estimate; lines: {ci_note}. "
              "Groups are dataset-provided perceived-race labels.", color=INK2, fontsize=7.5)
     fig.tight_layout(rect=(0, 0.07, 1, 0.95))
     out = Path(out_dir) / fname

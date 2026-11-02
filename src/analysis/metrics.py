@@ -102,6 +102,52 @@ def ci(reps, alpha=None):
     return [float(np.quantile(reps, a)), float(np.quantile(reps, 1 - a))]
 
 
+# ── score intervals (face-detection failure; Isaac, 2026-11-03) ──────────────
+# The percentile bootstrap collapses to [0, 0] when a group has zero failures, so
+# face-fail CIs use a stratified Wilson interval and the gap uses Newcombe's hybrid
+# score interval (Newcombe 1998, method 10). Bootstrap CIs are kept as *_boot.
+def effective_n(strata, weights):
+    """Kish-type effective n of a stratified proportion: 1 / sum_s w_s^2 / n_s."""
+    strata = np.asarray(strata)
+    tot = 0.0
+    for s, w in weights.items():
+        n_s = int((strata == s).sum())
+        if w > 0:
+            if n_s == 0:
+                return float("nan")
+            tot += w * w / n_s
+    return 1.0 / tot if tot > 0 else float("nan")
+
+
+def wilson(p, n, alpha=None):
+    """Wilson score interval for proportion p with (effective) sample size n."""
+    from scipy.stats import norm
+    if p is None or n is None or np.isnan(p) or np.isnan(n) or n <= 0:
+        return [None, None]
+    z = norm.ppf(1 - (alpha or C.ALPHA) / 2)
+    den = 1 + z * z / n
+    centre = (p + z * z / (2 * n)) / den
+    half = z * np.sqrt(p * (1 - p) / n + z * z / (4 * n * n)) / den
+    lo = 0.0 if p <= 0 else max(0.0, centre - half)     # exact bounds at p = 0 / 1
+    hi = 1.0 if p >= 1 else min(1.0, centre + half)
+    return [float(lo), float(hi)]
+
+
+def newcombe_gap(p1, ci1, p2, ci2):
+    """Newcombe hybrid score CI for p1 - p2 from the two Wilson intervals."""
+    if None in (*ci1, *ci2):
+        return [None, None]
+    (l1, u1), (l2, u2) = ci1, ci2
+    d = p1 - p2
+    return [float(d - np.sqrt((p1 - l1) ** 2 + (u2 - p2) ** 2)),
+            float(d + np.sqrt((u1 - p1) ** 2 + (p2 - l2) ** 2))]
+
+
+def stratified_wilson(values, strata, weights):
+    p = stratified_rate(values, strata, weights)
+    return p, wilson(p, effective_n(strata, weights))
+
+
 # ── permutation test ─────────────────────────────────────────────────────────
 def perm_test_gap(vals_a, strata_a, vals_b, strata_b, weights, P, rng):
     """Two-sided stratified permutation p for stratified(a) - stratified(b)."""
@@ -164,8 +210,12 @@ def group_metrics(df, dataset, weights, B, rng):
         r["fpr_ci"] = ci(boot_mean(fa, B, rng))
         if has_face_stage:
             fail = (~minors.face_found.astype(bool)).astype(float).values
-            r["face_fail_minor_strat"] = stratified_rate(fail, minors.astratum, weights)
-            r["face_fail_minor_strat_ci"] = ci(boot_stratified(fail, minors.astratum, weights, B, rng))
+            r["face_fail_minor_strat"], r["face_fail_minor_strat_ci"] = \
+                stratified_wilson(fail, minors.astratum, weights)
+            r["face_fail_minor_strat_ci_method"] = "wilson, stratified (Kish n_eff)"
+            r["face_fail_minor_n_eff"] = effective_n(minors.astratum, weights)
+            # kept so the RNG stream (and every other CI) is unchanged
+            r["face_fail_minor_strat_ci_boot"] = ci(boot_stratified(fail, minors.astratum, weights, B, rng))
             r["face_fail_all"] = float((~gdf.face_found.astype(bool)).mean())
         if has_age:
             det = minors[minors.age_est.notna()]
@@ -203,6 +253,11 @@ def contrast(df, dataset, weights, a, b, B, P, rng):
         fb = (~mb.face_found.astype(bool)).astype(float).values
         # H2a direction: darker (b) fails more -> report b - a
         blk = gap_block(fb, mb.astratum.values, fa, ma.astratum.values)
+        pb, cib = stratified_wilson(fb, mb.astratum.values, weights)
+        pa, cia = stratified_wilson(fa, ma.astratum.values, weights)
+        blk["ci_boot"] = blk["ci"]
+        blk["ci"] = newcombe_gap(pb, cib, pa, cia)
+        blk["ci_method"] = "newcombe hybrid score (stratified wilson)"
         res["face_fail_gap_b_minus_a"] = blk
     if df.age_est.notna().any():
         da, db = ma[ma.age_est.notna()], mb[mb.age_est.notna()]
