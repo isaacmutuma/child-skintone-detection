@@ -19,7 +19,7 @@ Child-safety filtering of text-to-image training data relies on automated child 
 - Colab (GPU) for the VLM detector (D5) and full-dataset runs; Drive holds data and results, as in `~/federated-subset-scanning-pads` (`scripts/config.py` ENV pattern).
 
 ## Current status
-- 2026-11-02: **Phase 0 done.** Data on Drive (sha256 verified), `results/phase0_counts.json`, `results/data_provenance.json`, `docs/DATA_CARD.md`. UTKFace uses fallback strata 0–9/10–17; FairFace 0–2 cells all < 50. Preregistration frozen (see PREREGISTRATION.md header). **Next: Phase 1** (Isaac starts it with the kickoff prompt). Next after that: Phase 1.
+- 2026-11-02: Phase 1 in progress. 6/7 full runs done (pending mivolo_face/fairface_val). Overnight agent follows **`docs/OVERNIGHT_RUNBOOK.md`** (finish runs → D5 gated → analysis → PHASE1_REPORT draft → STOP, no commits). Morning: Isaac reviews `docs/OVERNIGHT_LOG.md` + `docs/PHASE1_REPORT.md`.
 
 ## Open questions for Isaac
 - No git commit exists yet → results record `NO_COMMIT_YET`; rule 6 needs a commit before real runs. Ask Isaac to allow an initial commit.
@@ -45,6 +45,7 @@ Child-safety filtering of text-to-image training data relies on automated child 
 | 2026-11-02 | D3 child rule = expected age (Σ P(bin) × midpoint) < 18 | Matches prereg wording; gives a continuous score + age estimate. Isaac approved; logged as prereg clarification |
 | 2026-11-02 | D3 = dima806/fairface_age_image_detection @4e02ab80 (ViT-B/16 on FairFace) instead of the FairFace ResNet-34; dlib chips + expected-age rule kept | Original weights 404, no mirror. Isaac chose option B; logged in prereg Deviations |
 | 2026-11-02 | D5 = Qwen2-VL-2B @895c3a49, P(yes) vs P(no) next-token rule; subsample caps UTK 150/cell + 200 adults/group, FF 110/cell + 140 adults/group, seed 0 | Fits T4; keeps every age band; Isaac approved; logged in prereg Deviations |
+| 2026-11-02 | D5 subsample may run unattended overnight iff automatic gate passes (mean yes/no mass ≥ 0.9, minors flagged > adults on both datasets, no errors) | Isaac pre-authorised; overnight agent per docs/OVERNIGHT_RUNBOOK.md |
 
 ## Session Log
 | Date | Who | Action / result |
@@ -88,3 +89,4 @@ Child-safety filtering of text-to-image training data relies on automated child 
 | 2026-11-02 | Claude (Phase 1) | D5: `src/detectors/vlm_qwen.py` (Qwen2-VL-2B-Instruct @895c3a49, fp16, shards sha256-checked; next-token log P(yes) − log P(no) > 0, no sampling; logs yes/no token mass), `--ids-file` in runner (tag `full_sub`), `scripts/make_vlm_subsample.py` (seed 0; minors capped per group × stratum UTK 150 / FF 110, adults per group UTK 200 / FF 140 → expected UTK 1,844, FF 1,949 from Phase 0 counts), `notebooks/phase13_vlm.ipynb` (dev smoke; subsample run gated by RUN_SUBSAMPLE=False). Subsample design awaits Isaac's OK |
 | 2026-11-02 | Claude (Phase 1) | Analysis code: `src/analysis/metrics.py` (stratified rates with fixed Phase 0 reference weights; multinomial bootstrap within group, 2,000, seed 0; stratified permutation test; Holm with missing = p 1), `regression.py` (statsmodels logit, OR vs White; face size only for D1/D3 on face-found minors), `thresholds.py` (per-group TPR-equalising thresholds + FPR cost), `scripts/run_analysis.py` (consistency checks: is_child == score>0, n, unique ids; metrics_<det>_<ds>.json + primary_endpoint.json). Added statsmodels 0.15.0 (.venv 968 MB) |
 | 2026-11-02 | Claude (Phase 1) | `tests/test_analysis_synthetic.py` PASSES: S1 (no group effect) gap −0.017, CI covers 0; S2 (planted −0.08 TPR, +3 pt no-face, +2 yr) gap +0.101 [0.048, 0.157], Holm p 0.0025, face-fail +0.039, age-err +2.0, logit OR 0.60. Synthetic only; no real outputs analysed |
+| 2026-11-02 | Claude (Phase 1) | 6/7 full runs on Drive by 13:33 UTC. Added automatic pre-authorised D5 gate to `phase13_vlm.ipynb` (writes d5_gate_dev.json), `notebooks/phase14_analysis.ipynb` (analysis + figures → Drive phase1_outputs.zip, aggregate only), `scripts/make_figures.py` (dot + CI small multiples; palette validated with dataviz validator: all checks pass, 3 slots < 3:1 → marker shapes + legend), `docs/OVERNIGHT_RUNBOOK.md` |
