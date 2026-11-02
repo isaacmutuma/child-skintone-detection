@@ -1,7 +1,7 @@
 {
-  "created_utc": "2026-11-02T23:13:28+00:00",
+  "created_utc": "2026-11-02T23:26:41+00:00",
   "git": {
-    "commit": "095dac098a72843d10bc35fc6604e8cd18c8526e",
+    "commit": "56c3fb5a80d3057f484744b16d9e3d37812e3c39",
     "dirty": false,
     "source": "git"
   },
@@ -231,6 +231,12 @@
       "face_fail_minor_strat": 0.0,
       "face_fail_minor_strat_ci": [
         0.0,
+        0.006574375692462711
+      ],
+      "face_fail_minor_strat_ci_method": "wilson, stratified (Kish n_eff)",
+      "face_fail_minor_n_eff": 580.4663143262256,
+      "face_fail_minor_strat_ci_boot": [
+        0.0,
         0.0
       ],
       "face_fail_all": 0.004368083867210251,
@@ -273,6 +279,12 @@
       ],
       "face_fail_minor_strat": 0.0,
       "face_fail_minor_strat_ci": [
+        0.0,
+        0.015152391441371631
+      ],
+      "face_fail_minor_strat_ci_method": "wilson, stratified (Kish n_eff)",
+      "face_fail_minor_n_eff": 249.68016088915067,
+      "face_fail_minor_strat_ci_boot": [
         0.0,
         0.0
       ],
@@ -317,6 +329,12 @@
       "face_fail_minor_strat": 0.0,
       "face_fail_minor_strat_ci": [
         0.0,
+        0.006944131416711296
+      ],
+      "face_fail_minor_strat_ci_method": "wilson, stratified (Kish n_eff)",
+      "face_fail_minor_n_eff": 549.3535471737949,
+      "face_fail_minor_strat_ci_boot": [
+        0.0,
         0.0
       ],
       "face_fail_all": 0.013333333333333334,
@@ -359,6 +377,12 @@
       ],
       "face_fail_minor_strat": 0.00376752106465076,
       "face_fail_minor_strat_ci": [
+        0.001008989054874454,
+        0.013962352799698438
+      ],
+      "face_fail_minor_strat_ci_method": "wilson, stratified (Kish n_eff)",
+      "face_fail_minor_n_eff": 508.84810554501445,
+      "face_fail_minor_strat_ci_boot": [
         0.0,
         0.009568307465779706
       ],
@@ -402,6 +426,12 @@
       ],
       "face_fail_minor_strat": 0.006137304883826338,
       "face_fail_minor_strat_ci": [
+        0.003400842503917767,
+        0.011051224726674996
+      ],
+      "face_fail_minor_strat_ci_method": "wilson, stratified (Kish n_eff)",
+      "face_fail_minor_n_eff": 1738.6983966345663,
+      "face_fail_minor_strat_ci_boot": [
         0.002795177788244685,
         0.009944248820649886
       ],
@@ -439,10 +469,15 @@
     "face_fail_gap_b_minus_a": {
       "gap": -0.006137304883826338,
       "ci": [
+        -0.011051224726674996,
+        0.009260201172324675
+      ],
+      "p_perm": 0.2908545727136432,
+      "ci_boot": [
         -0.009944338246861268,
         -0.002789737854514657
       ],
-      "p_perm": 0.2908545727136432
+      "ci_method": "newcombe hybrid score (stratified wilson)"
     },
     "age_err_gap_b_minus_a": {
       "gap": 1.5197808355278408,

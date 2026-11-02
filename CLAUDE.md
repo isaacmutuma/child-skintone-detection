@@ -19,7 +19,7 @@ Child-safety filtering of text-to-image training data relies on automated child 
 - Colab (GPU) for the VLM detector (D5) and full-dataset runs; Drive holds data and results, as in `~/federated-subset-scanning-pads` (`scripts/config.py` ENV pattern).
 
 ## Current status
-- 2026-11-03: Phase 1 complete pending review. All runs + phase14 analysis done; `docs/PHASE1_REPORT.md` drafted. Results/figures/report committed and pushed at Isaac's request. Wilson face-fail CIs coded (uncommitted); needs commit+push, then Isaac reruns phase14 on Colab → Claude updates report. Repo still public.
+- 2026-11-03: Phase 1 complete pending review. All runs + phase14 analysis done; `docs/PHASE1_REPORT.md` drafted. Results/figures/report committed and pushed at Isaac's request. Wilson CIs in (56c3fb5), phase14 rerun pulled, report updated and committed. STOP: waiting for Isaac's report review. Repo still public.
 
 ## Open questions for Isaac
 - Access to ICCWD (ask Crețu / authors) for Phase 2.
@@ -99,3 +99,4 @@ Child-safety filtering of text-to-image training data relies on automated child 
 | 2026-11-03 | Claude (Phase 1) | Issues found: bootstrap CI collapses to [0,0] for zero-count face-fail groups (UTK face-fail gap CI excludes 0 while p_perm 0.29) → needs Wilson/Jeffreys fix, Isaac's call; D1/FairFace confounder logit not converged (separation). Drafted `docs/PHASE1_REPORT.md`. STOP for review |
 | 2026-11-03 | Claude (Phase 1) | Isaac approved: committed + pushed Phase 1 results, figures, PHASE1_REPORT, OVERNIGHT_LOG |
 | 2026-11-03 | Claude (Phase 1) | Wilson/Newcombe face-fail CIs in `src/analysis/metrics.py`, figure caption updated, `tests/test_wilson.py` (textbook Wilson + Newcombe 1998 example) PASS, synthetic test PASS. Old vs new on synthetic S2: 1,064 values compared, only face-fail CIs changed (RNG stream preserved). Preview from committed JSONs: UTK face-fail B−W gap CI MiVOLO [−0.011, 0.009], D3 [−0.007, 0.012] (were [−0.010, −0.003], [−0.007, −0.001]); FF MiVOLO [−0.031, 0.039]. Final numbers need phase14 rerun |
+| 2026-11-03 | Isaac (Colab) / Claude | phase14 rerun at 56c3fb5 (clean). Zip 377,658 B, sha256 6120eb12…. Diff vs 5276b7c: 3,369 values compared, only face-fail CIs changed (17 group CIs, 3 gap CIs) + new keys (*_boot, ci_method, n_eff); *_boot equals old CIs; only fdr figure differs. Newcombe B−W face-fail gap: UTK D1 [−0.011, 0.009], D3 [−0.007, 0.012], FF D1 [−0.031, 0.039] (= preview). Report updated |

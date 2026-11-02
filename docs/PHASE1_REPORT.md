@@ -1,7 +1,7 @@
 # Phase 1 Report: Controlled pilot on face crops (DRAFT for Isaac's review)
 
 **Status:** draft, 2026-11-03. Pilot on cropped, aligned faces, which are easier than real filtering conditions. This is a pilot, not the claim.
-**Provenance:** analysis at commit `095dac0` (clean); detector runs at `74ae7b6` (D1, D3, D4) and `095dac0` (D5), all clean; preregistration frozen at `2e92b8b` before any full run. Sources: `results/phase1/primary_endpoint.json`, `results/phase1/metrics_<detector>_<dataset>.json`, `results/phase1/runs/*.json`. Groups are dataset-provided perceived-race labels.
+**Provenance:** analysis at commit `56c3fb5` (clean); detector runs at `74ae7b6` (D1, D3, D4) and `095dac0` (D5), all clean; preregistration frozen at `2e92b8b` before any full run. Sources: `results/phase1/primary_endpoint.json`, `results/phase1/metrics_<detector>_<dataset>.json`, `results/phase1/runs/*.json`. Groups are dataset-provided perceived-race labels.
 
 ## Primary endpoint: age-stratified TPR gap, White − Black (minors)
 
@@ -23,7 +23,7 @@ n minors White / Black: UTKFace 1,856 / 280; FairFace 240 / 281. *D5 on the prer
 
 ## Three findings
 1. **On UTKFace, every detector misses Black minors more often than White minors**, by 4 to 10 points after age stratification. The gap sits mostly in the 10–17 stratum: TPR White vs Black is 0.807 vs 0.563 (D1), 0.925 vs 0.659 (CLIP B/32), 0.859 vs 0.556 (CLIP L/14), 0.800 vs 0.579 (D5). In the 0–9 stratum the differences are 0.000 to 0.034. After adjusting for age, brightness and blur (plus face size for D1), the Black vs White odds ratio for being flagged stays below 1 for D1 (0.32 [0.20, 0.51]), CLIP B/32 (0.19 [0.12, 0.32]), CLIP L/14 (0.19 [0.12, 0.30]) and D5 (0.53 [0.30, 0.94]). It does not for D3 (0.81 [0.52, 1.24]).
-2. **The mechanism looks like age over-estimation, not missed faces (H2b yes, H2a no).** Among detected minors, MiVOLO over-estimates Black children's age more than White children's: by +1.52 years [0.95, 2.28] on UTKFace and by +1.23 [0.83, 1.63] on FairFace (bin midpoints, approximate). The same holds for D3 on UTKFace (+0.72 [0.14, 1.43]). All three have permutation p ≤ 0.009. Face-detection failure is not higher for Black minors. On UTKFace, MiVOLO found a face in all 280 Black minor images (White failure rate 0.006). On FairFace, the Black − White difference is 0.005 [−0.028, 0.036].
+2. **The mechanism looks like age over-estimation, not missed faces (H2b yes, H2a no).** Among detected minors, MiVOLO over-estimates Black children's age more than White children's: by +1.52 years [0.95, 2.28] on UTKFace and by +1.23 [0.83, 1.63] on FairFace (bin midpoints, approximate). The same holds for D3 on UTKFace (+0.72 [0.14, 1.43]). All three have permutation p ≤ 0.009. Face-detection failure is not higher for Black minors. On UTKFace, MiVOLO found a face in all 280 Black minor images (White failure rate 0.006). The Black − White difference is −0.006 [−0.011, 0.009] on UTKFace and 0.005 [−0.031, 0.039] on FairFace (Newcombe score CIs).
 3. **Fixing the gap with per-group thresholds is costly (H5).** Raising Black TPR to the global operating point on UTKFace raises the share of Black adults (20–59) wrongly flagged as children: D1 0.005 → 0.074, CLIP B/32 0.043 → 0.560, CLIP L/14 0.008 → 0.297, D5 0.025 → 0.220 (D3, not a preregistered H5 detector: 0.022 → 0.126). Adult FPR already differs by group without any threshold change (H3, χ² p < 0.05, uncorrected) in 6/9 runs. On FairFace, Black adults are flagged more often than White adults: D1 0.078 vs 0.018, CLIP B/32 0.102 vs 0.062, CLIP L/14 0.037 vs 0.018.
 
 ## Caveats
@@ -31,7 +31,7 @@ n minors White / Black: UTKFace 1,856 / 280; FairFace 240 / 281. *D5 on the prer
 - **The two datasets test different ages.** The UTKFace gap is concentrated in 10–17, an age range FairFace cannot test, because its minors are 0–9 only and the 10–19 bin is excluded. So the FairFace null result is not evidence against a teenage gap. This reading was not preregistered; treat it as interpretation.
 - **Small cells:** only 280 Black minors in UTKFace, 126 of them aged 10–17. UTKFace ages and race labels are known to be noisy.
 - **Model substitutions:** D3 is a FairFace-trained ViT substitute (the original weights are gone). Its expected-age rule over-estimates age in every group (+4.5 to +5.4 years), so its absolute TPR is low. MiVOLO v2's training data is partly proprietary, so overlap with UTKFace can't be ruled out. D5 ran on a subsample, which gives wider CIs.
-- **Analysis artefacts to fix before the paper:**
-  - When a group has zero face failures, the bootstrap CI collapses to [0, 0]. So the UTKFace face-fail gap CIs exclude 0 even though permutation p = 0.29 (D1) and 0.66 (D3). Use p_perm, or switch to a Wilson/Jeffreys interval (needs your OK).
+- **Post-hoc change (logged in PREREGISTRATION.md Deviations):** face-fail CIs are stratified Wilson intervals, and the gap uses Newcombe's interval. The preregistered bootstrap collapsed to [0, 0] for groups with zero failures, which made the UTKFace gap CI wrongly exclude 0 (permutation p = 0.29 for D1, 0.66 for D3). The bootstrap CIs are still stored as `*_boot`; no other number changed.
+- **Analysis limits:**
   - The D1 FairFace logit did not converge (quasi-separation; ORs up to 10⁹), so it can't be interpreted.
   - For D1 on FairFace, the target TPR is out of reach for White, Black and Latino_Hispanic, because no-face images can never be flagged.
