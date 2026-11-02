@@ -1,0 +1,206 @@
+{
+  "created_utc": "2026-11-02T12:42:23+00:00",
+  "git": {
+    "commit": "74ae7b6d7303fde1fe989e7d261226b6509b856a",
+    "dirty": false,
+    "source": "git"
+  },
+  "config": {
+    "ENV": "colab",
+    "REPO_DIR": "/content/child-detection-skin-tone-audit",
+    "DRIVE_ROOT": "/content/drive/MyDrive/child-detection-audit",
+    "RAW_DIR": "/content/drive/MyDrive/child-detection-audit/raw",
+    "DATA_DIR": "/content/data",
+    "WEIGHTS_DIR": "/content/drive/MyDrive/child-detection-audit/weights",
+    "PER_IMAGE_DIR": "/content/drive/MyDrive/child-detection-audit/per_image",
+    "HF_CACHE_DIR": "/content/hf_cache",
+    "SOURCES": {
+      "utkface": {
+        "hf_repo": "py97/UTKFace-Cropped",
+        "revision": "e80f21fb21fa3631380c3cb634b79be3ac2f4cba",
+        "file": "UTKFace.tar.gz",
+        "sha256": "2c0655397b498e81b82d685ee74bee8c2e4364a5897caf3afec6ea48929024a7",
+        "licence": "non-commercial research only (original UTKFace terms; mirror's MIT tag is wrong)",
+        "crosscheck_repo": "nu-delta/utkface"
+      },
+      "fairface_val": {
+        "hf_repo": "mutuma00/FairFace",
+        "revision": "e8e670de53803408a4eaebf503d0a35749907f54",
+        "file": "0.25/validation-00000-of-00001-951dbd63c8724ee1.parquet",
+        "sha256": "d0cfac2888356b3d3fa3d837bc30961d8c860934e4c5df862e8cb87812bfa137",
+        "licence": "CC BY 4.0",
+        "upstream": "HuggingFaceM4/FairFace (identical LFS sha256)"
+      }
+    },
+    "UTKFACE_DIR": "/content/data/UTKFace",
+    "FAIRFACE_DIR": "/content/data/fairface",
+    "FAIRFACE_LABELS": "/content/data/fairface/fairface_label_val.csv",
+    "FAIRFACE_PADDING": "0.25",
+    "RESULTS_DIR": "/content/child-detection-skin-tone-audit/results",
+    "FIGURES_DIR": "/content/child-detection-skin-tone-audit/figures",
+    "DOCS_DIR": "/content/child-detection-skin-tone-audit/docs",
+    "DEV_SUBSET_MAX": 500,
+    "SEED": 0,
+    "N_BOOTSTRAP": 2000,
+    "ALPHA": 0.05,
+    "MIN_CELL": 50,
+    "MINOR_MAX_AGE": 17,
+    "CHILD_AGE_THRESHOLD": 18,
+    "ADULT_FPR_RANGE": [
+      20,
+      59
+    ],
+    "AGE_STRATA": [
+      [
+        0,
+        4
+      ],
+      [
+        5,
+        9
+      ],
+      [
+        10,
+        14
+      ],
+      [
+        15,
+        17
+      ]
+    ],
+    "AGE_STRATA_FALLBACK": [
+      [
+        0,
+        9
+      ],
+      [
+        10,
+        17
+      ]
+    ],
+    "FAIRFACE_MINOR_BINS": [
+      "0-2",
+      "3-9"
+    ],
+    "FAIRFACE_AMBIGUOUS_BINS": [
+      "10-19"
+    ],
+    "FAIRFACE_ADULT_FPR_BINS": [
+      "20-29",
+      "30-39",
+      "40-49",
+      "50-59"
+    ],
+    "FAIRFACE_BIN_MIDPOINTS": {
+      "0-2": 1.0,
+      "3-9": 6.0,
+      "10-19": 14.5,
+      "20-29": 24.5,
+      "30-39": 34.5,
+      "40-49": 44.5,
+      "50-59": 54.5,
+      "60-69": 64.5,
+      "more than 70": 75.0
+    },
+    "UTKFACE_RACES": {
+      "0": "White",
+      "1": "Black",
+      "2": "Asian",
+      "3": "Indian",
+      "4": "Others"
+    },
+    "UTKFACE_TESTED_GROUPS": [
+      "White",
+      "Black",
+      "Asian",
+      "Indian"
+    ],
+    "FAIRFACE_RACES": [
+      "White",
+      "Black",
+      "Latino_Hispanic",
+      "East Asian",
+      "Southeast Asian",
+      "Indian",
+      "Middle Eastern"
+    ],
+    "PRIMARY_CONTRAST": [
+      "White",
+      "Black"
+    ],
+    "MST_BINS": {
+      "light": [
+        1,
+        3
+      ],
+      "medium": [
+        4,
+        7
+      ],
+      "dark": [
+        8,
+        10
+      ]
+    },
+    "CLIP_CHILD_PROMPTS": [
+      "a photo of a child",
+      "a photo of a kid",
+      "a photo of a baby",
+      "a photo of a teenager"
+    ],
+    "CLIP_ADULT_PROMPTS": [
+      "a photo of an adult",
+      "a photo of a man",
+      "a photo of a woman"
+    ],
+    "CLIP_MODELS": [
+      [
+        "ViT-B-32",
+        "openai"
+      ],
+      [
+        "ViT-L-14",
+        "openai"
+      ]
+    ],
+    "VLM_PROMPT": "Is there a child (a person under 18 years old) in this image? Answer yes or no."
+  },
+  "detector": "fairface_clf",
+  "dataset": "utkface",
+  "tag": "full",
+  "preregistration_commit": "2e92b8bef6bfe1d146f46d56a052dbc70893c758",
+  "n_images": 23705,
+  "n_skipped_loader": 3,
+  "seconds": 625.8,
+  "device": "cuda",
+  "n_flagged_child": 3861,
+  "fail_reasons": {
+    "no_face": 49
+  },
+  "n_by_role": {
+    "other": 3048,
+    "minor": 4233,
+    "adult_fpr": 16424
+  },
+  "weights": {
+    "fairface_clf": {
+      "hf_repo": "dima806/fairface_age_image_detection",
+      "revision": "4e02ab8057ea7fd74b1670940995c5dfda3e6ec0",
+      "sha256_model_safetensors": "1265d8e5a8a363a615898be873c224aebc6f310654bf23b1745da0975a7b7555",
+      "age_bins": [
+        "0-2",
+        "3-9",
+        "10-19",
+        "20-29",
+        "30-39",
+        "40-49",
+        "50-59",
+        "60-69",
+        "more than 70"
+      ],
+      "sha256_dlib_cnn": "4cb19393e2fbaf2b1609a9319ad5386618c886a6234ec1b971f3e87c85d87fe6",
+      "sha256_dlib_sp5": "c4b1e9804792707d3a405c2c16a80a20269e6675021f64a41d30fffafbc41888",
+      "dlib_source": "http://dlib.net/files/"
+    }
+  }
+}

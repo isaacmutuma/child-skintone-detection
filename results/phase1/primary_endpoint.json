@@ -1,0 +1,344 @@
+{
+  "created_utc": "2026-11-02T23:14:05+00:00",
+  "git": {
+    "commit": "095dac098a72843d10bc35fc6604e8cd18c8526e",
+    "dirty": false,
+    "source": "git"
+  },
+  "config": {
+    "ENV": "colab",
+    "REPO_DIR": "/content/child-detection-skin-tone-audit",
+    "DRIVE_ROOT": "/content/drive/MyDrive/child-detection-audit",
+    "RAW_DIR": "/content/drive/MyDrive/child-detection-audit/raw",
+    "DATA_DIR": "/content/data",
+    "WEIGHTS_DIR": "/content/drive/MyDrive/child-detection-audit/weights",
+    "PER_IMAGE_DIR": "/content/drive/MyDrive/child-detection-audit/per_image",
+    "HF_CACHE_DIR": "/content/hf_cache",
+    "SOURCES": {
+      "utkface": {
+        "hf_repo": "py97/UTKFace-Cropped",
+        "revision": "e80f21fb21fa3631380c3cb634b79be3ac2f4cba",
+        "file": "UTKFace.tar.gz",
+        "sha256": "2c0655397b498e81b82d685ee74bee8c2e4364a5897caf3afec6ea48929024a7",
+        "licence": "non-commercial research only (original UTKFace terms; mirror's MIT tag is wrong)",
+        "crosscheck_repo": "nu-delta/utkface"
+      },
+      "fairface_val": {
+        "hf_repo": "mutuma00/FairFace",
+        "revision": "e8e670de53803408a4eaebf503d0a35749907f54",
+        "file": "0.25/validation-00000-of-00001-951dbd63c8724ee1.parquet",
+        "sha256": "d0cfac2888356b3d3fa3d837bc30961d8c860934e4c5df862e8cb87812bfa137",
+        "licence": "CC BY 4.0",
+        "upstream": "HuggingFaceM4/FairFace (identical LFS sha256)"
+      }
+    },
+    "UTKFACE_DIR": "/content/data/UTKFace",
+    "FAIRFACE_DIR": "/content/data/fairface",
+    "FAIRFACE_LABELS": "/content/data/fairface/fairface_label_val.csv",
+    "FAIRFACE_PADDING": "0.25",
+    "RESULTS_DIR": "/content/child-detection-skin-tone-audit/results",
+    "FIGURES_DIR": "/content/child-detection-skin-tone-audit/figures",
+    "DOCS_DIR": "/content/child-detection-skin-tone-audit/docs",
+    "DEV_SUBSET_MAX": 500,
+    "SEED": 0,
+    "N_BOOTSTRAP": 2000,
+    "ALPHA": 0.05,
+    "MIN_CELL": 50,
+    "MINOR_MAX_AGE": 17,
+    "CHILD_AGE_THRESHOLD": 18,
+    "ADULT_FPR_RANGE": [
+      20,
+      59
+    ],
+    "AGE_STRATA": [
+      [
+        0,
+        4
+      ],
+      [
+        5,
+        9
+      ],
+      [
+        10,
+        14
+      ],
+      [
+        15,
+        17
+      ]
+    ],
+    "AGE_STRATA_FALLBACK": [
+      [
+        0,
+        9
+      ],
+      [
+        10,
+        17
+      ]
+    ],
+    "FAIRFACE_MINOR_BINS": [
+      "0-2",
+      "3-9"
+    ],
+    "FAIRFACE_AMBIGUOUS_BINS": [
+      "10-19"
+    ],
+    "FAIRFACE_ADULT_FPR_BINS": [
+      "20-29",
+      "30-39",
+      "40-49",
+      "50-59"
+    ],
+    "FAIRFACE_BIN_MIDPOINTS": {
+      "0-2": 1.0,
+      "3-9": 6.0,
+      "10-19": 14.5,
+      "20-29": 24.5,
+      "30-39": 34.5,
+      "40-49": 44.5,
+      "50-59": 54.5,
+      "60-69": 64.5,
+      "more than 70": 75.0
+    },
+    "UTKFACE_RACES": {
+      "0": "White",
+      "1": "Black",
+      "2": "Asian",
+      "3": "Indian",
+      "4": "Others"
+    },
+    "UTKFACE_TESTED_GROUPS": [
+      "White",
+      "Black",
+      "Asian",
+      "Indian"
+    ],
+    "FAIRFACE_RACES": [
+      "White",
+      "Black",
+      "Latino_Hispanic",
+      "East Asian",
+      "Southeast Asian",
+      "Indian",
+      "Middle Eastern"
+    ],
+    "PRIMARY_CONTRAST": [
+      "White",
+      "Black"
+    ],
+    "MST_BINS": {
+      "light": [
+        1,
+        3
+      ],
+      "medium": [
+        4,
+        7
+      ],
+      "dark": [
+        8,
+        10
+      ]
+    },
+    "CLIP_CHILD_PROMPTS": [
+      "a photo of a child",
+      "a photo of a kid",
+      "a photo of a baby",
+      "a photo of a teenager"
+    ],
+    "CLIP_ADULT_PROMPTS": [
+      "a photo of an adult",
+      "a photo of a man",
+      "a photo of a woman"
+    ],
+    "CLIP_MODELS": [
+      [
+        "ViT-B-32",
+        "openai"
+      ],
+      [
+        "ViT-L-14",
+        "openai"
+      ]
+    ],
+    "VLM_PROMPT": "Is there a child (a person under 18 years old) in this image? Answer yes or no."
+  },
+  "tag": "full",
+  "contrast": "White - Black",
+  "datasets": {
+    "utkface": {
+      "family": [
+        "mivolo_face",
+        "fairface_clf",
+        "clip_vitb32",
+        "clip_vitl14",
+        "vlm"
+      ],
+      "family_size": 5,
+      "reference_weights": {
+        "0-9": 0.7233640444129459,
+        "10-17": 0.2766359555870541
+      },
+      "detectors": {
+        "mivolo_face": {
+          "tag": "full",
+          "tpr_gap": 0.08421632225631548,
+          "ci": [
+            0.053134318205350854,
+            0.11873982739191241
+          ],
+          "p_perm": 0.0004997501249375312,
+          "n_minor": {
+            "White": 1856,
+            "Black": 280
+          },
+          "p_holm": 0.002498750624687656,
+          "supports_h1": true
+        },
+        "fairface_clf": {
+          "tag": "full",
+          "tpr_gap": 0.039815230242954525,
+          "ci": [
+            0.004203147493553152,
+            0.07759493001836135
+          ],
+          "p_perm": 0.01649175412293853,
+          "n_minor": {
+            "White": 1856,
+            "Black": 280
+          },
+          "p_holm": 0.01649175412293853,
+          "supports_h1": true
+        },
+        "clip_vitb32": {
+          "tag": "full",
+          "tpr_gap": 0.09801082144714901,
+          "ci": [
+            0.0666629548703102,
+            0.13196053703312877
+          ],
+          "p_perm": 0.0004997501249375312,
+          "n_minor": {
+            "White": 1856,
+            "Black": 280
+          },
+          "p_holm": 0.002498750624687656,
+          "supports_h1": true
+        },
+        "clip_vitl14": {
+          "tag": "full",
+          "tpr_gap": 0.1040670964364907,
+          "ci": [
+            0.07231664756731074,
+            0.13846708441442915
+          ],
+          "p_perm": 0.0004997501249375312,
+          "n_minor": {
+            "White": 1856,
+            "Black": 280
+          },
+          "p_holm": 0.002498750624687656,
+          "supports_h1": true
+        },
+        "vlm": {
+          "tag": "full_sub",
+          "tpr_gap": 0.061035552105715096,
+          "ci": [
+            0.01984740698895829,
+            0.10319642917390826
+          ],
+          "p_perm": 0.0069965017491254375,
+          "n_minor": {
+            "White": 300,
+            "Black": 276
+          },
+          "p_holm": 0.013993003498250875,
+          "supports_h1": true
+        }
+      },
+      "missing_detectors": [],
+      "h1_count": "5/5",
+      "h1_supported": true
+    },
+    "fairface_val": {
+      "family": [
+        "mivolo_face",
+        "clip_vitb32",
+        "clip_vitl14",
+        "vlm"
+      ],
+      "family_size": 4,
+      "reference_weights": {
+        "0-2": 0.12797427652733118,
+        "3-9": 0.8720257234726688
+      },
+      "detectors": {
+        "mivolo_face": {
+          "tag": "full",
+          "tpr_gap": 0.003915417380047637,
+          "ci": [
+            -0.03079639355771421,
+            0.035411435630020686
+          ],
+          "p_perm": 0.8960519740129935,
+          "n_minor": {
+            "White": 240,
+            "Black": 281
+          },
+          "p_holm": 1.0,
+          "supports_h1": false
+        },
+        "clip_vitb32": {
+          "tag": "full",
+          "tpr_gap": -0.0028502116280596512,
+          "ci": [
+            -0.030737430826796093,
+            0.023536328851201955
+          ],
+          "p_perm": 1.0,
+          "n_minor": {
+            "White": 240,
+            "Black": 281
+          },
+          "p_holm": 1.0,
+          "supports_h1": false
+        },
+        "clip_vitl14": {
+          "tag": "full",
+          "tpr_gap": -0.010983742371546645,
+          "ci": [
+            -0.0313555649051617,
+            0.006894167857400065
+          ],
+          "p_perm": 0.4192903548225887,
+          "n_minor": {
+            "White": 240,
+            "Black": 281
+          },
+          "p_holm": 1.0,
+          "supports_h1": false
+        },
+        "vlm": {
+          "tag": "full_sub",
+          "tpr_gap": -0.02659105524700378,
+          "ci": [
+            -0.07090405515033207,
+            0.017174774675831037
+          ],
+          "p_perm": 0.25787106446776614,
+          "n_minor": {
+            "White": 154,
+            "Black": 135
+          },
+          "p_holm": 1.0,
+          "supports_h1": false
+        }
+      },
+      "missing_detectors": [],
+      "h1_count": "0/4",
+      "h1_supported": false
+    }
+  }
+}

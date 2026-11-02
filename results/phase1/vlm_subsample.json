@@ -1,0 +1,191 @@
+{
+  "created_utc": "2026-11-02T22:39:55+00:00",
+  "git": {
+    "commit": "095dac098a72843d10bc35fc6604e8cd18c8526e",
+    "dirty": false,
+    "source": "git"
+  },
+  "config": {
+    "ENV": "colab",
+    "SEED": 0
+  },
+  "max_per_dataset": 2000,
+  "seed": 0,
+  "datasets": {
+    "utkface": {
+      "design": {
+        "groups": [
+          "White",
+          "Black",
+          "Asian",
+          "Indian"
+        ],
+        "minor_cap": 150,
+        "adult_cap": 200,
+        "strata": "fallback 0-9/10-17"
+      },
+      "n_total": 1844,
+      "cells": {
+        "adult_fpr|Asian|None": {
+          "available": 2128,
+          "sampled": 200
+        },
+        "adult_fpr|Black|None": {
+          "available": 3845,
+          "sampled": 200
+        },
+        "adult_fpr|Indian|None": {
+          "available": 3104,
+          "sampled": 200
+        },
+        "adult_fpr|White|None": {
+          "available": 6218,
+          "sampled": 200
+        },
+        "minor|Asian|0-9": {
+          "available": 929,
+          "sampled": 150
+        },
+        "minor|Asian|10-17": {
+          "available": 66,
+          "sampled": 66
+        },
+        "minor|Black|0-9": {
+          "available": 154,
+          "sampled": 150
+        },
+        "minor|Black|10-17": {
+          "available": 126,
+          "sampled": 126
+        },
+        "minor|Indian|0-9": {
+          "available": 489,
+          "sampled": 150
+        },
+        "minor|Indian|10-17": {
+          "available": 102,
+          "sampled": 102
+        },
+        "minor|White|0-9": {
+          "available": 1106,
+          "sampled": 150
+        },
+        "minor|White|10-17": {
+          "available": 750,
+          "sampled": 150
+        }
+      },
+      "by_role": {
+        "adult_fpr": 800,
+        "minor": 1044
+      }
+    },
+    "fairface_val": {
+      "design": {
+        "groups": [
+          "White",
+          "Black",
+          "Latino_Hispanic",
+          "East Asian",
+          "Southeast Asian",
+          "Indian",
+          "Middle Eastern"
+        ],
+        "minor_cap": 110,
+        "adult_cap": 140,
+        "strata": "native 0-2/3-9"
+      },
+      "n_total": 1949,
+      "cells": {
+        "adult_fpr|Black|None": {
+          "available": 1020,
+          "sampled": 140
+        },
+        "adult_fpr|East Asian|None": {
+          "available": 1092,
+          "sampled": 140
+        },
+        "adult_fpr|Indian|None": {
+          "available": 1060,
+          "sampled": 140
+        },
+        "adult_fpr|Latino_Hispanic|None": {
+          "available": 1162,
+          "sampled": 140
+        },
+        "adult_fpr|Middle Eastern|None": {
+          "available": 924,
+          "sampled": 140
+        },
+        "adult_fpr|Southeast Asian|None": {
+          "available": 940,
+          "sampled": 140
+        },
+        "adult_fpr|White|None": {
+          "available": 1581,
+          "sampled": 140
+        },
+        "minor|Black|0-2": {
+          "available": 25,
+          "sampled": 25
+        },
+        "minor|Black|3-9": {
+          "available": 256,
+          "sampled": 110
+        },
+        "minor|East Asian|0-2": {
+          "available": 49,
+          "sampled": 49
+        },
+        "minor|East Asian|3-9": {
+          "available": 220,
+          "sampled": 110
+        },
+        "minor|Indian|0-2": {
+          "available": 18,
+          "sampled": 18
+        },
+        "minor|Indian|3-9": {
+          "available": 183,
+          "sampled": 110
+        },
+        "minor|Latino_Hispanic|0-2": {
+          "available": 19,
+          "sampled": 19
+        },
+        "minor|Latino_Hispanic|3-9": {
+          "available": 178,
+          "sampled": 110
+        },
+        "minor|Middle Eastern|0-2": {
+          "available": 10,
+          "sampled": 10
+        },
+        "minor|Middle Eastern|3-9": {
+          "available": 116,
+          "sampled": 110
+        },
+        "minor|Southeast Asian|0-2": {
+          "available": 34,
+          "sampled": 34
+        },
+        "minor|Southeast Asian|3-9": {
+          "available": 207,
+          "sampled": 110
+        },
+        "minor|White|0-2": {
+          "available": 44,
+          "sampled": 44
+        },
+        "minor|White|3-9": {
+          "available": 196,
+          "sampled": 110
+        }
+      },
+      "by_role": {
+        "adult_fpr": 980,
+        "minor": 969
+      }
+    }
+  }
+}

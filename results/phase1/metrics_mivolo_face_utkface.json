@@ -1,0 +1,605 @@
+{
+  "created_utc": "2026-11-02T23:13:28+00:00",
+  "git": {
+    "commit": "095dac098a72843d10bc35fc6604e8cd18c8526e",
+    "dirty": false,
+    "source": "git"
+  },
+  "config": {
+    "ENV": "colab",
+    "REPO_DIR": "/content/child-detection-skin-tone-audit",
+    "DRIVE_ROOT": "/content/drive/MyDrive/child-detection-audit",
+    "RAW_DIR": "/content/drive/MyDrive/child-detection-audit/raw",
+    "DATA_DIR": "/content/data",
+    "WEIGHTS_DIR": "/content/drive/MyDrive/child-detection-audit/weights",
+    "PER_IMAGE_DIR": "/content/drive/MyDrive/child-detection-audit/per_image",
+    "HF_CACHE_DIR": "/content/hf_cache",
+    "SOURCES": {
+      "utkface": {
+        "hf_repo": "py97/UTKFace-Cropped",
+        "revision": "e80f21fb21fa3631380c3cb634b79be3ac2f4cba",
+        "file": "UTKFace.tar.gz",
+        "sha256": "2c0655397b498e81b82d685ee74bee8c2e4364a5897caf3afec6ea48929024a7",
+        "licence": "non-commercial research only (original UTKFace terms; mirror's MIT tag is wrong)",
+        "crosscheck_repo": "nu-delta/utkface"
+      },
+      "fairface_val": {
+        "hf_repo": "mutuma00/FairFace",
+        "revision": "e8e670de53803408a4eaebf503d0a35749907f54",
+        "file": "0.25/validation-00000-of-00001-951dbd63c8724ee1.parquet",
+        "sha256": "d0cfac2888356b3d3fa3d837bc30961d8c860934e4c5df862e8cb87812bfa137",
+        "licence": "CC BY 4.0",
+        "upstream": "HuggingFaceM4/FairFace (identical LFS sha256)"
+      }
+    },
+    "UTKFACE_DIR": "/content/data/UTKFace",
+    "FAIRFACE_DIR": "/content/data/fairface",
+    "FAIRFACE_LABELS": "/content/data/fairface/fairface_label_val.csv",
+    "FAIRFACE_PADDING": "0.25",
+    "RESULTS_DIR": "/content/child-detection-skin-tone-audit/results",
+    "FIGURES_DIR": "/content/child-detection-skin-tone-audit/figures",
+    "DOCS_DIR": "/content/child-detection-skin-tone-audit/docs",
+    "DEV_SUBSET_MAX": 500,
+    "SEED": 0,
+    "N_BOOTSTRAP": 2000,
+    "ALPHA": 0.05,
+    "MIN_CELL": 50,
+    "MINOR_MAX_AGE": 17,
+    "CHILD_AGE_THRESHOLD": 18,
+    "ADULT_FPR_RANGE": [
+      20,
+      59
+    ],
+    "AGE_STRATA": [
+      [
+        0,
+        4
+      ],
+      [
+        5,
+        9
+      ],
+      [
+        10,
+        14
+      ],
+      [
+        15,
+        17
+      ]
+    ],
+    "AGE_STRATA_FALLBACK": [
+      [
+        0,
+        9
+      ],
+      [
+        10,
+        17
+      ]
+    ],
+    "FAIRFACE_MINOR_BINS": [
+      "0-2",
+      "3-9"
+    ],
+    "FAIRFACE_AMBIGUOUS_BINS": [
+      "10-19"
+    ],
+    "FAIRFACE_ADULT_FPR_BINS": [
+      "20-29",
+      "30-39",
+      "40-49",
+      "50-59"
+    ],
+    "FAIRFACE_BIN_MIDPOINTS": {
+      "0-2": 1.0,
+      "3-9": 6.0,
+      "10-19": 14.5,
+      "20-29": 24.5,
+      "30-39": 34.5,
+      "40-49": 44.5,
+      "50-59": 54.5,
+      "60-69": 64.5,
+      "more than 70": 75.0
+    },
+    "UTKFACE_RACES": {
+      "0": "White",
+      "1": "Black",
+      "2": "Asian",
+      "3": "Indian",
+      "4": "Others"
+    },
+    "UTKFACE_TESTED_GROUPS": [
+      "White",
+      "Black",
+      "Asian",
+      "Indian"
+    ],
+    "FAIRFACE_RACES": [
+      "White",
+      "Black",
+      "Latino_Hispanic",
+      "East Asian",
+      "Southeast Asian",
+      "Indian",
+      "Middle Eastern"
+    ],
+    "PRIMARY_CONTRAST": [
+      "White",
+      "Black"
+    ],
+    "MST_BINS": {
+      "light": [
+        1,
+        3
+      ],
+      "medium": [
+        4,
+        7
+      ],
+      "dark": [
+        8,
+        10
+      ]
+    },
+    "CLIP_CHILD_PROMPTS": [
+      "a photo of a child",
+      "a photo of a kid",
+      "a photo of a baby",
+      "a photo of a teenager"
+    ],
+    "CLIP_ADULT_PROMPTS": [
+      "a photo of an adult",
+      "a photo of a man",
+      "a photo of a woman"
+    ],
+    "CLIP_MODELS": [
+      [
+        "ViT-B-32",
+        "openai"
+      ],
+      [
+        "ViT-L-14",
+        "openai"
+      ]
+    ],
+    "VLM_PROMPT": "Is there a child (a person under 18 years old) in this image? Answer yes or no."
+  },
+  "detector": "mivolo_face",
+  "dataset": "utkface",
+  "tag": "full",
+  "n_images": 23705,
+  "reference_weights": {
+    "0-9": 0.7233640444129459,
+    "10-17": 0.2766359555870541
+  },
+  "strata": [
+    "0-9",
+    "10-17"
+  ],
+  "run": {
+    "run_commit": "74ae7b6d7303fde1fe989e7d261226b6509b856a",
+    "run_dirty": false,
+    "preregistration_commit": "2e92b8bef6bfe1d146f46d56a052dbc70893c758",
+    "weights": {
+      "mivolo_face": {
+        "mivolo": {
+          "hf_repo": "iitolstykh/mivolo_v2",
+          "revision": "e8bdd8aec21ae468cbfe73b41f52550105ad8fbf",
+          "sha256_model_safetensors": "96efb47051c038ebeec74b73b4253c5fd000433e5afcab7deee0bd8f3fa7bf18",
+          "dtype": "torch.float16"
+        },
+        "yolo": {
+          "hf_repo": "iitolstykh/YOLO-Face-Person-Detector",
+          "revision": "b3d071aedccd46a3b2d4b40609da6880a815f395",
+          "file": "yolov8x_person_face.pt",
+          "sha256": "2620f45609a65f909eb876bd7401308b5a8f3843ad5a03cb7416066a3e492989",
+          "conf": 0.4,
+          "iou": 0.7
+        }
+      }
+    },
+    "seconds": 2917.7
+  },
+  "groups": {
+    "Asian": {
+      "n_minor": 995,
+      "n_adult_fpr": 2128,
+      "n_minor_by_stratum": {
+        "0-9": 929,
+        "10-17": 66
+      },
+      "tpr_strat": 0.9614982670908012,
+      "tpr_strat_ci": [
+        0.9372956310650248,
+        0.9834866465134653
+      ],
+      "tpr_unstrat": 0.9899497487437185,
+      "tpr_unstrat_ci": [
+        0.983894472361809,
+        0.9959798994974874
+      ],
+      "tpr_by_stratum": {
+        "0-9": 0.9989235737351991,
+        "10-17": 0.8636363636363636
+      },
+      "fpr": 0.007988721804511278,
+      "fpr_ci": [
+        0.0042293233082706765,
+        0.011748120300751879
+      ],
+      "face_fail_minor_strat": 0.0,
+      "face_fail_minor_strat_ci": [
+        0.0,
+        0.0
+      ],
+      "face_fail_all": 0.004368083867210251,
+      "n_minor_age_est": 995,
+      "signed_age_err_strat": -0.193706359523005,
+      "signed_age_err_strat_ci": [
+        -0.4607838427605876,
+        0.09884854440488386
+      ],
+      "signed_age_err_by_stratum": {
+        "0-9": 0.1481431646932185,
+        "10-17": -1.087594696969697
+      }
+    },
+    "Black": {
+      "n_minor": 280,
+      "n_adult_fpr": 3845,
+      "n_minor_by_stratum": {
+        "0-9": 154,
+        "10-17": 126
+      },
+      "tpr_strat": 0.8557603642649709,
+      "tpr_strat_ci": [
+        0.8241025180914796,
+        0.8872217054492479
+      ],
+      "tpr_unstrat": 0.7857142857142857,
+      "tpr_unstrat_ci": [
+        0.7357142857142858,
+        0.8321428571428572
+      ],
+      "tpr_by_stratum": {
+        "0-9": 0.9675324675324676,
+        "10-17": 0.5634920634920635
+      },
+      "fpr": 0.005201560468140442,
+      "fpr_ci": [
+        0.0031209362808842654,
+        0.007542262678803641
+      ],
+      "face_fail_minor_strat": 0.0,
+      "face_fail_minor_strat_ci": [
+        0.0,
+        0.0
+      ],
+      "face_fail_all": 0.014582412726469289,
+      "n_minor_age_est": 280,
+      "signed_age_err_strat": 1.7484002675245587,
+      "signed_age_err_strat_ci": [
+        1.1878635051654156,
+        2.461334749816871
+      ],
+      "signed_age_err_by_stratum": {
+        "0-9": 1.6418425324675325,
+        "10-17": 2.0270337301587302
+      }
+    },
+    "Indian": {
+      "n_minor": 591,
+      "n_adult_fpr": 3104,
+      "n_minor_by_stratum": {
+        "0-9": 489,
+        "10-17": 102
+      },
+      "tpr_strat": 0.9388541492695046,
+      "tpr_strat_ci": [
+        0.9152583313565278,
+        0.9608178987786923
+      ],
+      "tpr_unstrat": 0.961082910321489,
+      "tpr_unstrat_ci": [
+        0.9458544839255499,
+        0.9763113367174281
+      ],
+      "tpr_by_stratum": {
+        "0-9": 0.9979550102249489,
+        "10-17": 0.7843137254901961
+      },
+      "fpr": 0.006121134020618557,
+      "fpr_ci": [
+        0.0035438144329896907,
+        0.008698453608247423
+      ],
+      "face_fail_minor_strat": 0.0,
+      "face_fail_minor_strat_ci": [
+        0.0,
+        0.0
+      ],
+      "face_fail_all": 0.013333333333333334,
+      "n_minor_age_est": 591,
+      "signed_age_err_strat": 0.6093932736806227,
+      "signed_age_err_strat_ci": [
+        0.3893221410926903,
+        0.8557610867889588
+      ],
+      "signed_age_err_by_stratum": {
+        "0-9": 0.7626533742331288,
+        "10-17": 0.20863970588235295
+      }
+    },
+    "Others": {
+      "n_minor": 511,
+      "n_adult_fpr": 1129,
+      "n_minor_by_stratum": {
+        "0-9": 384,
+        "10-17": 127
+      },
+      "tpr_strat": 0.9140484665231872,
+      "tpr_strat_ci": [
+        0.8894802083774834,
+        0.9370579721065462
+      ],
+      "tpr_unstrat": 0.9217221135029354,
+      "tpr_unstrat_ci": [
+        0.898238747553816,
+        0.9432485322896281
+      ],
+      "tpr_by_stratum": {
+        "0-9": 0.9895833333333334,
+        "10-17": 0.7165354330708661
+      },
+      "fpr": 0.005314437555358724,
+      "fpr_ci": [
+        0.001771479185119575,
+        0.00974313551815766
+      ],
+      "face_fail_minor_strat": 0.00376752106465076,
+      "face_fail_minor_strat_ci": [
+        0.0,
+        0.009568307465779706
+      ],
+      "face_fail_all": 0.00591016548463357,
+      "n_minor_age_est": 509,
+      "signed_age_err_strat": 0.17029255224789358,
+      "signed_age_err_strat_ci": [
+        -0.06949175817463807,
+        0.45327922427837236
+      ],
+      "signed_age_err_by_stratum": {
+        "0-9": 0.3470222513089005,
+        "10-17": -0.2918307086614173
+      }
+    },
+    "White": {
+      "n_minor": 1856,
+      "n_adult_fpr": 6218,
+      "n_minor_by_stratum": {
+        "0-9": 1106,
+        "10-17": 750
+      },
+      "tpr_strat": 0.9399766865212864,
+      "tpr_strat_ci": [
+        0.9309943175582877,
+        0.9484308363469304
+      ],
+      "tpr_unstrat": 0.9164870689655172,
+      "tpr_unstrat_ci": [
+        0.9040948275862069,
+        0.9283405172413793
+      ],
+      "tpr_by_stratum": {
+        "0-9": 0.9909584086799277,
+        "10-17": 0.8066666666666666
+      },
+      "fpr": 0.0038597619813444837,
+      "fpr_ci": [
+        0.0024123512383403024,
+        0.005628819556127372
+      ],
+      "face_fail_minor_strat": 0.006137304883826338,
+      "face_fail_minor_strat_ci": [
+        0.002795177788244685,
+        0.009944248820649886
+      ],
+      "face_fail_all": 0.008533439174439373,
+      "n_minor_age_est": 1844,
+      "signed_age_err_strat": 0.2286194319967178,
+      "signed_age_err_strat_ci": [
+        0.10291310196349578,
+        0.3706112071292265
+      ],
+      "signed_age_err_by_stratum": {
+        "0-9": 0.43704545454545457,
+        "10-17": -0.316385248655914
+      }
+    }
+  },
+  "primary_contrast": {
+    "a": "White",
+    "b": "Black",
+    "tpr_gap": {
+      "gap": 0.08421632225631548,
+      "ci": [
+        0.053134318205350854,
+        0.11873982739191241
+      ],
+      "p_perm": 0.0004997501249375312
+    },
+    "tpr_gap_unstrat": {
+      "gap": 0.13077278325123154,
+      "ci": [
+        0.08131157635467978,
+        0.18347021243842362
+      ]
+    },
+    "face_fail_gap_b_minus_a": {
+      "gap": -0.006137304883826338,
+      "ci": [
+        -0.009944338246861268,
+        -0.002789737854514657
+      ],
+      "p_perm": 0.2908545727136432
+    },
+    "age_err_gap_b_minus_a": {
+      "gap": 1.5197808355278408,
+      "ci": [
+        0.9530800864979843,
+        2.2832477058999934
+      ],
+      "p_perm": 0.0004997501249375312
+    }
+  },
+  "pairwise_vs_best": {
+    "best_group": "Asian",
+    "gaps": {
+      "Black": {
+        "gap": 0.10573790282583029,
+        "ci": [
+          0.06676181084170588,
+          0.1458895116169937
+        ]
+      },
+      "Indian": {
+        "gap": 0.022644117821296605,
+        "ci": [
+          -0.008873456625548504,
+          0.053842018349194984
+        ]
+      },
+      "White": {
+        "gap": 0.02152158056951481,
+        "ci": [
+          -0.004012756003088899,
+          0.044866316392665834
+        ]
+      }
+    }
+  },
+  "fpr_equal_across_groups": {
+    "chi2": 5.830727774191381,
+    "dof": 3,
+    "p": 0.12014247648106453
+  },
+  "confounder_logit": {
+    "formula": "flagged ~ C(group, Treatment(reference='White')) + age + brightness + log_blur + log_face_size",
+    "n": 3710,
+    "converged": true,
+    "pseudo_r2": 0.4841422580759701,
+    "terms": {
+      "Intercept": {
+        "or": 193225.15242543072,
+        "or_ci": [
+          23150.69968669346,
+          1612735.6855348465
+        ],
+        "p": 2.504833832002318e-29
+      },
+      "C(group, Treatment(reference='White'))[T.Asian]": {
+        "or": 1.127574980909182,
+        "or_ci": [
+          0.5289301603455286,
+          2.403767893934752
+        ],
+        "p": 0.7558866032397598
+      },
+      "C(group, Treatment(reference='White'))[T.Black]": {
+        "or": 0.3171670750079565,
+        "or_ci": [
+          0.19578609257872762,
+          0.5138003018710454
+        ],
+        "p": 3.078251774668953e-06
+      },
+      "C(group, Treatment(reference='White'))[T.Indian]": {
+        "or": 0.9408227751260073,
+        "or_ci": [
+          0.5353562359082829,
+          1.6533803752076681
+        ],
+        "p": 0.8320677065139097
+      },
+      "age": {
+        "or": 0.5477257997958553,
+        "or_ci": [
+          0.5029825717979364,
+          0.5964491984078726
+        ],
+        "p": 1.3639862739774655e-43
+      },
+      "brightness": {
+        "or": 0.7120671351309038,
+        "or_ci": [
+          0.14257053730463523,
+          3.5564122470137316
+        ],
+        "p": 0.6790017071368915
+      },
+      "log_blur": {
+        "or": 1.2603769684119353,
+        "or_ci": [
+          1.0715106451658944,
+          1.4825331970988644
+        ],
+        "p": 0.005208516486444822
+      },
+      "log_face_size": {
+        "or": 1.173584819383411,
+        "or_ci": [
+          0.5966909206305695,
+          2.3082324209520273
+        ],
+        "p": 0.6427967714554825
+      }
+    },
+    "note": "fit on minors with a detected face (face size undefined otherwise)"
+  },
+  "equalised_thresholds": {
+    "target_tpr": 0.9333691563675444,
+    "groups": {
+      "Asian": {
+        "n_minor": 995,
+        "n_adult_fpr": 2128,
+        "tpr_default": 0.9899497487437185,
+        "fpr_default": 0.007988721804511278,
+        "max_achievable_tpr": 1.0,
+        "threshold": 9.343749999999998,
+        "tpr_equalised": 0.9336683417085427,
+        "fpr_equalised": 0.0
+      },
+      "Black": {
+        "n_minor": 280,
+        "n_adult_fpr": 3845,
+        "tpr_default": 0.7857142857142857,
+        "fpr_default": 0.005201560468140442,
+        "max_achievable_tpr": 1.0,
+        "threshold": -5.625000000000001,
+        "tpr_equalised": 0.9357142857142857,
+        "fpr_equalised": 0.07386215864759428
+      },
+      "Indian": {
+        "n_minor": 591,
+        "n_adult_fpr": 3104,
+        "tpr_default": 0.961082910321489,
+        "fpr_default": 0.006121134020618557,
+        "max_achievable_tpr": 1.0,
+        "threshold": 2.9687499999999996,
+        "tpr_equalised": 0.9357021996615905,
+        "fpr_equalised": 0.002577319587628866
+      },
+      "White": {
+        "n_minor": 1856,
+        "n_adult_fpr": 6218,
+        "tpr_default": 0.9164870689655172,
+        "fpr_default": 0.0038597619813444837,
+        "max_achievable_tpr": 0.9935344827586207,
+        "threshold": -0.7812500000000001,
+        "tpr_equalised": 0.9337284482758621,
+        "fpr_equalised": 0.005467996140238018
+      }
+    }
+  }
+}

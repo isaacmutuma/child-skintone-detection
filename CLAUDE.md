@@ -19,10 +19,9 @@ Child-safety filtering of text-to-image training data relies on automated child 
 - Colab (GPU) for the VLM detector (D5) and full-dataset runs; Drive holds data and results, as in `~/federated-subset-scanning-pads` (`scripts/config.py` ENV pattern).
 
 ## Current status
-- 2026-11-02: Phase 1 in progress. 6/7 full runs done (pending mivolo_face/fairface_val). Overnight agent follows **`docs/OVERNIGHT_RUNBOOK.md`** (finish runs → D5 gated → analysis → PHASE1_REPORT draft → STOP, no commits). Morning: Isaac reviews `docs/OVERNIGHT_LOG.md` + `docs/PHASE1_REPORT.md`.
+- 2026-11-03: Phase 1 complete pending review. All runs + phase14 analysis done; `docs/PHASE1_REPORT.md` drafted. Results/figures/report committed and pushed at Isaac's request. STOP: waiting for Isaac's review (Wilson/Jeffreys CI decision; make repo private).
 
 ## Open questions for Isaac
-- No git commit exists yet → results record `NO_COMMIT_YET`; rule 6 needs a commit before real runs. Ask Isaac to allow an initial commit.
 - Access to ICCWD (ask Crețu / authors) for Phase 2.
 - Second annotator for MST labels (Phase 2).
 - Approve Colab GPU time for D5; approve any paid API (Rekognition), default NO.
@@ -90,3 +89,11 @@ Child-safety filtering of text-to-image training data relies on automated child 
 | 2026-11-02 | Claude (Phase 1) | Analysis code: `src/analysis/metrics.py` (stratified rates with fixed Phase 0 reference weights; multinomial bootstrap within group, 2,000, seed 0; stratified permutation test; Holm with missing = p 1), `regression.py` (statsmodels logit, OR vs White; face size only for D1/D3 on face-found minors), `thresholds.py` (per-group TPR-equalising thresholds + FPR cost), `scripts/run_analysis.py` (consistency checks: is_child == score>0, n, unique ids; metrics_<det>_<ds>.json + primary_endpoint.json). Added statsmodels 0.15.0 (.venv 968 MB) |
 | 2026-11-02 | Claude (Phase 1) | `tests/test_analysis_synthetic.py` PASSES: S1 (no group effect) gap −0.017, CI covers 0; S2 (planted −0.08 TPR, +3 pt no-face, +2 yr) gap +0.101 [0.048, 0.157], Holm p 0.0025, face-fail +0.039, age-err +2.0, logit OR 0.60. Synthetic only; no real outputs analysed |
 | 2026-11-02 | Claude (Phase 1) | 6/7 full runs on Drive by 13:33 UTC. Added automatic pre-authorised D5 gate to `phase13_vlm.ipynb` (writes d5_gate_dev.json), `notebooks/phase14_analysis.ipynb` (analysis + figures → Drive phase1_outputs.zip, aggregate only), `scripts/make_figures.py` (dot + CI small multiples; palette validated with dataviz validator: all checks pass, 3 slots < 3:1 → marker shapes + legend), `docs/OVERNIGHT_RUNBOOK.md` |
+| 2026-11-02 | Claude (overnight) | 7/7 full runs on Drive (mivolo_face/fairface_val: n 10,954, dirty=false, flagged 2,640, no_face 851). D5 started in Colab but stopped at the Drive-mount OAuth dialog (runbook stop condition); loop ended, details in docs/OVERNIGHT_LOG.md |
+| 2026-11-03 | Claude (Phase 1) | All 7 full runs verified on Drive. mivolo_face/fairface_val: n 10,954, dirty false, no_face 851, flagged 2,640, minors 1,555 / adults 7,779 (= Phase 0). Runbook steps 1–2 logged in docs/OVERNIGHT_LOG.md; overnight agent starts at step 3 (D5) |
+| 2026-11-03 | Isaac / Claude | Overnight run cancelled; Isaac runs phase13 (D5) now |
+| 2026-11-03 | Claude (Phase 1) | Verified phase13 on Drive: D5 gate PASS (yes/no mass 0.994 both datasets); subsample runs UTK n 1,844 / FF n 1,949 exactly per design, 0 fails, commit 095dac0 clean. All 9 detector runs complete |
+| 2026-11-03 | Isaac (Colab) / Claude | phase14 done. Pulled Drive `phase1_outputs.zip` (375,520 B, sha256 eb1cfd48…): 9 metrics JSONs, primary_endpoint, run JSONs, 3 figures; no per-image fields (checked: no arrays > 50, figures are charts only). Copied to `results/phase1/` and `figures/` (uncommitted). Analysis commit 095dac0 clean; run commits 74ae7b6/095dac0 clean; prereg 2e92b8b |
+| 2026-11-03 | Claude (Phase 1) | Primary endpoint: UTKFace H1 5/5 (White−Black stratified TPR gap 0.040–0.104, Holm p ≤ 0.016), FairFace 0/4 (gaps −0.027 to 0.004, all CIs cover 0). UTK gap concentrated in 10–17. H2b yes (MiVOLO Black−White age err +1.52 UTK, +1.23 FF; D3 +0.72); H2a no. H3 FPR differs in 6/9 (uncorrected χ²). H5: equalising Black TPR costs Black adult FPR up to 0.56 (CLIP B/32) |
+| 2026-11-03 | Claude (Phase 1) | Issues found: bootstrap CI collapses to [0,0] for zero-count face-fail groups (UTK face-fail gap CI excludes 0 while p_perm 0.29) → needs Wilson/Jeffreys fix, Isaac's call; D1/FairFace confounder logit not converged (separation). Drafted `docs/PHASE1_REPORT.md`. STOP for review |
+| 2026-11-03 | Claude (Phase 1) | Isaac approved: committed + pushed Phase 1 results, figures, PHASE1_REPORT, OVERNIGHT_LOG |

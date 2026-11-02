@@ -1,0 +1,492 @@
+{
+  "created_utc": "2026-11-02T23:13:44+00:00",
+  "git": {
+    "commit": "095dac098a72843d10bc35fc6604e8cd18c8526e",
+    "dirty": false,
+    "source": "git"
+  },
+  "config": {
+    "ENV": "colab",
+    "REPO_DIR": "/content/child-detection-skin-tone-audit",
+    "DRIVE_ROOT": "/content/drive/MyDrive/child-detection-audit",
+    "RAW_DIR": "/content/drive/MyDrive/child-detection-audit/raw",
+    "DATA_DIR": "/content/data",
+    "WEIGHTS_DIR": "/content/drive/MyDrive/child-detection-audit/weights",
+    "PER_IMAGE_DIR": "/content/drive/MyDrive/child-detection-audit/per_image",
+    "HF_CACHE_DIR": "/content/hf_cache",
+    "SOURCES": {
+      "utkface": {
+        "hf_repo": "py97/UTKFace-Cropped",
+        "revision": "e80f21fb21fa3631380c3cb634b79be3ac2f4cba",
+        "file": "UTKFace.tar.gz",
+        "sha256": "2c0655397b498e81b82d685ee74bee8c2e4364a5897caf3afec6ea48929024a7",
+        "licence": "non-commercial research only (original UTKFace terms; mirror's MIT tag is wrong)",
+        "crosscheck_repo": "nu-delta/utkface"
+      },
+      "fairface_val": {
+        "hf_repo": "mutuma00/FairFace",
+        "revision": "e8e670de53803408a4eaebf503d0a35749907f54",
+        "file": "0.25/validation-00000-of-00001-951dbd63c8724ee1.parquet",
+        "sha256": "d0cfac2888356b3d3fa3d837bc30961d8c860934e4c5df862e8cb87812bfa137",
+        "licence": "CC BY 4.0",
+        "upstream": "HuggingFaceM4/FairFace (identical LFS sha256)"
+      }
+    },
+    "UTKFACE_DIR": "/content/data/UTKFace",
+    "FAIRFACE_DIR": "/content/data/fairface",
+    "FAIRFACE_LABELS": "/content/data/fairface/fairface_label_val.csv",
+    "FAIRFACE_PADDING": "0.25",
+    "RESULTS_DIR": "/content/child-detection-skin-tone-audit/results",
+    "FIGURES_DIR": "/content/child-detection-skin-tone-audit/figures",
+    "DOCS_DIR": "/content/child-detection-skin-tone-audit/docs",
+    "DEV_SUBSET_MAX": 500,
+    "SEED": 0,
+    "N_BOOTSTRAP": 2000,
+    "ALPHA": 0.05,
+    "MIN_CELL": 50,
+    "MINOR_MAX_AGE": 17,
+    "CHILD_AGE_THRESHOLD": 18,
+    "ADULT_FPR_RANGE": [
+      20,
+      59
+    ],
+    "AGE_STRATA": [
+      [
+        0,
+        4
+      ],
+      [
+        5,
+        9
+      ],
+      [
+        10,
+        14
+      ],
+      [
+        15,
+        17
+      ]
+    ],
+    "AGE_STRATA_FALLBACK": [
+      [
+        0,
+        9
+      ],
+      [
+        10,
+        17
+      ]
+    ],
+    "FAIRFACE_MINOR_BINS": [
+      "0-2",
+      "3-9"
+    ],
+    "FAIRFACE_AMBIGUOUS_BINS": [
+      "10-19"
+    ],
+    "FAIRFACE_ADULT_FPR_BINS": [
+      "20-29",
+      "30-39",
+      "40-49",
+      "50-59"
+    ],
+    "FAIRFACE_BIN_MIDPOINTS": {
+      "0-2": 1.0,
+      "3-9": 6.0,
+      "10-19": 14.5,
+      "20-29": 24.5,
+      "30-39": 34.5,
+      "40-49": 44.5,
+      "50-59": 54.5,
+      "60-69": 64.5,
+      "more than 70": 75.0
+    },
+    "UTKFACE_RACES": {
+      "0": "White",
+      "1": "Black",
+      "2": "Asian",
+      "3": "Indian",
+      "4": "Others"
+    },
+    "UTKFACE_TESTED_GROUPS": [
+      "White",
+      "Black",
+      "Asian",
+      "Indian"
+    ],
+    "FAIRFACE_RACES": [
+      "White",
+      "Black",
+      "Latino_Hispanic",
+      "East Asian",
+      "Southeast Asian",
+      "Indian",
+      "Middle Eastern"
+    ],
+    "PRIMARY_CONTRAST": [
+      "White",
+      "Black"
+    ],
+    "MST_BINS": {
+      "light": [
+        1,
+        3
+      ],
+      "medium": [
+        4,
+        7
+      ],
+      "dark": [
+        8,
+        10
+      ]
+    },
+    "CLIP_CHILD_PROMPTS": [
+      "a photo of a child",
+      "a photo of a kid",
+      "a photo of a baby",
+      "a photo of a teenager"
+    ],
+    "CLIP_ADULT_PROMPTS": [
+      "a photo of an adult",
+      "a photo of a man",
+      "a photo of a woman"
+    ],
+    "CLIP_MODELS": [
+      [
+        "ViT-B-32",
+        "openai"
+      ],
+      [
+        "ViT-L-14",
+        "openai"
+      ]
+    ],
+    "VLM_PROMPT": "Is there a child (a person under 18 years old) in this image? Answer yes or no."
+  },
+  "detector": "clip_vitb32",
+  "dataset": "utkface",
+  "tag": "full",
+  "n_images": 23705,
+  "reference_weights": {
+    "0-9": 0.7233640444129459,
+    "10-17": 0.2766359555870541
+  },
+  "strata": [
+    "0-9",
+    "10-17"
+  ],
+  "run": {
+    "run_commit": "74ae7b6d7303fde1fe989e7d261226b6509b856a",
+    "run_dirty": false,
+    "preregistration_commit": "2e92b8bef6bfe1d146f46d56a052dbc70893c758",
+    "weights": {
+      "clip_vitb32": {
+        "hf_repo": "timm/vit_base_patch32_clip_224.openai",
+        "revision": "a6f597a30f7b82c51704746581f9a4e41421e878",
+        "file": "open_clip_model.safetensors",
+        "sha256": "e6d1bd7789aa45192b3bf90570a789b478bae1b74ebcce7eddd908e83a2b7c31",
+        "open_clip_arch": "ViT-B-32"
+      }
+    },
+    "seconds": 155.8
+  },
+  "groups": {
+    "Asian": {
+      "n_minor": 995,
+      "n_adult_fpr": 2128,
+      "n_minor_by_stratum": {
+        "0-9": 929,
+        "10-17": 66
+      },
+      "tpr_strat": 0.9706598228922821,
+      "tpr_strat_ci": [
+        0.9489211467719618,
+        0.9902934752425595
+      ],
+      "tpr_unstrat": 0.992964824120603,
+      "tpr_unstrat_ci": [
+        0.9869346733668342,
+        0.9979899497487437
+      ],
+      "tpr_by_stratum": {
+        "0-9": 1.0,
+        "10-17": 0.8939393939393939
+      },
+      "fpr": 0.040413533834586464,
+      "fpr_ci": [
+        0.03242481203007519,
+        0.04887218045112782
+      ]
+    },
+    "Black": {
+      "n_minor": 280,
+      "n_adult_fpr": 3845,
+      "n_minor_by_stratum": {
+        "0-9": 154,
+        "10-17": 126
+      },
+      "tpr_strat": 0.8774094766298877,
+      "tpr_strat_ci": [
+        0.8446933557933198,
+        0.9068696481878623
+      ],
+      "tpr_unstrat": 0.825,
+      "tpr_unstrat_ci": [
+        0.7785714285714286,
+        0.8642857142857143
+      ],
+      "tpr_by_stratum": {
+        "0-9": 0.961038961038961,
+        "10-17": 0.6587301587301587
+      },
+      "fpr": 0.04291287386215865,
+      "fpr_ci": [
+        0.03667100130039012,
+        0.048894668400520154
+      ]
+    },
+    "Indian": {
+      "n_minor": 591,
+      "n_adult_fpr": 3104,
+      "n_minor_by_stratum": {
+        "0-9": 489,
+        "10-17": 102
+      },
+      "tpr_strat": 0.9317042158344745,
+      "tpr_strat_ci": [
+        0.9068988986506296,
+        0.9546184763832058
+      ],
+      "tpr_unstrat": 0.9543147208121827,
+      "tpr_unstrat_ci": [
+        0.9357021996615905,
+        0.9712351945854484
+      ],
+      "tpr_by_stratum": {
+        "0-9": 0.9918200408997955,
+        "10-17": 0.7745098039215687
+      },
+      "fpr": 0.013530927835051547,
+      "fpr_ci": [
+        0.009664948453608248,
+        0.017719072164948453
+      ]
+    },
+    "Others": {
+      "n_minor": 511,
+      "n_adult_fpr": 1129,
+      "n_minor_by_stratum": {
+        "0-9": 384,
+        "10-17": 127
+      },
+      "tpr_strat": 0.9532567121969429,
+      "tpr_strat_ci": [
+        0.9337331641876242,
+        0.9708521225971642
+      ],
+      "tpr_unstrat": 0.9569471624266145,
+      "tpr_unstrat_ci": [
+        0.9393346379647749,
+        0.9726027397260274
+      ],
+      "tpr_by_stratum": {
+        "0-9": 0.9895833333333334,
+        "10-17": 0.8582677165354331
+      },
+      "fpr": 0.03188662533215235,
+      "fpr_ci": [
+        0.022143489813994686,
+        0.042515500442869794
+      ]
+    },
+    "White": {
+      "n_minor": 1856,
+      "n_adult_fpr": 6218,
+      "n_minor_by_stratum": {
+        "0-9": 1106,
+        "10-17": 750
+      },
+      "tpr_strat": 0.9754202980770367,
+      "tpr_strat_ci": [
+        0.9692458221804116,
+        0.9813063357151903
+      ],
+      "tpr_unstrat": 0.9665948275862069,
+      "tpr_unstrat_ci": [
+        0.9579741379310345,
+        0.974676724137931
+      ],
+      "tpr_by_stratum": {
+        "0-9": 0.9945750452079566,
+        "10-17": 0.9253333333333333
+      },
+      "fpr": 0.030234802187198456,
+      "fpr_ci": [
+        0.026053393374075265,
+        0.03441621100032165
+      ]
+    }
+  },
+  "primary_contrast": {
+    "a": "White",
+    "b": "Black",
+    "tpr_gap": {
+      "gap": 0.09801082144714901,
+      "ci": [
+        0.0666629548703102,
+        0.13196053703312877
+      ],
+      "p_perm": 0.0004997501249375312
+    },
+    "tpr_gap_unstrat": {
+      "gap": 0.1415948275862069,
+      "ci": [
+        0.0979953048029556,
+        0.1874896089901478
+      ]
+    }
+  },
+  "pairwise_vs_best": {
+    "best_group": "White",
+    "gaps": {
+      "Asian": {
+        "gap": 0.004760475184754531,
+        "ci": [
+          -0.015480121906137147,
+          0.028003917626773348
+        ]
+      },
+      "Black": {
+        "gap": 0.09801082144714901,
+        "ci": [
+          0.06692979992940314,
+          0.12946704918011845
+        ]
+      },
+      "Indian": {
+        "gap": 0.04371608224256218,
+        "ci": [
+          0.02048575157357102,
+          0.06894194428104393
+        ]
+      }
+    }
+  },
+  "fpr_equal_across_groups": {
+    "chi2": 55.22314156676002,
+    "dof": 3,
+    "p": 6.153311146214202e-12
+  },
+  "confounder_logit": {
+    "formula": "flagged ~ C(group, Treatment(reference='White')) + age + brightness + log_blur",
+    "n": 3722,
+    "converged": true,
+    "pseudo_r2": 0.3646898358122338,
+    "terms": {
+      "Intercept": {
+        "or": 38697.14001603529,
+        "or_ci": [
+          4313.799387523473,
+          347134.51203866204
+        ],
+        "p": 3.838618137010255e-21
+      },
+      "C(group, Treatment(reference='White'))[T.Asian]": {
+        "or": 1.0285104197128092,
+        "or_ci": [
+          0.4415873322680138,
+          2.3955254287407532
+        ],
+        "p": 0.9480414750822762
+      },
+      "C(group, Treatment(reference='White'))[T.Black]": {
+        "or": 0.19409245013508325,
+        "or_ci": [
+          0.11885832246639867,
+          0.3169477611472233
+        ],
+        "p": 5.6702468960643586e-11
+      },
+      "C(group, Treatment(reference='White'))[T.Indian]": {
+        "or": 0.3558011556500634,
+        "or_ci": [
+          0.2075046750395436,
+          0.6100800492220038
+        ],
+        "p": 0.00017253490753404098
+      },
+      "age": {
+        "or": 0.6999632577774393,
+        "or_ci": [
+          0.660817720253279,
+          0.7414276996848963
+        ],
+        "p": 5.806753693592585e-34
+      },
+      "brightness": {
+        "or": 2.4553760897487873,
+        "or_ci": [
+          0.39449912906803114,
+          15.28234487197149
+        ],
+        "p": 0.3355943153989872
+      },
+      "log_blur": {
+        "or": 1.5927170740413117,
+        "or_ci": [
+          1.3036522733166391,
+          1.9458775394829355
+        ],
+        "p": 5.237181083542365e-06
+      }
+    },
+    "note": null
+  },
+  "equalised_thresholds": {
+    "target_tpr": 0.96104245029554,
+    "groups": {
+      "Asian": {
+        "n_minor": 995,
+        "n_adult_fpr": 2128,
+        "tpr_default": 0.992964824120603,
+        "fpr_default": 0.040413533834586464,
+        "max_achievable_tpr": 1.0,
+        "threshold": 0.017542511224746697,
+        "tpr_equalised": 0.9618090452261306,
+        "fpr_equalised": 0.0014097744360902255
+      },
+      "Black": {
+        "n_minor": 280,
+        "n_adult_fpr": 3845,
+        "tpr_default": 0.825,
+        "fpr_default": 0.04291287386215865,
+        "max_achievable_tpr": 1.0,
+        "threshold": -0.023080199956893904,
+        "tpr_equalised": 0.9642857142857143,
+        "fpr_equalised": 0.5599479843953186
+      },
+      "Indian": {
+        "n_minor": 591,
+        "n_adult_fpr": 3104,
+        "tpr_default": 0.9543147208121827,
+        "fpr_default": 0.013530927835051547,
+        "max_achievable_tpr": 1.0,
+        "threshold": -0.0045969635248184005,
+        "tpr_equalised": 0.961082910321489,
+        "fpr_equalised": 0.028350515463917526
+      },
+      "White": {
+        "n_minor": 1856,
+        "n_adult_fpr": 6218,
+        "tpr_default": 0.9665948275862069,
+        "fpr_default": 0.030234802187198456,
+        "max_achievable_tpr": 1.0,
+        "threshold": 0.0015080571174620999,
+        "tpr_equalised": 0.9612068965517241,
+        "fpr_equalised": 0.026857510453522034
+      }
+    }
+  }
+}

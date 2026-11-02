@@ -1,0 +1,24 @@
+{
+  "preauthorised": true,
+  "checks": {
+    "utkface": {
+      "n": 250,
+      "mean_yesno_mass": 0.9944903065860271,
+      "min_yesno_mass": 0.9787394404411316,
+      "flag_rate_minor": 0.844311377245509,
+      "flag_rate_adult": 0.047619047619047616,
+      "n_fail": 0,
+      "pass": true
+    },
+    "fairface_val": {
+      "n": 250,
+      "mean_yesno_mass": 0.9943737962543965,
+      "min_yesno_mass": 0.9719504117965698,
+      "flag_rate_minor": 0.98,
+      "flag_rate_adult": 0.04,
+      "n_fail": 0,
+      "pass": true
+    }
+  },
+  "all_pass": true
+}
