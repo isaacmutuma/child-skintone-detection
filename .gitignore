@@ -18,3 +18,4 @@ __pycache__/
 .ipynb_checkpoints/
 .DS_Store
 .env
+/dev_subset/

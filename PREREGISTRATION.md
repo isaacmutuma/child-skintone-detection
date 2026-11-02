@@ -38,3 +38,5 @@ All primary-endpoint CIs include 0 → report "no detectable gap at this sample 
 ## Deviations (log any after freezing)
 | Date | Deviation | Reason |
 |---|---|---|
+| 2026-11-02 | Clarification (before any D1/D3 output): D1 = `iitolstykh/mivolo_v2` @e8bdd8ae, face-only input (body crop empty), faces found by YOLOv8x person_face @b3d071ae (conf 0.4, IoU 0.7, the detector card's defaults); age_est = min over detected faces; child if < 18; no face = not child | Prereg named "MiVOLO" without a checkpoint. MiVOLO's UTKFace-trained checkpoints are excluded (train/test leakage); v2 is the current model and is trained on LAGENDA + other data |
+| 2026-11-02 | Clarification (before any D3 output): D3 age estimate = Σ P(bin) × bin midpoint over FairFace's 9 age bins (70+ → 75); child if < 18; faces from dlib CNN detector + 5-point alignment, as in the FairFace repo; min over faces; no face = not child | Prereg rule "estimated age < 18" did not say how to handle a bin classifier whose 10–19 bin straddles 18 |
