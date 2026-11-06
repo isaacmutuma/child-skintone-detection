@@ -32,7 +32,7 @@ Full write-up with caveats: [`docs/PHASE1_REPORT.md`](docs/PHASE1_REPORT.md).
 
 ## Method in brief
 
-- **Preregistered.** Hypotheses, endpoints, strata, tests and detector rules were frozen in [`PREREGISTRATION.md`](PREREGISTRATION.md) (commit `2e92b8b`) before any detector ran on the full data. Every later change is logged there under *Deviations*, including one post-hoc change.
+- **Preregistered.** Hypotheses, endpoints, strata, tests and detector rules were frozen in [`PREREGISTRATION.md`](PREREGISTRATION.md) (commit `2e92b8b`, now `c643a42`; see [`docs/COMMIT_HASH_MAP.txt`](docs/COMMIT_HASH_MAP.txt)) before any detector ran on the full data. Every later change is logged there under *Deviations*, including one post-hoc change.
 - **Primary endpoint.** White − Black TPR gap, age-stratified with fixed reference weights so groups with older children aren't penalised. 95% CIs from 2,000 within-group bootstrap resamples, a stratified permutation test, and Holm correction across detectors within each dataset.
 - **Secondary.** Face-detection failure (H2a), signed age error (H2b), adult false-positive rate (H3), a confounder logistic regression (age, brightness, blur, face size), and per-group threshold equalisation (H5).
 - **Provenance.** Every JSON in `results/` stores the config and git commit that produced it. Dataset archives and model weights are pinned by revision and SHA-256 and verified before use.

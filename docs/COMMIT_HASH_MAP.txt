@@ -1,0 +1,31 @@
+# Old to new commit hashes (history rewrite, 2026-11-07)
+#
+# Commit messages were rewritten to remove a co-author trailer. File trees, authors and
+# author/committer dates are identical for all 23 commits. Hashes cited in PREREGISTRATION.md,
+# results/*.json and the reports are the OLD hashes; use this table to find the commit.
+# Backup of the pre-rewrite history (git bundle, kept off-repo) sha256: 2adb06abe5ee84e0cc9469f611a9e8b2bdf8a422fa41a14e3b66c9793f2d4f6f
+#
+# old_hash new_hash commit_date subject
+40491cbaf930eb389279e6e7aa78e55ec3b9dba6 d85531bc59741fb15a9d54e0bd3d68c191117394 2026-11-02T15:28:59+09:00 Phase 0 scaffold: env, config, dataset loaders, counts script, Colab data prep
+8d10c86f27b30e3af2730ac74aef080fedf81409 66639fa8c63cd6bd285b7f669009366f98ad6e6c 2026-11-02T15:41:26+09:00 Log Phase 0 commit and Drive upload
+247ad77dd1e90b9855dd1da3b7aa71643f06071b da45691451b6f50dc9421f06625678684b481853 2026-11-02T15:59:00+09:00 Phase 0 results: counts, provenance, data card
+2e92b8bef6bfe1d146f46d56a052dbc70893c758 c643a427062930b8dff1653329d1203065a4da26 2026-11-02T19:49:08+09:00 Freeze preregistration
+2de8b60bfb91a54550faf6cbaa0d2903e4963a85 0a57699bd427b6fa3f54bd6004b355f6e650b423 2026-11-02T19:49:10+09:00 Record preregistration hash
+b7aa2fadabe107802c326a5340e7a13afa660b2b 258291367ad9aada2f45f7777e97f7ab2ec6242b 2026-11-02T20:12:33+09:00 Phase 1: detectors D1/D3/D4, runner, smoke notebook
+c1dd1b0a485746bb6faf3aa62e42fe7c2926a093 44b3e533d8c157178ed18fbcb95de6491b8e85c1 2026-11-02T20:20:47+09:00 Smoke notebook: skip D3 when FairFace weights are unavailable
+43f3d6575ed725fb59bb6e5fba1c50915b8dba4d 9ddc2c3be9af16941b1a4dd5f6095879542366e1 2026-11-02T20:22:47+09:00 D3: replace unavailable FairFace ResNet-34 with dima806 FairFace ViT
+461f296af94df4419b5016f89c4ab38272a41ef8 cbd5157ddf8c3d7328270ed9bb396791fe2f91c5 2026-11-02T20:27:23+09:00 Smoke notebook: chdir out of repo before re-cloning
+7ba427ed6c5f2ed0c18e3dbae01ee12b97877105 a3678ddac40bc44dda7b013e6e9a85245da434db 2026-11-02T20:28:10+09:00 Rename smoke notebook to phase11_smoke.ipynb
+a259dae00c20d4b9f4a313c887bb9b01ffb38c75 11c8e399b53ab8df9cc295fc2a583e57953e0724 2026-11-02T20:35:34+09:00 Fix smoke failures: local HF cache on Colab, CLIP sha256 checks, MiVOLO install
+8e108ddd187af619f87d34f876b280513e2390e4 9549e83c3a9c3e1491b75714017f6b9fde552f30 2026-11-02T20:40:32+09:00 MiVOLO: force headless matplotlib backend in isolated venv
+fd4f97960d76f177b01fb79c687f93cba0219136 db0e2d314ec941f68b9e435dfba9c56c5339c4e8 2026-11-02T20:42:57+09:00 MiVOLO: add omegaconf to venv; verify YOLO/MiVOLO sha256 before loading
+d0f483728b15b72052576031804380d842904003 29d95d1535a1ca58e2a0b55b9b20f29a2878d58b 2026-11-02T20:46:21+09:00 Provenance: dirty flag ignores run outputs in results/ and figures/
+84140f29712bf500f6654e53b646356dda5d157a fd7d5c73b275951789e00310f6f9a9209307b0ae 2026-11-02T20:51:02+09:00 Phase 1.2: resumable full-run notebook (D1/D3/D4) and verified data unpack script
+74ae7b6d7303fde1fe989e7d261226b6509b856a f2687b4c6155c8cf5574c8b7fa1c17a43d234ce3 2026-11-02T20:52:43+09:00 D5: Qwen2-VL-2B yes/no detector, stratified subsample script, gated VLM notebook
+64bbd1faefc6eebfe01c9aab2908f6003a77c470 63408d4c464a7a011b7a1c8a62ed6c29c0538f7a 2026-11-02T21:00:41+09:00 Phase 1 analysis: stratified metrics, bootstrap/permutation, Holm, confounder logit, thresholds
+38f0032bd743cb94cd60466dc5be559aa83864a9 c70f35955ca345fd743844a92803eea58fa6fc39 2026-11-02T21:01:27+09:00 Test: remove duplicated rng line
+095dac098a72843d10bc35fc6604e8cd18c8526e bf1c13641a046647981ca10c4315e34bad437198 2026-11-02T22:44:04+09:00 Overnight pipeline: gated D5, analysis notebook, figures script, runbook
+5276b7cb3cbf39fb20463b85bb65d533f123c9c1 bf45ebf0b2f32d49b7bf43f79c51bae4127d9c77 2026-11-03T08:18:55+09:00 Phase 1 results: metrics, primary endpoint, figures, report draft
+56c3fb5a80d3057f484744b16d9e3d37812e3c39 b9b2dc9c1effd36981075ecc2f2dad8e3d32f34c 2026-11-03T08:24:42+09:00 Face-fail CIs: stratified Wilson per group, Newcombe for the gap
+d3d32f10c4bcff2b6ba6d87d0843f5814511083c 507f842cfa05fdce4ce54f84c48a3e443d367435 2026-11-03T08:29:18+09:00 Phase 1 results rerun with Wilson face-fail CIs; report updated
+36830c947db18a3f166ffaea57f64e1bf92552c1 48e9aa2229ab0b59b5c0f744fde231470a288e8c 2026-11-03T08:56:48+09:00 Repo cleanup: README, docstrings, untrack agent working files
