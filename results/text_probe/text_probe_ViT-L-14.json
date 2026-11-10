@@ -1,0 +1,1115 @@
+{
+  "created_utc": "2026-11-10T08:39:52+00:00",
+  "git": {
+    "commit": "3388abdff076572e402ebf2fa67186e094f585aa",
+    "dirty": false,
+    "source": "git"
+  },
+  "config": {
+    "arch": "ViT-L-14",
+    "weights": {
+      "source": "HF pinned (same as Phase 1 D4)",
+      "repo": "timm/vit_large_patch14_clip_224.openai",
+      "revision": "18d0535469bb561bf468d76c1d73aa35156c922b",
+      "sha256": "9ce2e8a8ebfff3793d7d375ad6d3c35cb9aebf3de7ace0fc7308accab7cd207e",
+      "n_quick_gelu_layers": 36
+    },
+    "templates": [
+      "a photo of {x}",
+      "a close-up photo of the face of {x}",
+      "a portrait of {x}",
+      "a picture of {x}",
+      "an image of {x}",
+      "a photograph of {x}"
+    ],
+    "modifiers": [
+      "",
+      "White",
+      "Black",
+      "Asian",
+      "Indian",
+      "African American",
+      "light-skinned",
+      "dark-skinned",
+      "tall",
+      "smiling"
+    ],
+    "minor_nouns": [
+      "child",
+      "kid",
+      "boy",
+      "girl",
+      "teenager",
+      "teenage boy",
+      "teenage girl",
+      "13-year-old",
+      "15-year-old",
+      "16-year-old",
+      "17-year-old"
+    ],
+    "adult_nouns": [
+      "adult",
+      "man",
+      "woman",
+      "25-year-old",
+      "40-year-old"
+    ],
+    "d4_child_prompts": [
+      "a photo of a child",
+      "a photo of a kid",
+      "a photo of a baby",
+      "a photo of a teenager"
+    ],
+    "d4_adult_prompts": [
+      "a photo of an adult",
+      "a photo of a man",
+      "a photo of a woman"
+    ],
+    "age_anchor": "a photo of a {N}-year-old person, N=1..80",
+    "logit_scale": 100.00000762939453,
+    "n_boot": 2000,
+    "seed": 0,
+    "material_frac": 0.1,
+    "plan": "docs/TEXT_PROBE_PLAN.md",
+    "torch": "2.14.1+cu130"
+  },
+  "n_prompts": 960,
+  "child_adult_distance_m1": 0.19782348473866782,
+  "control_spread_m1_minor": 0.036789671941237015,
+  "decision": {
+    "criteria": {
+      "mean_below_0_ci_excludes_0": false,
+      "at_least_10pct_of_distance": false,
+      "larger_than_control_spread": false
+    },
+    "material_text_side_shift": false
+  },
+  "contrasts": {
+    "none - White": {
+      "minor": {
+        "n_items": 66,
+        "m1_mean": 0.013085051919474747,
+        "m1_ci": [
+          0.006735752861608158,
+          0.019503736021843823
+        ],
+        "m1_frac_of_child_adult_distance": 0.06614508857105914,
+        "m1_share_items_negative": 0.25757575757575757,
+        "m2_mean_years": -2.6930933277382207,
+        "m2_ci": [
+          -3.728982882390559,
+          -1.748873958588828
+        ]
+      },
+      "adult": {
+        "n_items": 30,
+        "m1_mean": -0.02262571652730306,
+        "m1_ci": [
+          -0.028562004417181014,
+          -0.016748827596505485
+        ],
+        "m1_frac_of_child_adult_distance": -0.11437325834792807,
+        "m1_share_items_negative": 0.9666666666666667,
+        "m2_mean_years": -5.096732159626043,
+        "m2_ci": [
+          -6.70725596494587,
+          -3.5083138389865294
+        ]
+      }
+    },
+    "Black - White": {
+      "minor": {
+        "n_items": 66,
+        "m1_mean": -0.0032601085576144133,
+        "m1_ci": [
+          -0.007240558415651322,
+          0.0004737094496235688
+        ],
+        "m1_frac_of_child_adult_distance": -0.01647988640944799,
+        "m1_share_items_negative": 0.5,
+        "m2_mean_years": -1.5617475093640634,
+        "m2_ci": [
+          -2.383383602649578,
+          -0.8327760733512118
+        ]
+      },
+      "adult": {
+        "n_items": 30,
+        "m1_mean": -0.00046261151631673175,
+        "m1_ci": [
+          -0.004947739491860071,
+          0.0035799619058767924
+        ],
+        "m1_frac_of_child_adult_distance": -0.0023385065576408117,
+        "m1_share_items_negative": 0.4,
+        "m2_mean_years": -1.393365799487081,
+        "m2_ci": [
+          -2.258309737741886,
+          -0.5010067160637094
+        ]
+      }
+    },
+    "Asian - White": {
+      "minor": {
+        "n_items": 66,
+        "m1_mean": 0.0074181981158979015,
+        "m1_ci": [
+          0.002415748301780585,
+          0.012271713510607225
+        ],
+        "m1_frac_of_child_adult_distance": 0.037499077147981785,
+        "m1_share_items_negative": 0.2878787878787879,
+        "m2_mean_years": -2.6960831162082064,
+        "m2_ci": [
+          -3.6794569553876837,
+          -1.866030146040177
+        ]
+      },
+      "adult": {
+        "n_items": 30,
+        "m1_mean": 0.011337943871816,
+        "m1_ci": [
+          0.005178376684586207,
+          0.01751401176055272
+        ],
+        "m1_frac_of_child_adult_distance": 0.05731343721294691,
+        "m1_share_items_negative": 0.2,
+        "m2_mean_years": -0.8044481785449313,
+        "m2_ci": [
+          -1.8760849849975032,
+          0.48809635610328567
+        ]
+      }
+    },
+    "Indian - White": {
+      "minor": {
+        "n_items": 66,
+        "m1_mean": 0.01665666157549078,
+        "m1_ci": [
+          0.01164176452792052,
+          0.02162139463153752
+        ],
+        "m1_frac_of_child_adult_distance": 0.0841996166304261,
+        "m1_share_items_negative": 0.18181818181818182,
+        "m2_mean_years": -3.484302796871189,
+        "m2_ci": [
+          -4.574809746943513,
+          -2.5190853183371424
+        ]
+      },
+      "adult": {
+        "n_items": 30,
+        "m1_mean": 0.006513617436091105,
+        "m1_ci": [
+          -0.00018857578436533602,
+          0.013172730654478073
+        ],
+        "m1_frac_of_child_adult_distance": 0.03292641136463568,
+        "m1_share_items_negative": 0.26666666666666666,
+        "m2_mean_years": 1.3456994226349175,
+        "m2_ci": [
+          -0.47944843160780404,
+          3.1441282679642106
+        ]
+      }
+    },
+    "African American - White": {
+      "minor": {
+        "n_items": 66,
+        "m1_mean": -0.0049602208715496645,
+        "m1_ci": [
+          -0.00900725828427257,
+          -0.0007502500080701091
+        ],
+        "m1_frac_of_child_adult_distance": -0.025073973790838335,
+        "m1_share_items_negative": 0.6363636363636364,
+        "m2_mean_years": -2.78147299902604,
+        "m2_ci": [
+          -3.8300278333070006,
+          -1.856554299702684
+        ]
+      },
+      "adult": {
+        "n_items": 30,
+        "m1_mean": 0.004036468267440796,
+        "m1_ci": [
+          -0.0010325510799884796,
+          0.009126212199529011
+        ],
+        "m1_frac_of_child_adult_distance": 0.02040439370873039,
+        "m1_share_items_negative": 0.4,
+        "m2_mean_years": 4.266155065216782,
+        "m2_ci": [
+          2.7701619908718684,
+          5.705470353317613
+        ]
+      }
+    },
+    "light-skinned - White": {
+      "minor": {
+        "n_items": 66,
+        "m1_mean": -0.00979443300854076,
+        "m1_ci": [
+          -0.013889229094440287,
+          -0.005278549411080102
+        ],
+        "m1_frac_of_child_adult_distance": -0.04951097197321931,
+        "m1_share_items_negative": 0.7727272727272727,
+        "m2_mean_years": -1.1998286230131583,
+        "m2_ci": [
+          -1.8147904913377964,
+          -0.6357900464426012
+        ]
+      },
+      "adult": {
+        "n_items": 30,
+        "m1_mean": -0.008050676186879475,
+        "m1_ci": [
+          -0.011294079969326656,
+          -0.004716573456923167
+        ],
+        "m1_frac_of_child_adult_distance": -0.04069626110122728,
+        "m1_share_items_negative": 0.8,
+        "m2_mean_years": -0.9674048029832695,
+        "m2_ci": [
+          -2.3331709383932187,
+          0.28080533667594765
+        ]
+      }
+    },
+    "dark-skinned - White": {
+      "minor": {
+        "n_items": 66,
+        "m1_mean": -0.007873308477979717,
+        "m1_ci": [
+          -0.013218592355648677,
+          -0.0021592647063009714
+        ],
+        "m1_frac_of_child_adult_distance": -0.03979966528433492,
+        "m1_share_items_negative": 0.7121212121212122,
+        "m2_mean_years": -2.657561708441414,
+        "m2_ci": [
+          -3.600521990037721,
+          -1.8301460341223008
+        ]
+      },
+      "adult": {
+        "n_items": 30,
+        "m1_mean": 0.009367817640304565,
+        "m1_ci": [
+          0.006322204222281773,
+          0.012340993732213973
+        ],
+        "m1_frac_of_child_adult_distance": 0.04735442635984196,
+        "m1_share_items_negative": 0.13333333333333333,
+        "m2_mean_years": 0.10392896073480978,
+        "m2_ci": [
+          -0.8224754878823816,
+          1.0285770471265876
+        ]
+      }
+    },
+    "tall - White": {
+      "minor": {
+        "n_items": 66,
+        "m1_mean": -0.023704620021762268,
+        "m1_ci": [
+          -0.02787144317319899,
+          -0.019835414060137488
+        ],
+        "m1_frac_of_child_adult_distance": -0.11982712797258098,
+        "m1_share_items_negative": 0.9393939393939394,
+        "m2_mean_years": -0.14532724506269412,
+        "m2_ci": [
+          -0.9673150484513247,
+          0.6536017769710186
+        ]
+      },
+      "adult": {
+        "n_items": 30,
+        "m1_mean": -0.005706161260604858,
+        "m1_ci": [
+          -0.009819181114435195,
+          -0.0014634897311528547
+        ],
+        "m1_frac_of_child_adult_distance": -0.028844711072312318,
+        "m1_share_items_negative": 0.7333333333333333,
+        "m2_mean_years": -6.478989983528023,
+        "m2_ci": [
+          -8.31104421782635,
+          -4.6641682192802785
+        ]
+      }
+    },
+    "smiling - White": {
+      "minor": {
+        "n_items": 66,
+        "m1_mean": 0.004056152972308072,
+        "m1_ci": [
+          -0.0013604237048914936,
+          0.009866366738622838
+        ],
+        "m1_frac_of_child_adult_distance": 0.020503900119171397,
+        "m1_share_items_negative": 0.4393939393939394,
+        "m2_mean_years": -2.991020959167251,
+        "m2_ci": [
+          -4.015386481219294,
+          -2.021709162871105
+        ]
+      },
+      "adult": {
+        "n_items": 30,
+        "m1_mean": 0.0009748677412668864,
+        "m1_ci": [
+          -0.005045945445696513,
+          0.007163850118716555
+        ],
+        "m1_frac_of_child_adult_distance": 0.004927967690765952,
+        "m1_share_items_negative": 0.43333333333333335,
+        "m2_mean_years": -0.24704992960224992,
+        "m2_ci": [
+          -2.058401801019853,
+          1.4632719692745872
+        ]
+      }
+    },
+    "dark-skinned - light-skinned": {
+      "minor": {
+        "n_items": 66,
+        "m1_mean": 0.0019211245305610425,
+        "m1_ci": [
+          -0.0007700072770768946,
+          0.004515149534651724
+        ],
+        "m1_frac_of_child_adult_distance": 0.009711306688884383,
+        "m1_share_items_negative": 0.4696969696969697,
+        "m2_mean_years": -1.4577330854282557,
+        "m2_ci": [
+          -1.913273103170637,
+          -1.0384580857258074
+        ]
+      },
+      "adult": {
+        "n_items": 30,
+        "m1_mean": 0.01741849382718404,
+        "m1_ci": [
+          0.015520585378011069,
+          0.01929963822166125
+        ],
+        "m1_frac_of_child_adult_distance": 0.08805068746106924,
+        "m1_share_items_negative": 0.0,
+        "m2_mean_years": 1.0713337637180793,
+        "m2_ci": [
+          0.30812877547911227,
+          1.9184388388105424
+        ]
+      }
+    },
+    "tall - none": {
+      "minor": {
+        "n_items": 66,
+        "m1_mean": -0.036789671941237015,
+        "m1_ci": [
+          -0.04317292476242239,
+          -0.03013051615068407
+        ],
+        "m1_frac_of_child_adult_distance": -0.1859722165436401,
+        "m1_share_items_negative": 0.9242424242424242,
+        "m2_mean_years": 2.5477660826755266,
+        "m2_ci": [
+          1.7832307543338883,
+          3.4474566419821038
+        ]
+      },
+      "adult": {
+        "n_items": 30,
+        "m1_mean": 0.0169195552666982,
+        "m1_ci": [
+          0.009541512876749038,
+          0.023913866182168324
+        ],
+        "m1_frac_of_child_adult_distance": 0.08552854727561575,
+        "m1_share_items_negative": 0.3333333333333333,
+        "m2_mean_years": -1.3822578239019805,
+        "m2_ci": [
+          -2.0724196039295646,
+          -0.7700911082010873
+        ]
+      }
+    },
+    "smiling - none": {
+      "minor": {
+        "n_items": 66,
+        "m1_mean": -0.009028898947166674,
+        "m1_ci": [
+          -0.013161902423157837,
+          -0.004771669592821239
+        ],
+        "m1_frac_of_child_adult_distance": -0.04564118845188773,
+        "m1_share_items_negative": 0.6212121212121212,
+        "m2_mean_years": -0.2979276314290311,
+        "m2_ci": [
+          -0.5243549015229768,
+          -0.02278961645305464
+        ]
+      },
+      "adult": {
+        "n_items": 30,
+        "m1_mean": 0.023600584268569945,
+        "m1_ci": [
+          0.017638675371805825,
+          0.029880571315685896
+        ],
+        "m1_frac_of_child_adult_distance": 0.11930122603869402,
+        "m1_share_items_negative": 0.03333333333333333,
+        "m2_mean_years": 4.8496822300237925,
+        "m2_ci": [
+          3.236074858636843,
+          6.513071536109955
+        ]
+      }
+    }
+  },
+  "cells": {
+    "none | child": {
+      "m1_mean_over_templates": 0.10470343629519145,
+      "m2_mean_over_templates": 9.289440333263391
+    },
+    "none | kid": {
+      "m1_mean_over_templates": 0.10884701212247212,
+      "m2_mean_over_templates": 10.453490284536164
+    },
+    "none | boy": {
+      "m1_mean_over_templates": 0.022085418303807575,
+      "m2_mean_over_templates": 13.561407715392383
+    },
+    "none | girl": {
+      "m1_mean_over_templates": -0.033181995153427124,
+      "m2_mean_over_templates": 14.704091458979898
+    },
+    "none | teenager": {
+      "m1_mean_over_templates": 0.09542753299077351,
+      "m2_mean_over_templates": 16.47576822163502
+    },
+    "none | teenage boy": {
+      "m1_mean_over_templates": 0.02609234054883321,
+      "m2_mean_over_templates": 16.69719857913291
+    },
+    "none | teenage girl": {
+      "m1_mean_over_templates": 0.03521232803662618,
+      "m2_mean_over_templates": 17.012233566372554
+    },
+    "none | 13-year-old": {
+      "m1_mean_over_templates": 0.047797312339146934,
+      "m2_mean_over_templates": 13.156265178387427
+    },
+    "none | 15-year-old": {
+      "m1_mean_over_templates": 0.04079034924507141,
+      "m2_mean_over_templates": 15.186795698867643
+    },
+    "none | 16-year-old": {
+      "m1_mean_over_templates": 0.036502569913864136,
+      "m2_mean_over_templates": 16.24305946181389
+    },
+    "none | 17-year-old": {
+      "m1_mean_over_templates": 0.02307794491449992,
+      "m2_mean_over_templates": 16.934443676904646
+    },
+    "none | adult": {
+      "m1_mean_over_templates": -0.10239595174789429,
+      "m2_mean_over_templates": 27.219133578620813
+    },
+    "none | man": {
+      "m1_mean_over_templates": -0.1134809950987498,
+      "m2_mean_over_templates": 35.063305683386716
+    },
+    "none | woman": {
+      "m1_mean_over_templates": -0.13912741343180338,
+      "m2_mean_over_templates": 33.74436381869115
+    },
+    "none | 25-year-old": {
+      "m1_mean_over_templates": -0.055654823780059814,
+      "m2_mean_over_templates": 25.099789516845636
+    },
+    "none | 40-year-old": {
+      "m1_mean_over_templates": -0.0398483673731486,
+      "m2_mean_over_templates": 41.44999224932223
+    },
+    "White | child": {
+      "m1_mean_over_templates": 0.08801852663358052,
+      "m2_mean_over_templates": 9.568841450509543
+    },
+    "White | kid": {
+      "m1_mean_over_templates": 0.05127802491188049,
+      "m2_mean_over_templates": 15.715067849995705
+    },
+    "White | boy": {
+      "m1_mean_over_templates": -0.023845334847768147,
+      "m2_mean_over_templates": 21.263744318375682
+    },
+    "White | girl": {
+      "m1_mean_over_templates": -0.0002973775068918864,
+      "m2_mean_over_templates": 27.244710991099055
+    },
+    "White | teenager": {
+      "m1_mean_over_templates": 0.04987985889116923,
+      "m2_mean_over_templates": 17.349649658568556
+    },
+    "White | teenage boy": {
+      "m1_mean_over_templates": 0.024385899305343628,
+      "m2_mean_over_templates": 17.56283080473158
+    },
+    "White | teenage girl": {
+      "m1_mean_over_templates": 0.026695936918258667,
+      "m2_mean_over_templates": 20.005326741418912
+    },
+    "White | 13-year-old": {
+      "m1_mean_over_templates": 0.05607469876607259,
+      "m2_mean_over_templates": 13.207412709292546
+    },
+    "White | 15-year-old": {
+      "m1_mean_over_templates": 0.03465074300765991,
+      "m2_mean_over_templates": 14.948809318996645
+    },
+    "White | 16-year-old": {
+      "m1_mean_over_templates": 0.03523719310760498,
+      "m2_mean_over_templates": 15.772187599602056
+    },
+    "White | 17-year-old": {
+      "m1_mean_over_templates": 0.02134050925572713,
+      "m2_mean_over_templates": 16.69963933781607
+    },
+    "White | adult": {
+      "m1_mean_over_templates": -0.07628752787907918,
+      "m2_mean_over_templates": 38.58526742958092
+    },
+    "White | man": {
+      "m1_mean_over_templates": -0.09161792198816936,
+      "m2_mean_over_templates": 39.19302978742447
+    },
+    "White | woman": {
+      "m1_mean_over_templates": -0.08935228983561198,
+      "m2_mean_over_templates": 41.74171689757835
+    },
+    "White | 25-year-old": {
+      "m1_mean_over_templates": -0.045529584089914955,
+      "m2_mean_over_templates": 24.664854808444165
+    },
+    "White | 40-year-old": {
+      "m1_mean_over_templates": -0.03459164500236511,
+      "m2_mean_over_templates": 43.87537672196887
+    },
+    "Black | child": {
+      "m1_mean_over_templates": 0.06549594799677531,
+      "m2_mean_over_templates": 12.080910027134754
+    },
+    "Black | kid": {
+      "m1_mean_over_templates": 0.053443978230158486,
+      "m2_mean_over_templates": 13.979151150882975
+    },
+    "Black | boy": {
+      "m1_mean_over_templates": -0.00017358859380086264,
+      "m2_mean_over_templates": 15.321950157310008
+    },
+    "Black | girl": {
+      "m1_mean_over_templates": -0.0350786546866099,
+      "m2_mean_over_templates": 19.758419950161624
+    },
+    "Black | teenager": {
+      "m1_mean_over_templates": 0.03754189610481262,
+      "m2_mean_over_templates": 17.323487418757747
+    },
+    "Black | teenage boy": {
+      "m1_mean_over_templates": 0.026600321133931477,
+      "m2_mean_over_templates": 16.16009941894586
+    },
+    "Black | teenage girl": {
+      "m1_mean_over_templates": 0.028782159090042114,
+      "m2_mean_over_templates": 16.69821773656535
+    },
+    "Black | 13-year-old": {
+      "m1_mean_over_templates": 0.0571159819761912,
+      "m2_mean_over_templates": 13.175497403617873
+    },
+    "Black | 15-year-old": {
+      "m1_mean_over_templates": 0.03774570425351461,
+      "m2_mean_over_templates": 14.977694089747445
+    },
+    "Black | 16-year-old": {
+      "m1_mean_over_templates": 0.03440806269645691,
+      "m2_mean_over_templates": 15.940397959006056
+    },
+    "Black | 17-year-old": {
+      "m1_mean_over_templates": 0.021675676107406616,
+      "m2_mean_over_templates": 16.74317286527197
+    },
+    "Black | adult": {
+      "m1_mean_over_templates": -0.0632999340693156,
+      "m2_mean_over_templates": 37.54712258514413
+    },
+    "Black | man": {
+      "m1_mean_over_templates": -0.08924647172292073,
+      "m2_mean_over_templates": 35.81734203048442
+    },
+    "Black | woman": {
+      "m1_mean_over_templates": -0.10557399193445842,
+      "m2_mean_over_templates": 41.27889310519034
+    },
+    "Black | 25-year-old": {
+      "m1_mean_over_templates": -0.03843350211779276,
+      "m2_mean_over_templates": 23.911505938516573
+    },
+    "Black | 40-year-old": {
+      "m1_mean_over_templates": -0.04313812653223673,
+      "m2_mean_over_templates": 42.538552988225895
+    },
+    "Asian | child": {
+      "m1_mean_over_templates": 0.09467263023058574,
+      "m2_mean_over_templates": 8.761767224889164
+    },
+    "Asian | kid": {
+      "m1_mean_over_templates": 0.07783835132916768,
+      "m2_mean_over_templates": 12.13518435296578
+    },
+    "Asian | boy": {
+      "m1_mean_over_templates": 0.02343963583310445,
+      "m2_mean_over_templates": 13.056766142513956
+    },
+    "Asian | girl": {
+      "m1_mean_over_templates": -0.03339130679766337,
+      "m2_mean_over_templates": 15.810822783674363
+    },
+    "Asian | teenager": {
+      "m1_mean_over_templates": 0.046447187662124634,
+      "m2_mean_over_templates": 16.072456122506036
+    },
+    "Asian | teenage boy": {
+      "m1_mean_over_templates": 0.027954936027526855,
+      "m2_mean_over_templates": 16.279058874122796
+    },
+    "Asian | teenage girl": {
+      "m1_mean_over_templates": 0.03463636835416158,
+      "m2_mean_over_templates": 16.72500945292694
+    },
+    "Asian | 13-year-old": {
+      "m1_mean_over_templates": 0.05037689208984375,
+      "m2_mean_over_templates": 13.46107589780395
+    },
+    "Asian | 15-year-old": {
+      "m1_mean_over_templates": 0.04411208629608154,
+      "m2_mean_over_templates": 14.999077374427289
+    },
+    "Asian | 16-year-old": {
+      "m1_mean_over_templates": 0.044937858978907265,
+      "m2_mean_over_templates": 15.828713928756182
+    },
+    "Asian | 17-year-old": {
+      "m1_mean_over_templates": 0.03399421771367391,
+      "m2_mean_over_templates": 16.551374347529627
+    },
+    "Asian | adult": {
+      "m1_mean_over_templates": -0.04607434074083964,
+      "m2_mean_over_templates": 35.62922935901952
+    },
+    "Asian | man": {
+      "m1_mean_over_templates": -0.08199233810106914,
+      "m2_mean_over_templates": 37.95874267028072
+    },
+    "Asian | woman": {
+      "m1_mean_over_templates": -0.10520949959754944,
+      "m2_mean_over_templates": 43.569781508330685
+    },
+    "Asian | 25-year-old": {
+      "m1_mean_over_templates": -0.02362644672393799,
+      "m2_mean_over_templates": 23.866057530533777
+    },
+    "Asian | 40-year-old": {
+      "m1_mean_over_templates": -0.023786624272664387,
+      "m2_mean_over_templates": 43.014193684107404
+    },
+    "Indian | child": {
+      "m1_mean_over_templates": 0.0928998589515686,
+      "m2_mean_over_templates": 9.754667739074668
+    },
+    "Indian | kid": {
+      "m1_mean_over_templates": 0.09501488010088603,
+      "m2_mean_over_templates": 11.263053708726583
+    },
+    "Indian | boy": {
+      "m1_mean_over_templates": 0.021222005287806194,
+      "m2_mean_over_templates": 12.303841785507984
+    },
+    "Indian | girl": {
+      "m1_mean_over_templates": -0.033767888943354286,
+      "m2_mean_over_templates": 13.305932721628173
+    },
+    "Indian | teenager": {
+      "m1_mean_over_templates": 0.07760317126909892,
+      "m2_mean_over_templates": 15.314456268774428
+    },
+    "Indian | teenage boy": {
+      "m1_mean_over_templates": 0.04802092909812927,
+      "m2_mean_over_templates": 15.022950328440231
+    },
+    "Indian | teenage girl": {
+      "m1_mean_over_templates": 0.02931117018063863,
+      "m2_mean_over_templates": 15.055333036681978
+    },
+    "Indian | 13-year-old": {
+      "m1_mean_over_templates": 0.059511552254358925,
+      "m2_mean_over_templates": 13.292632069700856
+    },
+    "Indian | 15-year-old": {
+      "m1_mean_over_templates": 0.05420053005218506,
+      "m2_mean_over_templates": 14.58793573820325
+    },
+    "Indian | 16-year-old": {
+      "m1_mean_over_templates": 0.05658687154452006,
+      "m2_mean_over_templates": 15.144462336094934
+    },
+    "Indian | 17-year-old": {
+      "m1_mean_over_templates": 0.04603887597719828,
+      "m2_mean_over_templates": 15.965624281990186
+    },
+    "Indian | adult": {
+      "m1_mean_over_templates": -0.054097503423690796,
+      "m2_mean_over_templates": 33.3409655548794
+    },
+    "Indian | man": {
+      "m1_mean_over_templates": -0.08170744776725769,
+      "m2_mean_over_templates": 44.75928884286259
+    },
+    "Indian | woman": {
+      "m1_mean_over_templates": -0.11491662263870239,
+      "m2_mean_over_templates": 47.813784622684274
+    },
+    "Indian | 25-year-old": {
+      "m1_mean_over_templates": -0.021424204111099243,
+      "m2_mean_over_templates": 23.38528794521079
+    },
+    "Indian | 40-year-old": {
+      "m1_mean_over_templates": -0.032665103673934937,
+      "m2_mean_over_templates": 45.489415792534295
+    },
+    "African American | child": {
+      "m1_mean_over_templates": 0.0683212677637736,
+      "m2_mean_over_templates": 9.275542010776007
+    },
+    "African American | kid": {
+      "m1_mean_over_templates": 0.061742802460988365,
+      "m2_mean_over_templates": 12.3845382527943
+    },
+    "African American | boy": {
+      "m1_mean_over_templates": 0.007533152898152669,
+      "m2_mean_over_templates": 14.3329287283838
+    },
+    "African American | girl": {
+      "m1_mean_over_templates": -0.024922658999760944,
+      "m2_mean_over_templates": 14.288472355202734
+    },
+    "African American | teenager": {
+      "m1_mean_over_templates": 0.037777831157048546,
+      "m2_mean_over_templates": 16.33739352793873
+    },
+    "African American | teenage boy": {
+      "m1_mean_over_templates": 0.009296149015426636,
+      "m2_mean_over_templates": 15.98646499476024
+    },
+    "African American | teenage girl": {
+      "m1_mean_over_templates": 0.016259729862213135,
+      "m2_mean_over_templates": 15.661130903575176
+    },
+    "African American | 13-year-old": {
+      "m1_mean_over_templates": 0.03671984871228536,
+      "m2_mean_over_templates": 13.27684100465437
+    },
+    "African American | 15-year-old": {
+      "m1_mean_over_templates": 0.033458163340886436,
+      "m2_mean_over_templates": 14.777574954087976
+    },
+    "African American | 16-year-old": {
+      "m1_mean_over_templates": 0.035688926776250206,
+      "m2_mean_over_templates": 15.800372385706531
+    },
+    "African American | 17-year-old": {
+      "m1_mean_over_templates": 0.026981035868326824,
+      "m2_mean_over_templates": 16.62075867324005
+    },
+    "African American | adult": {
+      "m1_mean_over_templates": -0.05866586168607076,
+      "m2_mean_over_templates": 47.480729967828516
+    },
+    "African American | man": {
+      "m1_mean_over_templates": -0.08361354470252991,
+      "m2_mean_over_templates": 45.872830609793404
+    },
+    "African American | woman": {
+      "m1_mean_over_templates": -0.10580551624298096,
+      "m2_mean_over_templates": 47.56960617125636
+    },
+    "African American | 25-year-old": {
+      "m1_mean_over_templates": -0.031032015879948933,
+      "m2_mean_over_templates": 23.212859051714492
+    },
+    "African American | 40-year-old": {
+      "m1_mean_over_templates": -0.038079688946406044,
+      "m2_mean_over_templates": 45.254995170487895
+    },
+    "light-skinned | child": {
+      "m1_mean_over_templates": 0.08700455228487651,
+      "m2_mean_over_templates": 9.176662719431192
+    },
+    "light-skinned | kid": {
+      "m1_mean_over_templates": 0.05176663398742676,
+      "m2_mean_over_templates": 15.180227085618222
+    },
+    "light-skinned | boy": {
+      "m1_mean_over_templates": 0.009264975786209106,
+      "m2_mean_over_templates": 17.759542618886673
+    },
+    "light-skinned | girl": {
+      "m1_mean_over_templates": -0.031149864196777344,
+      "m2_mean_over_templates": 21.757747239435048
+    },
+    "light-skinned | teenager": {
+      "m1_mean_over_templates": 0.036128073930740356,
+      "m2_mean_over_templates": 16.594531999714984
+    },
+    "light-skinned | teenage boy": {
+      "m1_mean_over_templates": 0.009269267320632935,
+      "m2_mean_over_templates": 16.755491749748256
+    },
+    "light-skinned | teenage girl": {
+      "m1_mean_over_templates": 0.015057047208150228,
+      "m2_mean_over_templates": 17.17800405852366
+    },
+    "light-skinned | 13-year-old": {
+      "m1_mean_over_templates": 0.02813572684923808,
+      "m2_mean_over_templates": 13.456613257039384
+    },
+    "light-skinned | 15-year-old": {
+      "m1_mean_over_templates": 0.016989221175511677,
+      "m2_mean_over_templates": 15.310451670320484
+    },
+    "light-skinned | 16-year-old": {
+      "m1_mean_over_templates": 0.019102156162261963,
+      "m2_mean_over_templates": 16.18729762498306
+    },
+    "light-skinned | 17-year-old": {
+      "m1_mean_over_templates": 0.014112124840418497,
+      "m2_mean_over_templates": 16.783535903560647
+    },
+    "light-skinned | adult": {
+      "m1_mean_over_templates": -0.0801601509253184,
+      "m2_mean_over_templates": 41.0707128796433
+    },
+    "light-skinned | man": {
+      "m1_mean_over_templates": -0.09097430109977722,
+      "m2_mean_over_templates": 38.426708083139
+    },
+    "light-skinned | woman": {
+      "m1_mean_over_templates": -0.10057935118675232,
+      "m2_mean_over_templates": 35.12064645281013
+    },
+    "light-skinned | 25-year-old": {
+      "m1_mean_over_templates": -0.054924209912618004,
+      "m2_mean_over_templates": 25.005845254453806
+    },
+    "light-skinned | 40-year-old": {
+      "m1_mean_over_templates": -0.05099433660507202,
+      "m2_mean_over_templates": 43.599308960034186
+    },
+    "dark-skinned | child": {
+      "m1_mean_over_templates": 0.09445399045944214,
+      "m2_mean_over_templates": 8.33773611170028
+    },
+    "dark-skinned | kid": {
+      "m1_mean_over_templates": 0.06308770179748535,
+      "m2_mean_over_templates": 11.553340208682888
+    },
+    "dark-skinned | boy": {
+      "m1_mean_over_templates": 0.02389754851659139,
+      "m2_mean_over_templates": 13.890321451738297
+    },
+    "dark-skinned | girl": {
+      "m1_mean_over_templates": -0.010597238938013712,
+      "m2_mean_over_templates": 16.730705619374323
+    },
+    "dark-skinned | teenager": {
+      "m1_mean_over_templates": 0.0272785226504008,
+      "m2_mean_over_templates": 16.172624924493473
+    },
+    "dark-skinned | teenage boy": {
+      "m1_mean_over_templates": 0.008751521507898966,
+      "m2_mean_over_templates": 16.139508811822605
+    },
+    "dark-skinned | teenage girl": {
+      "m1_mean_over_templates": 0.005239238341649373,
+      "m2_mean_over_templates": 16.432827368391827
+    },
+    "dark-skinned | 13-year-old": {
+      "m1_mean_over_templates": 0.029097557067871094,
+      "m2_mean_over_templates": 13.168486081798536
+    },
+    "dark-skinned | 15-year-old": {
+      "m1_mean_over_templates": 0.015473663806915283,
+      "m2_mean_over_templates": 15.04600192507989
+    },
+    "dark-skinned | 16-year-old": {
+      "m1_mean_over_templates": 0.011824607849121094,
+      "m2_mean_over_templates": 16.01287667523188
+    },
+    "dark-skinned | 17-year-old": {
+      "m1_mean_over_templates": 0.008305172125498453,
+      "m2_mean_over_templates": 16.6206128092368
+    },
+    "dark-skinned | adult": {
+      "m1_mean_over_templates": -0.06639922658602397,
+      "m2_mean_over_templates": 41.47140162621903
+    },
+    "dark-skinned | man": {
+      "m1_mean_over_templates": -0.07264565428098042,
+      "m2_mean_over_templates": 40.793755874066846
+    },
+    "dark-skinned | woman": {
+      "m1_mean_over_templates": -0.08168589075406392,
+      "m2_mean_over_templates": 38.659328346521455
+    },
+    "dark-skinned | 25-year-old": {
+      "m1_mean_over_templates": -0.03793000181516012,
+      "m2_mean_over_templates": 24.395665154936164
+    },
+    "dark-skinned | 40-year-old": {
+      "m1_mean_over_templates": -0.03187910715738932,
+      "m2_mean_over_templates": 43.25973944692732
+    },
+    "tall | child": {
+      "m1_mean_over_templates": 0.02664130926132202,
+      "m2_mean_over_templates": 15.47925837722363
+    },
+    "tall | kid": {
+      "m1_mean_over_templates": 0.04388892650604248,
+      "m2_mean_over_templates": 13.783211028419998
+    },
+    "tall | boy": {
+      "m1_mean_over_templates": -0.029470046361287434,
+      "m2_mean_over_templates": 24.54464691455875
+    },
+    "tall | girl": {
+      "m1_mean_over_templates": -0.031527568896611534,
+      "m2_mean_over_templates": 18.84170993997577
+    },
+    "tall | teenager": {
+      "m1_mean_over_templates": 0.02501673499743144,
+      "m2_mean_over_templates": 17.152276136420397
+    },
+    "tall | teenage boy": {
+      "m1_mean_over_templates": -0.00930123527844747,
+      "m2_mean_over_templates": 17.985901328892563
+    },
+    "tall | teenage girl": {
+      "m1_mean_over_templates": -0.004189908504486084,
+      "m2_mean_over_templates": 18.551602219041722
+    },
+    "tall | 13-year-old": {
+      "m1_mean_over_templates": 0.02484088142712911,
+      "m2_mean_over_templates": 13.258545717977567
+    },
+    "tall | 15-year-old": {
+      "m1_mean_over_templates": 0.023689448833465576,
+      "m2_mean_over_templates": 15.252857484874076
+    },
+    "tall | 16-year-old": {
+      "m1_mean_over_templates": 0.023098091284434002,
+      "m2_mean_over_templates": 16.070085099530427
+    },
+    "tall | 17-year-old": {
+      "m1_mean_over_templates": 0.00998122493426005,
+      "m2_mean_over_templates": 16.819526837801813
+    },
+    "tall | adult": {
+      "m1_mean_over_templates": -0.06620862086613973,
+      "m2_mean_over_templates": 26.58414526521786
+    },
+    "tall | man": {
+      "m1_mean_over_templates": -0.08924825986226399,
+      "m2_mean_over_templates": 31.236448881372933
+    },
+    "tall | woman": {
+      "m1_mean_over_templates": -0.10445315639177959,
+      "m2_mean_over_templates": 31.6058067143252
+    },
+    "tall | 25-year-old": {
+      "m1_mean_over_templates": -0.05748813350995382,
+      "m2_mean_over_templates": 25.101910269657736
+    },
+    "tall | 40-year-old": {
+      "m1_mean_over_templates": -0.04851160446802775,
+      "m2_mean_over_templates": 41.136984596782916
+    },
+    "smiling | child": {
+      "m1_mean_over_templates": 0.093614528576533,
+      "m2_mean_over_templates": 7.605715835652973
+    },
+    "smiling | kid": {
+      "m1_mean_over_templates": 0.10033331314722697,
+      "m2_mean_over_templates": 8.959770627382872
+    },
+    "smiling | boy": {
+      "m1_mean_over_templates": 0.01830171545346578,
+      "m2_mean_over_templates": 14.589595056502125
+    },
+    "smiling | girl": {
+      "m1_mean_over_templates": -0.021434307098388672,
+      "m2_mean_over_templates": 14.686941284867013
+    },
+    "smiling | teenager": {
+      "m1_mean_over_templates": 0.05521299441655477,
+      "m2_mean_over_templates": 16.29242227747439
+    },
+    "smiling | teenage boy": {
+      "m1_mean_over_templates": 0.008082449436187744,
+      "m2_mean_over_templates": 16.361924817696195
+    },
+    "smiling | teenage girl": {
+      "m1_mean_over_templates": 0.0026543239752451577,
+      "m2_mean_over_templates": 16.397304786638955
+    },
+    "smiling | 13-year-old": {
+      "m1_mean_over_templates": 0.05070703228314718,
+      "m2_mean_over_templates": 13.199636580300108
+    },
+    "smiling | 15-year-old": {
+      "m1_mean_over_templates": 0.035715719064076744,
+      "m2_mean_over_templates": 15.129150329677303
+    },
+    "smiling | 16-year-old": {
+      "m1_mean_over_templates": 0.03904195626576742,
+      "m2_mean_over_templates": 16.089583005054514
+    },
+    "smiling | 17-year-old": {
+      "m1_mean_over_templates": 0.02580663561820984,
+      "m2_mean_over_templates": 17.124945628320134
+    },
+    "smiling | adult": {
+      "m1_mean_over_templates": -0.05446920792261759,
+      "m2_mean_over_templates": 30.30845519110896
+    },
+    "smiling | man": {
+      "m1_mean_over_templates": -0.09126019477844238,
+      "m2_mean_over_templates": 45.55246890364773
+    },
+    "smiling | woman": {
+      "m1_mean_over_templates": -0.11417347192764282,
+      "m2_mean_over_templates": 43.373238164148155
+    },
+    "smiling | 25-year-old": {
+      "m1_mean_over_templates": -0.042753020922342934,
+      "m2_mean_over_templates": 24.998570762264325
+    },
+    "smiling | 40-year-old": {
+      "m1_mean_over_templates": -0.029848734537760418,
+      "m2_mean_over_templates": 42.59226297581635
+    }
+  }
+}

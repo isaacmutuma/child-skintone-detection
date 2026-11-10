@@ -14,15 +14,15 @@ On **UTKFace**, all five detectors flag Black minors as children less often than
 |---|---|---|
 | D1 MiVOLO v2 (face age) | **0.084** [0.053, 0.119] | 0.004 [−0.031, 0.035] |
 | D3 FairFace age classifier | **0.040** [0.004, 0.078] | not run (trained on FairFace) |
-| D4 CLIP ViT-B/32 zero-shot | **0.098** [0.067, 0.132] | −0.003 [−0.031, 0.024] |
-| D4 CLIP ViT-L/14 zero-shot | **0.104** [0.072, 0.138] | −0.011 [−0.031, 0.007] |
+| D4 CLIP ViT-B/32 zero-shot | **0.075** [0.045, 0.106] | 0.001 [−0.015, 0.017] |
+| D4 CLIP ViT-L/14 zero-shot | **0.100** [0.069, 0.133] | −0.011 [−0.031, 0.007] |
 | D5 Qwen2-VL-2B yes/no | **0.061** [0.020, 0.103] | −0.027 [−0.071, 0.017] |
 
 Gap = age-stratified true-positive rate (minors flagged as children) for White minors minus that for Black minors. Source: [`results/phase1/primary_endpoint.json`](results/phase1/primary_endpoint.json).
 
 - **The gap is concentrated in teenagers.** For UTKFace minors aged 10–17, MiVOLO flags 81% of White minors but 56% of Black minors. FairFace's testable minors are all aged 0–9, which likely explains the null result there; this reading was not preregistered.
 - **Mechanism: age over-estimation, not missed faces.** MiVOLO over-estimates Black minors' age by about 1.5 years more than White minors' (UTKFace). Face-detection failure is not higher for Black minors.
-- **Per-group thresholds can close the gap, but at a high cost.** Equalising detection raises the false-positive rate on Black adults to as much as 0.56, up from 0.04 (CLIP B/32).
+- **Per-group thresholds can close the gap, but at a high cost.** Equalising detection raises the false-positive rate on Black adults to as much as 0.58, up from 0.07 (CLIP B/32).
 
 Full write-up with caveats: [`docs/PHASE1_REPORT.md`](docs/PHASE1_REPORT.md).
 
@@ -47,7 +47,7 @@ Each detector outputs `is_child` and a score, where `score > 0` means child. An 
 |---|---|---|
 | D1 | YOLOv8x person/face → [MiVOLO v2](https://huggingface.co/iitolstykh/mivolo_v2) @e8bdd8ae, face only | youngest face's estimated age < 18 |
 | D3 | dlib face chips → [FairFace age ViT](https://huggingface.co/dima806/fairface_age_image_detection) @4e02ab80 | expected age over 9 bins < 18 |
-| D4 | OpenCLIP ViT-B/32 and ViT-L/14, OpenAI weights | max sim(child prompts) > max sim(adult prompts) |
+| D4 | OpenCLIP ViT-B/32 and ViT-L/14, OpenAI weights (QuickGELU, as trained) | max sim(child prompts) > max sim(adult prompts) |
 | D5 | [Qwen2-VL-2B-Instruct](https://huggingface.co/Qwen/Qwen2-VL-2B-Instruct) @895c3a49 | P("yes") > P("no") for "Is there a child (a person under 18 years old) in this image?" |
 
 D1 and D3 correspond to two of the face-based estimators Crețu et al. benchmark (MiVOLO Face, FairFace), but with different checkpoints, and for D3 a different decision rule. D3 uses a FairFace-trained ViT because the original ResNet-34 weights are no longer available, and it is never run on FairFace. D5 runs on a stratified subsample of about 1,900 images per dataset.

@@ -193,11 +193,13 @@ more teenagers. I therefore computed the TPR within age strata (0&ndash;9 and 10
 strata, and Holm's method corrects for testing several detectors on the same dataset. I also looked at
 face-detection failures, errors in the estimated age, false positives on adults, a logistic regression adjusting for
 age and image quality, and per-group decision thresholds.</p>
-<p>The hypotheses and analysis were written down and frozen before the full runs. Two things changed afterwards, and
-both are recorded in the preregistration. The original FairFace model weights were no longer available, so I used a
-FairFace-trained ViT with the same age bins. After seeing the results, I also replaced the bootstrap intervals for
+<p>The hypotheses and analysis were written down and frozen before the full runs. Three things changed afterwards,
+and all are recorded in the preregistration. The original FairFace model weights were no longer available, so I used
+a FairFace-trained ViT with the same age bins. After seeing the results, I replaced the bootstrap intervals for
 face-detection failure with Wilson intervals, because the bootstrap gives a zero-width interval when a group has no
-failures.</p>
+failures. I also found that the CLIP models had first been run with the wrong activation function (GELU instead of
+the QuickGELU they were trained with); I fixed this and reran them. All results below use the corrected models, and
+no conclusion changed.</p>
 
 <h2>3&nbsp;&nbsp;Results</h2>
 <table class="res"><thead><tr><th>Dataset</th><th>Detector</th><th>TPR White</th><th>TPR Black</th><th>Gap</th><th>95% CI</th><th>Holm p</th></tr></thead>

@@ -63,7 +63,7 @@ None to the design. One fix to the loader call (open_clip 3.3.0 has no `jit` arg
 **2026-11-10, activation bug.** The first Colab run (`--weights hf-pinned`, both models) loaded OpenAI's weights with nn.GELU instead of QuickGELU. Its cross-check failed (B/32 child–adult distance 0.1079 against 0.1387 locally), which is how the bug was found. Those two Colab results are invalid. The script now forces QuickGELU and refuses to run otherwise. The local B/32 result below was always correct, because OpenAI's original file loads with QuickGELU. ViT-L/14 is rerun in `notebooks/phase15_clip_quickgelu.ipynb`.
 
 ## First result: ViT-B/32 (2026-11-10)
-Source: `results/text_probe/text_probe_ViT-B-32.json`. The script was uncommitted when it ran (`dirty: true`), on top of commit ef0c8d8.
+Source: the first local run (OpenAI's original file, uncommitted script on top of ef0c8d8). `results/text_probe/text_probe_ViT-B-32.json` now holds the clean Colab rerun at commit 3388abd (Phase 1 weights + QuickGELU), which reproduces every cell of the local run to within 1 × 10⁻⁴; the numbers below are unchanged.
 
 **Decision: no material text-side shift.** None of the three criteria is met.
 
@@ -85,4 +85,24 @@ What the numbers show:
 
 **Interpretation for focus:** on B/32, CLIP's text encoder does not place "Black" descriptions of minors closer to adult. This supports keeping the course project focused on the image side (models A–F). It also gives no support to the claim that the text encoder pushes "Black teenager" toward adult.
 
-**Still to run:** ViT-L/14, the Stable Diffusion 1.x text encoder and D4's second model, on Colab (`--arch ViT-L-14 --weights hf-pinned`). The conclusion for Stable Diffusion's encoder waits for that run.
+## Result: ViT-L/14 (2026-11-10)
+Source: `results/text_probe/text_probe_ViT-L-14.json` (Colab, commit 3388abd, clean, QuickGELU, Phase 1's pinned L/14 weights). This is the text encoder Stable Diffusion 1.x uses.
+
+**Decision: no material text-side shift.** None of the three criteria is met.
+
+| Contrast (minor nouns, 66 items) | M1 mean Δ [95% CI] | Fraction of child–adult distance | M2 mean Δ, years [95% CI] |
+|---|---|---|---|
+| Black − White | −0.0033 [−0.0072, 0.0005] | −0.02 | −1.56 [−2.38, −0.83] |
+| African American − White | −0.0050 [−0.0090, −0.0008] | −0.03 | −2.78 [−3.83, −1.86] |
+| dark-skinned − light-skinned | +0.0019 [−0.0008, 0.0045] | +0.01 | −1.46 [−1.91, −1.04] |
+| tall − none (control) | −0.0368 [−0.0432, −0.0301] | −0.19 | +2.55 [1.78, 3.45] |
+
+Child–adult distance on M1: 0.1978. Control spread on M1: 0.0368.
+
+- **Black vs White:** the margin shift is under 2% of the child–adult distance and its interval covers 0. Implied age reads 1.6 years *younger* for "Black".
+- **Numeric ages:** for "13-" to "17-year-old", implied age with no word, "White" and "Black" agrees within 0.4 years (for example 16-year-old: 16.2, 15.8, 15.9).
+- **Controls move more than race words:** "tall" shifts M1 by 19% of the distance, far more than any race or skin word.
+- **M2 is well calibrated on L/14** (13-year-old 13.2, 17-year-old 16.9, 25-year-old 25.1, 40-year-old 41.4), so the implied-age result is more trustworthy than on B/32.
+
+## Conclusion
+On both CLIP models, including Stable Diffusion's text encoder, the text side does not place "Black" descriptions of minors closer to "adult". The Phase 1 CLIP gap must come from how faces are embedded (the image side), which is where the course project focuses.

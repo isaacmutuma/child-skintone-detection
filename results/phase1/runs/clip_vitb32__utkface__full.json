@@ -1,7 +1,7 @@
 {
-  "created_utc": "2026-11-02T12:01:09+00:00",
+  "created_utc": "2026-11-10T05:39:18+00:00",
   "git": {
-    "commit": "74ae7b6d7303fde1fe989e7d261226b6509b856a",
+    "commit": "3388abdff076572e402ebf2fa67186e094f585aa",
     "dirty": false,
     "source": "git"
   },
@@ -171,9 +171,9 @@
   "preregistration_commit": "2e92b8bef6bfe1d146f46d56a052dbc70893c758",
   "n_images": 23705,
   "n_skipped_loader": 3,
-  "seconds": 155.8,
+  "seconds": 179.0,
   "device": "cuda",
-  "n_flagged_child": 4764,
+  "n_flagged_child": 5193,
   "fail_reasons": {},
   "n_by_role": {
     "other": 3048,
@@ -186,7 +186,9 @@
       "revision": "a6f597a30f7b82c51704746581f9a4e41421e878",
       "file": "open_clip_model.safetensors",
       "sha256": "e6d1bd7789aa45192b3bf90570a789b478bae1b74ebcce7eddd908e83a2b7c31",
-      "open_clip_arch": "ViT-B-32"
+      "open_clip_arch": "ViT-B-32",
+      "quick_gelu": true,
+      "n_quick_gelu_layers": 24
     }
   }
 }
