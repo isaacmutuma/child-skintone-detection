@@ -12,6 +12,19 @@ from configs import config as C
 from .base import Detector, empty_output, pick_device
 from ._weights import sha256 as _sha256
 
+
+def assert_quick_gelu(model):
+    """Fail unless every activation is QuickGELU, the activation OpenAI's CLIP was trained with.
+
+    open_clip only switches to QuickGELU automatically for pretrained='openai'; loading the same
+    weights from a file path with the plain 'ViT-B-32'/'ViT-L-14' config silently uses nn.GELU.
+    """
+    names = [type(m).__name__ for m in model.modules()]
+    n_quick, n_gelu = names.count("QuickGELU"), names.count("GELU")
+    if n_quick == 0 or n_gelu:
+        raise RuntimeError(f"CLIP activation check failed: QuickGELU={n_quick}, GELU={n_gelu}")
+    return n_quick
+
 # OpenAI CLIP weights as packaged by timm/open_clip on the HF hub, pinned revisions
 # (repo, revision, expected sha256 of open_clip_model.safetensors = HF LFS oid)
 WEIGHTS = {
@@ -42,8 +55,11 @@ class ClipZeroShot(Detector):
                                f"file {self.weight_path} and rerun")
         self._info = {"hf_repo": repo, "revision": rev, "file": WEIGHT_FILE,
                       "sha256": got, "open_clip_arch": arch}
+        # OpenAI CLIP uses QuickGELU; a file-path load needs force_quick_gelu (bug fixed
+        # 2026-11-10: Phase 1 runs before this used nn.GELU, see PREREGISTRATION.md Deviations)
         model, _, self.preprocess = open_clip.create_model_and_transforms(
-            arch, pretrained=self.weight_path)
+            arch, pretrained=self.weight_path, force_quick_gelu=True)
+        self._info.update({"quick_gelu": True, "n_quick_gelu_layers": assert_quick_gelu(model)})
         self.model = model.eval().to(self.device)
         tok = open_clip.get_tokenizer(arch)
         prompts = C.CLIP_CHILD_PROMPTS + C.CLIP_ADULT_PROMPTS

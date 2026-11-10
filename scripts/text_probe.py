@@ -22,6 +22,7 @@ sys.path.insert(0, str(ROOT))
 from configs import config as C  # noqa: E402
 from src.provenance import write_result  # noqa: E402
 from src.detectors._weights import sha256  # noqa: E402
+from src.detectors.clip_zeroshot import assert_quick_gelu  # noqa: E402
 
 # OpenAI's published sha256 (part of the official download URL), checked before loading.
 LOCAL_OPENAI = {"ViT-B-32": (Path.home() / ".cache/clip/ViT-B-32.pt",
@@ -68,9 +69,10 @@ def load(arch, weights):
         got = sha256(path)
         if got != expected:
             raise SystemExit(f"sha256 mismatch for {path}: {got}")
-        model = open_clip.create_model(arch, pretrained=path)
+        model = open_clip.create_model(arch, pretrained=path, force_quick_gelu=True)
         info = {"source": "HF pinned (same as Phase 1 D4)", "repo": repo, "revision": rev,
                 "sha256": got}
+    info["n_quick_gelu_layers"] = assert_quick_gelu(model)   # OpenAI CLIP activation
     model.eval()
     return model, open_clip.get_tokenizer(arch), info
 

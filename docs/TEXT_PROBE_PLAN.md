@@ -60,6 +60,8 @@ The 10% threshold is a judgement call, set before seeing data. M2 (implied age) 
 ## Changes after the first run
 None to the design. One fix to the loader call (open_clip 3.3.0 has no `jit` argument).
 
+**2026-11-10, activation bug.** The first Colab run (`--weights hf-pinned`, both models) loaded OpenAI's weights with nn.GELU instead of QuickGELU. Its cross-check failed (B/32 child–adult distance 0.1079 against 0.1387 locally), which is how the bug was found. Those two Colab results are invalid. The script now forces QuickGELU and refuses to run otherwise. The local B/32 result below was always correct, because OpenAI's original file loads with QuickGELU. ViT-L/14 is rerun in `notebooks/phase15_clip_quickgelu.ipynb`.
+
 ## First result: ViT-B/32 (2026-11-10)
 Source: `results/text_probe/text_probe_ViT-B-32.json`. The script was uncommitted when it ran (`dirty: true`), on top of commit ef0c8d8.
 
